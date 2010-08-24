@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>JAVASCRIPT</title>
+    <script type="text/javascript" src="eeTools_Include.js" charset="utf-8"></script>
+    <script type="text/javascript" language="javascript">
+        window.onload = function () {
+            document.getElementById('btnXxx').onclick = function () {
+                textoTotal = document.getElementById('txtQuery').value;
+                NEW_LINE = '\n';
+                document.getElementById('txtResultado').value = ReplaceXxx(textoTotal);
+            }
+            document.getElementById('btnXxxLista').onclick = function () {
+                textoTotal = document.getElementById('txtQuery').value;
+                NEW_LINE = '\n';
+                document.getElementById('txtResultado').value = xxxLista(textoTotal);
+            }
+            document.getElementById('btnLimpar').onclick = function () {
+                document.getElementById('txtResultado').value = "";
+            }
+        }
+    </script>
+</head>
+<body>
+    <p>
+        <textarea id="txtQuery" name="txtQuery" cols="80" rows="15">1
+2
+3
+4
+///
+Item - xxx</textarea></p>
+    <p>
+        <input id="btnLimpar" type="button" value="Limpar" />
+        |
+        <input id="btnXxx" type="button" value="Xxx" />
+        |
+        <input id="btnXxxLista" type="button" value="XxxLista" /></p>
+    <p>
+        <textarea id="txtResultado" name="txtResultado" cols="80" rows="15"></textarea></p>
+</body>
+</html>

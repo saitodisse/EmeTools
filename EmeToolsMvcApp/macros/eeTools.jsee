@@ -1,0 +1,177 @@
+#include "eeTools_Include.js"
+	
+//  --------
+//  emeTools
+//  v. 0.01
+//  --------
+//  
+//  based on emeditor_perfecta_en.jsee (http://yangshuai.googlepages.com/emeditor_perfecta.html)
+
+var main = function(){
+
+	var GetAllText = function()
+	{
+		document.selection.SelectAll();
+		var text = document.selection.text;
+
+		document.HighlightFind=false;
+		document.selection.EndOfLine(false,eeLineView);
+		return text;
+	}
+
+	var SameWindow = function()
+	{
+		document.selection.SelectAll();
+		document.selection.text = texto;
+
+		document.HighlightFind=false;
+		document.selection.EndOfLine(false,eeLineView);
+	}
+
+	var NewEditorWindow = function()
+	{
+		editor.NewFile();
+		document.write(texto);
+
+		document.HighlightFind=false;
+		document.selection.EndOfLine(false,eeLineView);
+	}
+
+
+	mainMenu=CreatePopupMenu();
+	mainMenu.Add("XXX",9);
+	mainMenu.Add("XXX para lista",10);
+	mainMenu.Add("regex extractor",1);
+	mainMenu.Add( "", 0, eeMenuSeparator );
+
+	submenu=CreatePopupMenu();
+	submenu.Add("links (http://xxxxxxx.com)",18);
+	mainMenu.AddPopup( "EXTRACT", submenu );
+	mainMenu.Add( "", 0, eeMenuSeparator );
+
+	mainMenu.Add("trim()",4);
+	mainMenu.Add("trim lines()",3);
+	mainMenu.Add( "", 0, eeMenuSeparator );
+
+	mainMenu.Add("[tab]      TO [spaces]",13);
+	mainMenu.Add("[spaces] TO [tab]",16);
+	mainMenu.Add("[spaces] TO [space]",2);
+	mainMenu.Add( "", 0, eeMenuSeparator );
+
+	mainMenu.Add("sort",5);
+	mainMenu.Add("sort (desc)",6);
+	mainMenu.Add("sort distinct",7);
+	mainMenu.Add("sort distinct (desc)",8);
+	mainMenu.Add( "", 0, eeMenuSeparator );
+
+	submenu=CreatePopupMenu();
+	submenu.Add("Declare/Set",11);
+	submenu.Add("Exec",12);
+	submenu.Add("sp_help TO C#",14);
+	mainMenu.AddPopup( "SQL", submenu );
+
+	submenu=CreatePopupMenu();
+	submenu.Add(". -> ,",17);
+	submenu.Add("' -> ''",20);
+	submenu.Add("CPF - colocar Zeros à esquerda",21);
+	submenu.Add("link pfcFin",19);
+	mainMenu.AddPopup( "REPLACE", submenu );
+
+	submenu=CreatePopupMenu();
+	submenu.Add("Itau TO moneyLog",15);
+	mainMenu.AddPopup( "MISC", submenu );
+
+	switch(mainMenu.Track())
+	{
+		case 1:
+			getText();
+			break;
+		case 2:
+			document.selection.SelectAll();
+			replace2MoreBlank();
+			break;
+		case 3:
+			document.selection.SelectAll();
+			replace2MoreNewLine();
+			break;
+		case 4:
+			document.selection.SelectAll();
+			deleteLineStartBlank();
+			deleteLineEndBlank();
+			break;
+		case 13:
+			document.selection.SelectAll();
+			texto = IdentarTab2Spaces().join('\r\n');
+			editor.NewFile();
+			document.write(texto);
+			break;
+		case 16:
+			NewEditorWindow( IdentarSpaces2Tab( GetAllText() ).join('\r\n') )
+			break;
+		case 5:
+			SameWindow( OrdenarTudo( GetAllText(), 0 ).join('\r\n') )
+			break;
+		case 6:
+			SameWindow( OrdenarTudo( GetAllText(), 1 ).join('\r\n') )
+			break;
+		case 7:
+			SameWindow( Distinct( OrdenarTudo( GetAllText(), 0 ) ).join('\r\n') )
+			break;
+		case 8:
+			SameWindow( Distinct( OrdenarTudo( GetAllText(), 1 ) ).join('\r\n') )
+			break;
+		case 9:
+			NewEditorWindow( ReplaceXxx( GetAllText() ) );
+			break;
+		case 10:
+			document.selection.SelectAll();
+			texto = xxxLista().join('\r\n');
+			editor.NewFile();
+			document.write(texto);
+			break;
+			
+		case 11:
+			SQL_DeclareSet();
+			break;
+		case 12:
+			SQL_Exec();
+			break;
+		case 14:
+			document.selection.SelectAll();
+			texto = SQL_Converter_Campo_Tipo_CSharp().join('\r\n');
+			editor.NewFile();
+			document.write(texto);
+			break;
+		case 15:
+			MISC_Itau2MoneyLog();
+			break;
+			
+		case 17:
+			document.selection.SelectAll();
+			document.selection.Replace("\\.",",",eeFindNext | eeReplaceAll | eeFindReplaceRegExp);
+			break;
+		case 18:
+			NewEditorWindow( ExtrairLinks( GetAllText() ).join('\r\n') )
+			break;
+		case 19:
+			document.selection.Replace(".*Seg=(\\d+)&Reg=(\\d+)&Und=(\\d+)&Pfc=(\\d+).*","SELECT * FROM [tbPfcFinanciamento] WHERE [CodSegmento] = \\1 AND [CodReg] = \\2 AND [CodUnd] = \\3 AND [NroPfc] = \\4\x0aupdate [tbPfcFinanciamento] Set CodSituacao = 00 WHERE [CodSegmento] = \\1 AND [CodReg] = \\2 AND [CodUnd] = \\3 AND [NroPfc] = \\4\x0ahttp://localhost/MesaCreditoWeb/AnaliseFichaFinanciamento.aspx?Seg=\\1&Reg=\\2&Und=\\3&Pfc=\\4\x0ahttp://localhost/MesaCreditoWeb/AnaliseHistoricoFinanciamento.aspx?Seg=\\1&Reg=\\2&Und=\\3&Pfc=\\4&Vis=2",eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+			break;
+		case 20:
+			document.selection.Replace("'","''",eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+			break;
+		case 21:
+			//document.selection.Replace("\\b(\\d{12,})\\b","",eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+			document.selection.Replace("\\b(\\d{10})\\b","0\\1",eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+			document.selection.Replace("\\b(\\d{9})\\b" ,"00\\1",eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+			document.selection.Replace("\\b(\\d{8})\\b" ,"000\\1",eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+			document.selection.Replace("\\b(\\d{7})\\b" ,"0000\\1",eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+			document.selection.Replace("\\b(\\d{6})\\b" ,"00000\\1",eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+			document.selection.SelectAll();
+			replace2MoreNewLine();
+			break;
+		default:
+			break;
+	}
+}
+
+main();
