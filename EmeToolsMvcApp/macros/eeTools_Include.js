@@ -112,14 +112,12 @@ var RegexModelo = {
             return Extrair(this.regex, this.texto);                // MODO Extrair
         else
             return this.texto.replace(this.regex, this.replacer);  // MODO Replace
-
     },
     AppendReplacer : function(rep){
         if(this.replacer != null)
             rep = NEW_LINE + rep;
         else
             this.replacer = "";
-        
         this.replacer = this.replacer + rep;
     }
 };
@@ -129,7 +127,7 @@ var regexExtractor = function(texto){
     var _regex=prompt("Regex","");
     if(_regex==""||_regex==null)
     {
-        return;
+        return("!!Nothing!!")
     }
     var regex = new RegExp(_regex,"gim");
 
@@ -137,7 +135,8 @@ var regexExtractor = function(texto){
     if(matchResultArray)
     {
         var len=matchResultArray.length;
-        var texto = "";
+        
+        texto = "";
         for(var i=0;i<len;i++)
         {
             texto = texto + matchResultArray[i]
