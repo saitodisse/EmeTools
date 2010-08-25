@@ -1,7 +1,7 @@
 var DEBUG = false;
 var NEW_LINE = '\r\n'
 
-var ReplaceXxx = function(texto){
+var Xxx = function(texto){
     var regex, matches, regexAnterior, regexModelo, textoAux, retorno;
     var listaLinhas = texto.split(NEW_LINE);
     var dados = [], modelos = [], regMods = [], mods = [];
@@ -71,8 +71,8 @@ var ReplaceXxx = function(texto){
     return retorno;
 }
 
-var xxxLista = function(){
-    var listaLinhas = document.selection.text.split(NEW_LINE);
+var XxxLista = function(texto){
+    var listaLinhas = texto.split(NEW_LINE);
     var dados = [];
     var resultado = [];
     var contador = 0;
