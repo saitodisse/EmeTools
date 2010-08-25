@@ -19,7 +19,7 @@ var main = function(){
 		return text;
 	}
 
-	var SameWindow = function()
+	var SameWindow = function(texto)
 	{
 		document.selection.SelectAll();
 		document.selection.text = texto;
@@ -121,7 +121,7 @@ var main = function(){
 			NewEditorWindow( XxxLista( GetAllText() ) );
 			break;
 		case op_REGEX_EXTRACT:
-			getText();
+			NewEditorWindow( regexExtractor( GetAllText() ) );
 			break;
 		case op_EXTRACT_LINKS:
 			NewEditorWindow( ExtrairLinks( GetAllText() ).join('\r\n') )
@@ -155,10 +155,10 @@ var main = function(){
 			SameWindow( OrdenarTudo( GetAllText(), 1 ).join('\r\n') )
 			break;
 		case op_SORT_DISTINCT:
-			SameWindow( Distinct( OrdenarTudo( GetAllText(), 0 ) ).join('\r\n') )
+			SameWindow( Distinct( GetAllText(), 0 ).join('\r\n') )
 			break;
 		case op_SORT_DISTINCT_DESC:
-			SameWindow( Distinct( OrdenarTudo( GetAllText(), 1 ) ).join('\r\n') )
+			SameWindow( Distinct( GetAllText(), 1 ).join('\r\n') )
 			break;
 		case op_SQL_DECLARE_SET:
 			SQL_DeclareSet();

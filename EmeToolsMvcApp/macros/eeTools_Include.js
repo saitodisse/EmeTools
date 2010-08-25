@@ -123,34 +123,40 @@ var RegexModelo = {
         this.replacer = this.replacer + rep;
     }
 };
-    
 
-
-var getText = function(){
-    var _regex=prompt("regular expression","");
+var regexExtractor = function(texto){
+    var retornoFinal = ""
+    var _regex=prompt("Regex","");
     if(_regex==""||_regex==null)
     {
-        alert("digite algo!");
         return;
     }
     var regex = new RegExp(_regex,"gim");
-    document.selection.SelectAll();
-    var textInCurrentDocument=document.selection.Text;
-    var matchResultArray=textInCurrentDocument.match(regex);
+
+    var matchResultArray=texto.match(regex);
     if(matchResultArray)
     {
         var len=matchResultArray.length;
         var texto = "";
-        editor.NewFile();
         for(var i=0;i<len;i++)
         {
-            texto = texto + matchResultArray[i] + NEW_LINE;
+            texto = texto + matchResultArray[i]
+            if (i!=len-1)
+                texto = texto + NEW_LINE;
         }
-        document.write(texto);
+        retornoFinal = retornoFinal + "---------------";
+        retornoFinal = retornoFinal + NEW_LINE;
+        retornoFinal = retornoFinal + "Regex=/" + _regex + "/g";
+        retornoFinal = retornoFinal + NEW_LINE;
+        retornoFinal = retornoFinal + "---------------";
+        retornoFinal = retornoFinal + NEW_LINE;
+        retornoFinal = retornoFinal + texto;
+        
+        return(retornoFinal);
     }
     else
     {
-        alert("nada encontrado");
+        return("!!Nothing!!");
     }
 }
 
@@ -265,14 +271,15 @@ var addString2LineEnd = function(){
     document.HighlightFind=false;
 }
 
-var OrdenarTudo = function(reverso){
+var OrdenarTudo = function(texto, reverso){
     if(reverso == 1)
         return texto.split(NEW_LINE).sort().reverse();
     else
         return texto.split(NEW_LINE).sort();
 }
 
-var Distinct = function(){
+var Distinct = function(texto, reverso){
+	listaOrdenada = OrdenarTudo(texto, reverso)
     for(i=listaOrdenada.length-1; i>0; i--)
     {
         if(listaOrdenada[i] == listaOrdenada[i-1]){
