@@ -95,7 +95,7 @@ var XxxLista = function(texto){
             contador++;
         }
     }
-    return resultado;
+    return resultado.join(NEW_LINE);
 }
 
 
