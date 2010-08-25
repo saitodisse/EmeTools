@@ -28,7 +28,7 @@ var main = function(){
 		document.selection.EndOfLine(false,eeLineView);
 	}
 
-	var NewEditorWindow = function()
+	var NewEditorWindow = function(texto)
 	{
 		editor.NewFile();
 		document.write(texto);
@@ -37,129 +37,160 @@ var main = function(){
 		document.selection.EndOfLine(false,eeLineView);
 	}
 
+	var OPT_XXX = 1;
+	var OPT_XXX_LISTA = 2;
+	var OPT_REGEX_EXTRACT = 3;
+	var OPT_EXTRACT_LINKS = 4;
+	var OPT_TRIM = 5;
+	var OPT_TRIM_LINES = 6
+	var OPT_TAB_TO_SPACES = 7;
+	var OPT_SPACES_TO_TABS = 8;
+	var OPT_SPACES_TO_SPACE = 9;
+	var OPT_SORT = 10;
+	var OPT_SORT_DESC = 11;
+	var OPT_SORT_DISTINCT = 12;
+	var OPT_SORT_DISTINCT_DESC = 13;
+	var OPT_DECLARE_SET = 14;
+	var OPT_EXEC = 15;
+	var OPT_SP_HELP_TO_CSHARP = 16;
+	var OPT_PONTO_VIRGULA = 17;
+	var OPT_ASPA_SIMPLES_TO_ASPAS_DUPLAS = 18;
+	var OPT_CPF_ZEROS_A_ESQUERDA = 19;
+	var OPT_LINK_PFC_FINANC = 20;
+	var OPT_ITAU_TO_MONEYLOG = 21;
 
+	//xxx
 	mainMenu=CreatePopupMenu();
-	mainMenu.Add("XXX",9);
-	mainMenu.Add("XXX para lista",10);
-	mainMenu.Add("regex extractor",1);
+	mainMenu.Add("XXX",OPT_XXX);
+	mainMenu.Add("XXX para lista",OPT_XXX_LISTA);
 	mainMenu.Add( "", 0, eeMenuSeparator );
 
+	//extract
 	submenu=CreatePopupMenu();
-	submenu.Add("links (http://xxxxxxx.com)",18);
+	submenu.Add("regex extractor",OPT_REGEX_EXTRACT);
+	submenu.Add("links (http://xxxxxxx.com)",OPT_EXTRACT_LINKS);
 	mainMenu.AddPopup( "EXTRACT", submenu );
 	mainMenu.Add( "", 0, eeMenuSeparator );
 
-	mainMenu.Add("trim()",4);
-	mainMenu.Add("trim lines()",3);
+	//trims
+	mainMenu.Add("trim()",OPT_TRIM);
+	mainMenu.Add("trim lines()",OPT_TRIM_LINES);
 	mainMenu.Add( "", 0, eeMenuSeparator );
 
-	mainMenu.Add("[tab]      TO [spaces]",13);
-	mainMenu.Add("[spaces] TO [tab]",16);
-	mainMenu.Add("[spaces] TO [space]",2);
+	//[tabs]
+	mainMenu.Add("[tab]    TO [spaces]",OPT_TAB_TO_SPACES);
+	mainMenu.Add("[spaces] TO [tab]",OPT_SPACES_TO_TABS);
+	mainMenu.Add("[spaces] TO [space]",OPT_SPACES_TO_SPACE);
 	mainMenu.Add( "", 0, eeMenuSeparator );
 
-	mainMenu.Add("sort",5);
-	mainMenu.Add("sort (desc)",6);
-	mainMenu.Add("sort distinct",7);
-	mainMenu.Add("sort distinct (desc)",8);
-	mainMenu.Add( "", 0, eeMenuSeparator );
-
+	//sorts
 	submenu=CreatePopupMenu();
-	submenu.Add("Declare/Set",11);
-	submenu.Add("Exec",12);
-	submenu.Add("sp_help TO C#",14);
+	submenu.Add("sort",OPT_SORT);
+	submenu.Add("sort (desc)",OPT_SORT_DESC);
+	submenu.Add("sort distinct",OPT_SORT_DISTINCT);
+	submenu.Add("sort distinct (desc)",OPT_SORT_DISTINCT_DESC);
+	mainMenu.AddPopup( "SORT", submenu );
+	mainMenu.Add( "", 0, eeMenuSeparator );
+
+	//SQL
+	submenu=CreatePopupMenu();
+	submenu.Add("Declare/Set",OPT_DECLARE_SET);
+	submenu.Add("Exec",OPT_EXEC);
+	submenu.Add("sp_help TO C#",OPT_SP_HELP_TO_CSHARP);
 	mainMenu.AddPopup( "SQL", submenu );
 
+	//Replaces
 	submenu=CreatePopupMenu();
-	submenu.Add(". -> ,",17);
-	submenu.Add("' -> ''",20);
-	submenu.Add("CPF - colocar Zeros à esquerda",21);
-	submenu.Add("link pfcFin",19);
+	submenu.Add(". -> ,",OPT_PONTO_VIRGULA);
+	submenu.Add("' -> ''",OPT_ASPA_SIMPLES_TO_ASPAS_DUPLAS);
+	submenu.Add("CPF - colocar Zeros à esquerda",OPT_CPF_ZEROS_A_ESQUERDA);
+	submenu.Add("link pfcFin",OPT_LINK_PFC_FINANC);
 	mainMenu.AddPopup( "REPLACE", submenu );
 
+	//Misc
 	submenu=CreatePopupMenu();
-	submenu.Add("Itau TO moneyLog",15);
+	submenu.Add("Itau TO moneyLog",OPT_ITAU_TO_MONEYLOG);
 	mainMenu.AddPopup( "MISC", submenu );
 
 	switch(mainMenu.Track())
 	{
-		case 1:
+		case OPT_REGEX_EXTRACT:
 			getText();
 			break;
-		case 2:
+		case OPT_SPACES_TO_SPACE:
 			document.selection.SelectAll();
 			replace2MoreBlank();
 			break;
-		case 3:
+		case OPT_TRIM_LINES:
 			document.selection.SelectAll();
 			replace2MoreNewLine();
 			break;
-		case 4:
+		case OPT_TRIM:
 			document.selection.SelectAll();
 			deleteLineStartBlank();
 			deleteLineEndBlank();
 			break;
-		case 13:
+		case OPT_TAB_TO_SPACES:
 			document.selection.SelectAll();
 			texto = IdentarTab2Spaces().join('\r\n');
 			editor.NewFile();
 			document.write(texto);
 			break;
-		case 16:
+		case OPT_SPACES_TO_TABS:
 			NewEditorWindow( IdentarSpaces2Tab( GetAllText() ).join('\r\n') )
 			break;
-		case 5:
+		case OPT_SORT:
 			SameWindow( OrdenarTudo( GetAllText(), 0 ).join('\r\n') )
 			break;
-		case 6:
+		case OPT_SORT_DESC:
 			SameWindow( OrdenarTudo( GetAllText(), 1 ).join('\r\n') )
 			break;
-		case 7:
+		case OPT_SORT_DISTINCT:
 			SameWindow( Distinct( OrdenarTudo( GetAllText(), 0 ) ).join('\r\n') )
 			break;
-		case 8:
+		case OPT_SORT_DISTINCT_DESC:
 			SameWindow( Distinct( OrdenarTudo( GetAllText(), 1 ) ).join('\r\n') )
 			break;
-		case 9:
+		case OPT_XXX:
 			NewEditorWindow( ReplaceXxx( GetAllText() ) );
 			break;
-		case 10:
+		case OPT_XXX_LISTA:
 			document.selection.SelectAll();
 			texto = xxxLista().join('\r\n');
 			editor.NewFile();
 			document.write(texto);
 			break;
 			
-		case 11:
+		case OPT_DECLARE_SET:
 			SQL_DeclareSet();
 			break;
-		case 12:
+		case OPT_EXEC:
 			SQL_Exec();
 			break;
-		case 14:
+		case OPT_SP_HELP_TO_CSHARP:
 			document.selection.SelectAll();
 			texto = SQL_Converter_Campo_Tipo_CSharp().join('\r\n');
 			editor.NewFile();
 			document.write(texto);
 			break;
-		case 15:
+		case OPT_ITAU_TO_MONEYLOG:
 			MISC_Itau2MoneyLog();
 			break;
 			
-		case 17:
+		case OPT_PONTO_VIRGULA:
 			document.selection.SelectAll();
 			document.selection.Replace("\\.",",",eeFindNext | eeReplaceAll | eeFindReplaceRegExp);
 			break;
-		case 18:
+		case OPT_EXTRACT_LINKS:
 			NewEditorWindow( ExtrairLinks( GetAllText() ).join('\r\n') )
 			break;
-		case 19:
+		case OPT_LINK_PFC_FINANC:
 			document.selection.Replace(".*Seg=(\\d+)&Reg=(\\d+)&Und=(\\d+)&Pfc=(\\d+).*","SELECT * FROM [tbPfcFinanciamento] WHERE [CodSegmento] = \\1 AND [CodReg] = \\2 AND [CodUnd] = \\3 AND [NroPfc] = \\4\x0aupdate [tbPfcFinanciamento] Set CodSituacao = 00 WHERE [CodSegmento] = \\1 AND [CodReg] = \\2 AND [CodUnd] = \\3 AND [NroPfc] = \\4\x0ahttp://localhost/MesaCreditoWeb/AnaliseFichaFinanciamento.aspx?Seg=\\1&Reg=\\2&Und=\\3&Pfc=\\4\x0ahttp://localhost/MesaCreditoWeb/AnaliseHistoricoFinanciamento.aspx?Seg=\\1&Reg=\\2&Und=\\3&Pfc=\\4&Vis=2",eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
 			break;
-		case 20:
+		case OPT_ASPA_SIMPLES_TO_ASPAS_DUPLAS:
 			document.selection.Replace("'","''",eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
 			break;
-		case 21:
+		case OPT_CPF_ZEROS_A_ESQUERDA:
 			//document.selection.Replace("\\b(\\d{12,})\\b","",eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
 			document.selection.Replace("\\b(\\d{10})\\b","0\\1",eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
 			document.selection.Replace("\\b(\\d{9})\\b" ,"00\\1",eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
