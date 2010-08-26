@@ -436,13 +436,6 @@ var SQL_Converter_Campo_Tipo_CSharp = function(){
     return resultado;
 }
 
-var MISC_Itau2MoneyLog = function()
-{
-    document.selection.Replace(".*S A L D O.*","",eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
-    document.selection.Replace("^(\\d\\d)/(\\d\\d)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t","2009-\\2-\\1\\t\\8\\7\\t\\5",eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
-    document.selection.Replace("^$\\n","",eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
-}
-
 var Extrair = function(regex, texto)
 {
     var results = [];
@@ -460,7 +453,7 @@ var Extrair = function(regex, texto)
     return resultsFinal;
 }
 
-var ExtrairLinks = function()
+var ExtrairLinks = function(texto)
 {
     var re = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/gi;
     return Extrair(re,texto);

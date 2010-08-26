@@ -193,7 +193,10 @@ var main = function(){
 			document.selection.Replace(".*Seg=(\\d+)&Reg=(\\d+)&Und=(\\d+)&Pfc=(\\d+).*","SELECT * FROM [tbPfcFinanciamento] WHERE [CodSegmento] = \\1 AND [CodReg] = \\2 AND [CodUnd] = \\3 AND [NroPfc] = \\4\x0aupdate [tbPfcFinanciamento] Set CodSituacao = 00 WHERE [CodSegmento] = \\1 AND [CodReg] = \\2 AND [CodUnd] = \\3 AND [NroPfc] = \\4\x0ahttp://localhost/MesaCreditoWeb/AnaliseFichaFinanciamento.aspx?Seg=\\1&Reg=\\2&Und=\\3&Pfc=\\4\x0ahttp://localhost/MesaCreditoWeb/AnaliseHistoricoFinanciamento.aspx?Seg=\\1&Reg=\\2&Und=\\3&Pfc=\\4&Vis=2",eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
 			break;
 		case op_ITAU_TO_MONEYLOG:
-			MISC_Itau2MoneyLog();
+            document.selection.Replace(".*S A L D O.*","",eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+            document.selection.Replace("^(\\d\\d)/(\\d\\d)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t","2009-\\2-\\1\\t\\8\\7\\t\\5",eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+            document.selection.Replace("^$\\n","",eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+			//SameWindow( MISC_Itau2MoneyLog( GetAllText() ) )
 			break;
 		default:
 			break;
