@@ -123,18 +123,26 @@ var RegexModelo = {
 };
 
 var regexExtractor = function(texto){
-    var retornoFinal = ""
-    var _regex=prompt("Regex","");
-    if(_regex==""||_regex==null)
-    {
-        return("!!Nothing!!")
-    }
-    var regex = new RegExp(_regex,"gim");
+    var _regex, retornoFinal, matchResultArray, len;
+    
+    _regex=prompt("Regex",""), retornoFinal;
+    regex = new RegExp(_regex,"gim");
 
-    var matchResultArray=texto.match(regex);
+    retornoFinal = retornoFinal + "---------------";
+    retornoFinal = retornoFinal + NEW_LINE;
+    retornoFinal = retornoFinal + "Regex=/" + _regex + "/g";
+    retornoFinal = retornoFinal + NEW_LINE;
+    retornoFinal = retornoFinal + "---------------";
+    retornoFinal = retornoFinal + NEW_LINE;
+
+    if(_regex==""||_regex==null)
+        return(retornoFinal)
+
+
+    matchResultArray=texto.match(regex);
     if(matchResultArray)
     {
-        var len=matchResultArray.length;
+        len = matchResultArray.length;
         
         texto = "";
         for(var i=0;i<len;i++)
@@ -143,20 +151,11 @@ var regexExtractor = function(texto){
             if (i!=len-1)
                 texto = texto + NEW_LINE;
         }
-        retornoFinal = retornoFinal + "---------------";
-        retornoFinal = retornoFinal + NEW_LINE;
-        retornoFinal = retornoFinal + "Regex=/" + _regex + "/g";
-        retornoFinal = retornoFinal + NEW_LINE;
-        retornoFinal = retornoFinal + "---------------";
-        retornoFinal = retornoFinal + NEW_LINE;
         retornoFinal = retornoFinal + texto;
         
-        return(retornoFinal);
     }
-    else
-    {
-        return("!!Nothing!!");
-    }
+
+    return(retornoFinal);
 }
 
 
@@ -380,7 +379,7 @@ var IdentarTab2Spaces = function(){
     return linhas;
 }
 
-var IdentarSpaces2Tab = function(){
+var IdentarSpaces2Tab = function(texto){
     var linhas = texto.split(NEW_LINE);
     for(i=0; i<linhas.length; i++)
     {
