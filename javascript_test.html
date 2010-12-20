@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>EmeTools - javascript macro test</title>
+    <script type="text/javascript" src="eeTools_Include.js" charset="utf-8"></script>
+    <script type="text/javascript" language="javascript">
+        window.onload = function () {
+            document.getElementById('btnXxx').onclick = function () {
+                textoTotal = document.getElementById('txtQuery').value;
+                NEW_LINE = '\n';
+                document.getElementById('txtResultado').value = Xxx(textoTotal);
+            }
+            document.getElementById('btnXxxLista').onclick = function () {
+                textoTotal = document.getElementById('txtQuery').value;
+                NEW_LINE = '\n';
+                document.getElementById('txtResultado').value = XxxLista(textoTotal);
+            }
+            document.getElementById('btnRegexExtractor').onclick = function () {
+                textoTotal = document.getElementById('txtQuery').value;
+                NEW_LINE = '\n';
+                document.getElementById('txtResultado').value = regexExtractor(textoTotal);
+            }
+            document.getElementById('btnLimpar').onclick = function () {
+                document.getElementById('txtResultado').value = "";
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>EmeTools - javascript macro test</h1>
+    <h3>Data</h3>
+    <p>
+        <textarea id="txtQuery" name="txtQuery" cols="80" rows="15">1
+2
+3
+4
+///
+A - xxx
+B - xxx
+C - xxx
+D - xxx</textarea></p>
+    <p>
+        <input id="btnLimpar" type="button" value="Limpar" />
+        |
+        <input id="btnXxx" type="button" value="Xxx" />
+        |
+        <input id="btnRegexExtractor" type="button" value="Regex Extractor" />
+        |
+        <input id="btnXxxLista" type="button" value="XxxLista" /></p>
+    <br />
+    <br />
+    <h3>Result</h3>
+    <p>
+        <textarea id="txtResultado" name="txtResultado" cols="80" rows="15"></textarea></p>
+</body>
+</html>
