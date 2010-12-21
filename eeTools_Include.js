@@ -137,8 +137,8 @@ var XxxExisteLista = function(texto){
     {
         if(listaLinhas[i] == '///')
         {
-            dados = listaLinhas.slice(0,i);
-            resultado = listaLinhas.slice(i+1,listaLinhas.length);
+            dados = listaLinhas.slice(0, i);
+            resultado = listaLinhas.slice(i+1, listaLinhas.length);
             break;
         }
     }
@@ -148,7 +148,7 @@ var XxxExisteLista = function(texto){
 		for(var j=0; j<dados.length; j++)
 		{
 			var dado = dados[j];
-	        if(resultado[i].match(new RegExp(dado,"gi")) != null) 
+	        if(resultado[i].match(new RegExp("\\b" + dado + "\\b","gi")) != null) 
 	        {
 	            break;
 	        }
