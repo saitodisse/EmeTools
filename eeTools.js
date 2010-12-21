@@ -58,11 +58,13 @@ var main = function(){
 	var op_CPF_ZEROS_A_ESQUERDA = 19;
 	var op_LINK_PFC_FINANC = 20;
 	var op_ITAU_TO_MONEYLOG = 21;
+	var op_XXX_EXISTE_LISTA = 22
 
 	//xxx
 	mainMenu=CreatePopupMenu();
 	mainMenu.Add("XXX",op_XXX);
 	mainMenu.Add("XXX para lista",op_XXX_LISTA);
+	mainMenu.Add("XXX existe na lista?",op_XXX_EXISTE_LISTA);
 	mainMenu.Add( "", 0, eeMenuSeparator );
 
 	//extract
@@ -119,6 +121,9 @@ var main = function(){
 			break;
 		case op_XXX_LISTA:
 			NewEditorWindow( XxxLista( GetAllText() ) );
+			break;
+		case op_XXX_EXISTE_LISTA:
+			NewEditorWindow( XxxExisteLista( GetAllText() ) );
 			break;
 		case op_REGEX_EXTRACT:
 			NewEditorWindow( regexExtractor( GetAllText() ) );

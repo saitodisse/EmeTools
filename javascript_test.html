@@ -21,6 +21,12 @@
                 document.getElementById('pre_prettyPrint').innerHTML = XxxLista(textoTotal);
                 prettyPrint();
 	        }
+            document.getElementById('btnXxxExisteLista').onclick = function () {
+                textoTotal = document.getElementById('txtQuery').value;
+                NEW_LINE = '\n';
+                document.getElementById('pre_prettyPrint').innerHTML = XxxExisteLista(textoTotal);
+                prettyPrint();
+	        }
             document.getElementById('btnRegexExtractor').onclick = function () {
                 textoTotal = document.getElementById('txtQuery').value;
                 NEW_LINE = '\n';
@@ -29,7 +35,14 @@
 	        }
             document.getElementById('btnLimpar').onclick = function () {
                 document.getElementById('pre_prettyPrint').innerHTML = "";
+                document.getElementById('txtQuery').innerHTML = "";
                 prettyPrint();
+	        }
+            document.getElementById('btn_Modelo_TesteXxx').onclick = function () {
+                document.getElementById('txtQuery').innerHTML = "TextFrame\tTFLT\tFile type\tTFLT_Filetype\nTextFrame\tTIME\tTime (replaced by TDRC in v2.4)\tTIME_Time\nTextFrame\tTIPL\tInvolved people list\tTIPL_Involvedpeoplelist\n///\n// xxx1 - xxx2 - xxx3\npublic string xxx4\n{\n    get\n    {\n        return TagV2.FirstOrDefault(x => x.Descriptor.Id == \"xxx2\").ToString();\n    }\n    set\n    {\n        var tag = Id3TagFactory.CreateId3Tag(TagVersion.Id3V24);\n        var titleFrame = new TextFrame(\"xxx2\", value, Encoding.UTF8);\n        tag.Add(titleFrame);\n\n        var manager = Id3TagFactory.CreateId3TagManager();\n        //manager.WriteTagV1(path, tagV1Container);\n        //manager.WriteTagV2(path, tag);\n    }\n}\n";
+	        }
+            document.getElementById('btn_Modelo_XXX_Existe_Lista').onclick = function () {
+                document.getElementById('txtQuery').innerHTML = "wer\njhg\nqwe\ndsa\nsdf\ndfg\ncvb\n///\nqwe\nasd\nsdf\nfdg\nhgf\n";
 	        }
             
         }
@@ -37,39 +50,24 @@
 </head>
 <body>
     <h1>EmeTools - javascript macro test</h1>
-    <h3>Data</h3>
-    <p>
-        <textarea id="txtQuery" name="txtQuery" rows="15" style="width:100%;" wrap="off">TextFrame	TFLT	File type	TFLT_Filetype
-TextFrame	TIME	Time (replaced by TDRC in v2.4)	TIME_Time
-TextFrame	TIPL	Involved people list	TIPL_Involvedpeoplelist
-///
-// xxx1 - xxx2 - xxx3
-public string xxx4
-{
-    get
-    {
-        return TagV2.FirstOrDefault(x => x.Descriptor.Id == "xxx2").ToString();
-    }
-    set
-    {
-        var tag = Id3TagFactory.CreateId3Tag(TagVersion.Id3V24);
-        var titleFrame = new TextFrame("xxx2", value, Encoding.UTF8);
-        tag.Add(titleFrame);
-
-        var manager = Id3TagFactory.CreateId3TagManager();
-        //manager.WriteTagV1(path, tagV1Container);
-        //manager.WriteTagV2(path, tag);
-    }
-}
-</textarea></p>
-    <p>
+    <p>Dados: 
         <input id="btnLimpar" type="button" value="Limpar" />
         |
-        <input id="btnXxx" type="button" value="Xxx" />
+        <input id="btn_Modelo_TesteXxx" type="button" value="XXX" />
         |
-        <input id="btnRegexExtractor" type="button" value="Regex Extractor" />
+        <input id="btn_Modelo_XXX_Existe_Lista" type="button" value="XXX Existe na lista" />
         |
-        <input id="btnXxxLista" type="button" value="XxxLista" /></p>
+	</p>
+    <p>
+        <textarea id="txtQuery" name="txtQuery" rows="15" style="width:100%;" wrap="off"></textarea></p>
+    <p>
+        <input id="btnXxx" type="button" value="XXX" />
+        |
+        <input id="btnXxxLista" type="button" value="XXX Lista" />
+        |
+        <input id="btnXxxExisteLista" type="button" value="XXX Existe na Lista" />
+        |
+        <input id="btnRegexExtractor" type="button" value="Regex Extractor" /></p>
     <h3>Result</h3>
     <pre class="prettyprint" id="pre_prettyPrint" style="width:100%"></pre>
 </body>

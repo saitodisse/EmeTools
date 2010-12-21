@@ -127,6 +127,40 @@ var XxxLista = function(texto){
     return resultado.join(NEW_LINE);
 }
 
+var XxxExisteLista = function(texto){
+    var listaLinhas = texto.split(NEW_LINE);
+    var dados = [];
+    var resultado = [];
+    var contador = 0;
+
+    for(i=0; i<listaLinhas.length; i++)
+    {
+        if(listaLinhas[i] == '///')
+        {
+            dados = listaLinhas.slice(0,i);
+            resultado = listaLinhas.slice(i+1,listaLinhas.length);
+            break;
+        }
+    }
+
+    for(var i=0; i<resultado.length; i++)
+    {
+		for(var j=0; j<dados.length; j++)
+		{
+			var dado = dados[j];
+	        if(resultado[i].match(new RegExp(dado,"gi")) != null) 
+	        {
+	            break;
+	        }
+
+	        //chegou ao final sem casar...
+		    if(j == dados.length-1){
+	            resultado[i] = "";
+		    }
+	    }
+	}
+    return resultado.join(NEW_LINE);
+}
 
 var RegexModelo = {
     texto : '',
