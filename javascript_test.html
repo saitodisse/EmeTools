@@ -1,28 +1,37 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-    <title>EmeTools - javascript macro test</title>
+    <title>EmeTools - for code gereration</title>
     <script type="text/javascript" src="eeTools_Include.js" charset="utf-8"></script>
+	<link href="css/style.css" type="text/css" rel="stylesheet" />
+	<link href="prettify/prettify.css" type="text/css" rel="stylesheet" />
+	<script type="text/javascript" src="prettify/prettify.js"></script>
+
     <script type="text/javascript" language="javascript">
         window.onload = function () {
             document.getElementById('btnXxx').onclick = function () {
                 textoTotal = document.getElementById('txtQuery').value;
                 NEW_LINE = '\n';
-                document.getElementById('txtResultado').value = Xxx(textoTotal);
+                document.getElementById('pre_prettyPrint').innerHTML = Xxx(textoTotal);
+	            prettyPrint();
             }
             document.getElementById('btnXxxLista').onclick = function () {
                 textoTotal = document.getElementById('txtQuery').value;
                 NEW_LINE = '\n';
-                document.getElementById('txtResultado').value = XxxLista(textoTotal);
-            }
+                document.getElementById('pre_prettyPrint').innerHTML = XxxLista(textoTotal);
+                prettyPrint();
+	        }
             document.getElementById('btnRegexExtractor').onclick = function () {
                 textoTotal = document.getElementById('txtQuery').value;
                 NEW_LINE = '\n';
-                document.getElementById('txtResultado').value = regexExtractor(textoTotal);
-            }
+                document.getElementById('pre_prettyPrint').innerHTML = regexExtractor(textoTotal);
+                prettyPrint();
+	        }
             document.getElementById('btnLimpar').onclick = function () {
-                document.getElementById('txtResultado').value = "";
-            }
+                document.getElementById('pre_prettyPrint').innerHTML = "";
+                prettyPrint();
+	        }
+            
         }
     </script>
 </head>
@@ -30,15 +39,29 @@
     <h1>EmeTools - javascript macro test</h1>
     <h3>Data</h3>
     <p>
-        <textarea id="txtQuery" name="txtQuery" cols="80" rows="15">1
-2
-3
-4
+        <textarea id="txtQuery" name="txtQuery" rows="15" style="width:100%;" wrap="off">TextFrame	TFLT	File type	TFLT_Filetype
+TextFrame	TIME	Time (replaced by TDRC in v2.4)	TIME_Time
+TextFrame	TIPL	Involved people list	TIPL_Involvedpeoplelist
 ///
-A - xxx
-B - xxx
-C - xxx
-D - xxx</textarea></p>
+// xxx1 - xxx2 - xxx3
+public string xxx4
+{
+    get
+    {
+        return TagV2.FirstOrDefault(x => x.Descriptor.Id == "xxx2").ToString();
+    }
+    set
+    {
+        var tag = Id3TagFactory.CreateId3Tag(TagVersion.Id3V24);
+        var titleFrame = new TextFrame("xxx2", value, Encoding.UTF8);
+        tag.Add(titleFrame);
+
+        var manager = Id3TagFactory.CreateId3TagManager();
+        //manager.WriteTagV1(path, tagV1Container);
+        //manager.WriteTagV2(path, tag);
+    }
+}
+</textarea></p>
     <p>
         <input id="btnLimpar" type="button" value="Limpar" />
         |
@@ -47,10 +70,7 @@ D - xxx</textarea></p>
         <input id="btnRegexExtractor" type="button" value="Regex Extractor" />
         |
         <input id="btnXxxLista" type="button" value="XxxLista" /></p>
-    <br />
-    <br />
     <h3>Result</h3>
-    <p>
-        <textarea id="txtResultado" name="txtResultado" cols="80" rows="15"></textarea></p>
+    <pre class="prettyprint" id="pre_prettyPrint" style="width:100%"></pre>
 </body>
 </html>

@@ -2,15 +2,15 @@ var DEBUG = false;
 var NEW_LINE = '\r\n'
 
 var Xxx = function(texto){
-    var regex, matches, regexAnterior, regexModelo, textoAux, retorno;
+    var regex, matches, regexAnterior, regexModelo, textoAux, retorno, modeloAtual, listaXxx, resultadoSubstituicao;
     var listaLinhas = texto.split(NEW_LINE);
     var dados = [], modelos = [], regMods = [], mods = [];
     var reEhExpressaoRegular = /^(e)?[/](.*?)[/](\w*)$/gi;
+    var reXxx = /(xxx)(\d*)/gi;
     var indiceMods = -1;
 
-    
     // Busca separador
-    for(i=0; i<listaLinhas.length; i++)
+    for(var i=0; i<listaLinhas.length; i++)
     {
         if(listaLinhas[i] == '///')
         {
@@ -18,9 +18,14 @@ var Xxx = function(texto){
             modelos = listaLinhas.slice(i+1,listaLinhas.length);
         }
     }
-    if(dados.length == 0 || modelos.length == 0) return;
 
-    for(j = 0; j < modelos.length; j++)
+    if(dados.length == 0 || modelos.length == 0)
+    {
+		return;
+    }
+    
+	// preenche a lista do modelo
+    for(var j = 0; j < modelos.length; j++)
     {
         matches = reEhExpressaoRegular.exec(modelos[j])
         if(matches != null)
@@ -46,18 +51,42 @@ var Xxx = function(texto){
     retorno = "";
     textoAux = "";
     
-    for(i=0; i<dados.length; i++)
+	// substitui os dados no modelo
+    for(var i=0; i<dados.length; i++)
     {
-        if(regMods.length == 0)
-        {
-            // MODO Clássico, sem regex
-            ////////////////////////////
-            retorno = retorno + modelos.join(NEW_LINE).replace(/xxx/gi, dados[i]) + NEW_LINE;
+        ////////////////////////////
+        // MODO Clássico, sem regex
+        ////////////////////////////
+        if(regMods.length == 0){
+        	
+            modeloAtual = modelos.join(NEW_LINE);
+            listaXxx = [];
+            
+            // separa as colunas da linha se vieram com [tab]
+            var colunas = dados[i].split('\t');
+            
+		    // Extrai a lista de XXX
+		    // Inverte e aplica um distinct
+		    XxxEncontrados = Distinct(Extrair(reXxx, modeloAtual).join(NEW_LINE), 1);
+            
+    		// substitui as colunas no modelo
+    		resultadoSubstituicao = modeloAtual;
+    		
+			// XXX1, XXX2, XXX3, ...
+    		for(var jj = 0; jj < colunas.length; jj++){
+        		resultadoSubstituicao = replaceAll(resultadoSubstituicao, "xxx" + (jj+1), colunas[jj]);
+    		}
+		
+			// XXX
+			resultadoSubstituicao = resultadoSubstituicao.replace(/xxx/gi, dados[i]);
+            retorno = retorno + resultadoSubstituicao + NEW_LINE;
         }
+
+        ////////////////////////////////
+        // MODO REGEX - multiplas linhas (não está funcionando!!!)
+        ////////////////////////////////
         else
         {
-            // MODO REGEX - multiplas linhas
-            ////////////////////////////////
             textoAux = dados[i];
             for(j = 0; j < regMods.length; j++)
             {
@@ -89,9 +118,9 @@ var XxxLista = function(texto){
 
     for(i=0; i<resultado.length; i++)
     {
-        if(resultado[i].match(/xxx/gi) != null) 
+        if(resultado[i].match(/\bxxx\b/gi) != null) 
         {
-            resultado[i] = resultado[i].replace(/xxx/gi, dados[contador]);
+            resultado[i] = resultado[i].replace(/\bxxx\b/gi, dados[contador]);
             contador++;
         }
     }
@@ -457,3 +486,10 @@ var ExtrairLinks = function(texto)
     var re = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/gi;
     return Extrair(re,texto);
 }
+
+function replaceAll(string, token, newtoken) {  
+    while (string.indexOf(token) != -1) {  
+        string = string.replace(token, newtoken);  
+    }  
+    return string;  
+}  
