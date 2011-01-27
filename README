@@ -1,0 +1,44 @@
+Collections of javascript EmEditor's macros.
+Simple things like trim, sort and sort distinct are very useful.
+
+The main functions are XXX and XXX to list.
+	XXX
+	examples:
+	a
+	b
+	c
+	///
+	item: xxx
+
+	result:
+	item: a
+	item: b
+	item: c
+
+	XXX - with TABS
+	examples:
+	a[tab]1
+	b[tab]2
+	c[tab]3
+	///
+	xxx2 - xxx1
+
+	result:
+	1 - a
+	2 - b
+	3 - c
+
+	XXX to list
+	examples:
+	a
+	b
+	c
+	///
+	item1: xxx
+	item2: xxx
+	item3: xxx
+
+	result:
+	item1: a
+	item2: b
+	item3: c
