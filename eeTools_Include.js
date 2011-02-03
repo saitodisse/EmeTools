@@ -24,6 +24,17 @@ var Xxx = function(texto){
 		return;
     }
     
+    
+	var modelosAux = [];
+
+	// retira linha de comentários
+    for(var j = 0; j < modelos.length; j++)
+    {
+    	if(modelos[j].substring(0,1) != "#")
+    		modelosAux.push(modelos[j]);
+    }
+    modelos = modelosAux;
+    
 	// preenche a lista do modelo
     for(var j = 0; j < modelos.length; j++)
     {

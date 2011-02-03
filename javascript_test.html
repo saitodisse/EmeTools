@@ -39,7 +39,7 @@
                 prettyPrint();
 	        }
             document.getElementById('btn_Modelo_TesteXxx').onclick = function () {
-                document.getElementById('txtQuery').innerHTML = "TextFrame\tTFLT\tFile type\tTFLT_Filetype\nTextFrame\tTIME\tTime (replaced by TDRC in v2.4)\tTIME_Time\nTextFrame\tTIPL\tInvolved people list\tTIPL_Involvedpeoplelist\n///\n// xxx1 - xxx2 - xxx3\npublic string xxx4\n{\n    get\n    {\n        return TagV2.FirstOrDefault(x => x.Descriptor.Id == \"xxx2\").ToString();\n    }\n    set\n    {\n        var tag = Id3TagFactory.CreateId3Tag(TagVersion.Id3V24);\n        var titleFrame = new TextFrame(\"xxx2\", value, Encoding.UTF8);\n        tag.Add(titleFrame);\n\n        var manager = Id3TagFactory.CreateId3TagManager();\n        //manager.WriteTagV1(path, tagV1Container);\n        //manager.WriteTagV2(path, tag);\n    }\n}\n";
+                document.getElementById('txtQuery').innerHTML = "a\tb\tc\na\tb\tc\na\tb\tc\n///\n#comment\na = xxx1\n#comment\nb = xxx2\nc = xxx3\n#comment\n";
 	        }
             document.getElementById('btn_Modelo_XXX_Existe_Lista').onclick = function () {
                 document.getElementById('txtQuery').innerHTML = "wer\njhg\nqwe\ndsa\nsdf\ndfg\ncvb\n///\nqwe\nasd\nsdf\nfdg\nhgf\n";
