@@ -58,13 +58,15 @@ var main = function(){
 	var op_CPF_ZEROS_A_ESQUERDA = 19;
 	var op_LINK_PFC_FINANC = 20;
 	var op_ITAU_TO_MONEYLOG = 21;
-	var op_XXX_EXISTE_LISTA = 22
+	var op_XXX_EXISTE_LISTA = 22;
+	var op_Transpose = 23;
 
 	//xxx
 	mainMenu=CreatePopupMenu();
 	mainMenu.Add("XXX",op_XXX);
 	mainMenu.Add("XXX para lista",op_XXX_LISTA);
 	mainMenu.Add("XXX existe na lista?",op_XXX_EXISTE_LISTA);
+	mainMenu.Add("Transpose",op_Transpose);
 	mainMenu.Add( "", 0, eeMenuSeparator );
 
 	//extract
@@ -202,6 +204,9 @@ var main = function(){
             document.selection.Replace("^(\\d\\d)/(\\d\\d)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t","2009-\\2-\\1\\t\\8\\7\\t\\5",eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
             document.selection.Replace("^$\\n","",eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
 			//SameWindow( MISC_Itau2MoneyLog( GetAllText() ) )
+			break;
+		case op_Transpose:
+			NewEditorWindow( Transpose( GetAllText() ) );
 			break;
 		default:
 			break;

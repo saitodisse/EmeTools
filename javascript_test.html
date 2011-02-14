@@ -27,6 +27,12 @@
                 document.getElementById('pre_prettyPrint').innerHTML = XxxExisteLista(textoTotal);
                 prettyPrint();
 	        }
+            document.getElementById('btnTranspose').onclick = function () {
+                textoTotal = document.getElementById('txtQuery').value;
+                NEW_LINE = '\n';
+                document.getElementById('pre_prettyPrint').innerHTML = Transpose(textoTotal);
+                prettyPrint();
+	        }
             document.getElementById('btnRegexExtractor').onclick = function () {
                 textoTotal = document.getElementById('txtQuery').value;
                 NEW_LINE = '\n';
@@ -44,6 +50,9 @@
             document.getElementById('btn_Modelo_XXX_Existe_Lista').onclick = function () {
                 document.getElementById('txtQuery').innerHTML = "wer\njhg\nqwe\ndsa\nsdf\ndfg\ncvb\n///\nqwe\nasd\nsdf\nfdg\nhgf\n";
 	        }
+            document.getElementById('btn_Modelo_Xxx_Select_Para_Transpose').onclick = function () {
+                document.getElementById('txtQuery').innerHTML = "camposSelect\n///\n'------------------' AS \" \",\n'** xxx **' as \"** xxx  **\",\n'------------------' AS \" \",\nxxx.*,";
+	        }
             
         }
     </script>
@@ -57,6 +66,8 @@
         |
         <input id="btn_Modelo_XXX_Existe_Lista" type="button" value="XXX Existe na lista" />
         |
+        <input id="btn_Modelo_Xxx_Select_Para_Transpose" type="button" value="XXX SELECT para transpose" />
+        |
 	</p>
     <p>
         <textarea id="txtQuery" name="txtQuery" rows="15" style="width:100%;" wrap="off"></textarea></p>
@@ -67,7 +78,9 @@
         |
         <input id="btnXxxExisteLista" type="button" value="XXX Existe na Lista" />
         |
-        <input id="btnRegexExtractor" type="button" value="Regex Extractor" /></p>
+        <input id="btnRegexExtractor" type="button" value="Regex Extractor" />
+        |
+        <input id="btnTranspose" type="button" value="Transpose" /></p>
     <h3>Result</h3>
     <pre class="prettyprint" id="pre_prettyPrint" style="width:100%"></pre>
 </body>
