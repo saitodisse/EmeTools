@@ -147,7 +147,7 @@ var Xxx = function(texto){
 		
 			// XXX
 			resultadoSubstituicao = resultadoSubstituicao.replace(/xxx/gi, dados[i]);
-            retorno = retorno + resultadoSubstituicao + NEW_LINE;
+            retorno = retorno + resultadoSubstituicao;
         }
 
         ////////////////////////////////
@@ -505,7 +505,7 @@ var IdentarTab2Spaces = function(){
             }
             colunas[j] = colunas[j] + espacos;
         }
-        linhas[i] = colunas.join(' ');
+        linhas[i] = colunas.join('  ');
     }
     return linhas;
 }
@@ -515,6 +515,8 @@ var IdentarSpaces2Tab = function(texto){
     for(i=0; i<linhas.length; i++)
     {
         linhas[i] = linhas[i].replace(/\s{2,}/gi, "\t");
+        linhas[i] = linhas[i].replace(/^\s+/gi, "");
+        linhas[i] = linhas[i].replace(/\s+$/gi, "");
     }
     return linhas;
 }

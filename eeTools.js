@@ -68,23 +68,7 @@ var main = function(){
 	mainMenu.Add("XXX existe na lista?",op_XXX_EXISTE_LISTA);
 	mainMenu.Add("Transpose",op_Transpose);
 	mainMenu.Add( "", 0, eeMenuSeparator );
-
-	//extract
-	submenu=CreatePopupMenu();
-	submenu.Add("regex extractor",op_REGEX_EXTRACT);
-	submenu.Add("links (http://xxxxxxx.com)",op_EXTRACT_LINKS);
-	mainMenu.AddPopup( "EXTRACT", submenu );
-	mainMenu.Add( "", 0, eeMenuSeparator );
-
-	//trims
-	mainMenu.Add("trim()",op_TRIM);
-	mainMenu.Add("trim lines()",op_TRIM_LINES);
-	mainMenu.Add( "", 0, eeMenuSeparator );
-
-	//[tabs]
-	mainMenu.Add("[tab]    TO [spaces]",op_TAB_TO_SPACES);
-	mainMenu.Add("[spaces] TO [tab]",op_SPACES_TO_TABS);
-	mainMenu.Add("[spaces] TO [space]",op_SPACES_TO_SPACE);
+	mainMenu.Add("extrair por Regex", op_REGEX_EXTRACT);
 	mainMenu.Add( "", 0, eeMenuSeparator );
 
 	//sorts
@@ -95,6 +79,17 @@ var main = function(){
 	submenu.Add("sort distinct (desc)",op_SORT_DISTINCT_DESC);
 	mainMenu.AddPopup( "SORT", submenu );
 	mainMenu.Add( "", 0, eeMenuSeparator );
+
+
+	//trims
+	//[tabs]
+	mainMenu.Add("trim()",op_TRIM);
+	mainMenu.Add("trim lines()",op_TRIM_LINES);
+	mainMenu.Add("[\\t] -> [\\s]*",op_TAB_TO_SPACES);
+	mainMenu.Add("[\\s]* -> [\\t]",op_SPACES_TO_TABS);
+	mainMenu.Add("[\\s]* -> [\\s]",op_SPACES_TO_SPACE);
+	mainMenu.Add( "", 0, eeMenuSeparator );
+
 
 	//SQL
 	submenu=CreatePopupMenu();
@@ -115,6 +110,12 @@ var main = function(){
 	submenu=CreatePopupMenu();
 	submenu.Add("Itau TO moneyLog",op_ITAU_TO_MONEYLOG);
 	mainMenu.AddPopup( "MISC", submenu );
+
+	//extract
+	submenu=CreatePopupMenu();
+	submenu.Add("links (http://xxxxxxx.com)",op_EXTRACT_LINKS);
+	mainMenu.AddPopup( "EXTRACT", submenu );
+	mainMenu.Add( "", 0, eeMenuSeparator );
 
 	switch(mainMenu.Track())
 	{
