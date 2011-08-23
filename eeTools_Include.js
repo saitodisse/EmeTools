@@ -257,7 +257,7 @@ var regexExtractor = function(texto){
     var _regex, retornoFinal, matchResultArray, len;
     
     _regex=prompt("Regex",""), retornoFinal;
-    regex = new RegExp(_regex,"gim");
+    regex = new RegExp(_regex,"gm");
 
     retornoFinal = retornoFinal + "---------------";
     retornoFinal = retornoFinal + NEW_LINE;
@@ -285,10 +285,37 @@ var regexExtractor = function(texto){
         retornoFinal = retornoFinal + texto;
         
     }
-
     return(retornoFinal);
 }
 
+var regexLinesDeleter = function(texto){
+    var _regex, retornoFinal, matchResultArray, len;
+    
+    _regex=prompt("Regex",""), retornoFinal;
+    regex = new RegExp(_regex,"gm");
+
+    retornoFinal = retornoFinal + "---------------";
+    retornoFinal = retornoFinal + NEW_LINE;
+    retornoFinal = retornoFinal + "[" + _regex + "]";
+    retornoFinal = retornoFinal + NEW_LINE;
+    retornoFinal = retornoFinal + "---------------";
+    retornoFinal = retornoFinal + NEW_LINE;
+
+    if(_regex==""||_regex==null)
+        return(retornoFinal)
+
+    var listaTotal = texto.split(NEW_LINE);
+    texto = "";
+	for(var i=0; i<listaTotal.length; i++)
+    {
+    	if(!listaTotal[i].match(regex)){
+            texto = texto + listaTotal[i] + NEW_LINE
+    	}
+    }
+    retornoFinal = retornoFinal + texto;
+
+    return(retornoFinal);
+}
 
 var copyFullName = function(){
     if(document.Saved)
@@ -401,14 +428,16 @@ var addString2LineEnd = function(){
 }
 
 var OrdenarTudo = function(texto, reverso){
-    if(reverso == 1)
+	if(reverso == 1){
         return texto.split(NEW_LINE).sort().reverse();
-    else
+    }
+    else{
         return texto.split(NEW_LINE).sort();
+    }
 }
 
 var Distinct = function(texto, reverso){
-	listaOrdenada = OrdenarTudo(texto, reverso)
+	var listaOrdenada = OrdenarTudo(texto, reverso)
     for(i=listaOrdenada.length-1; i>0; i--)
     {
         if(listaOrdenada[i] == listaOrdenada[i-1]){

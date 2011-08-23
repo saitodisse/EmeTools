@@ -60,6 +60,8 @@ var main = function(){
 	var op_ITAU_TO_MONEYLOG = 21;
 	var op_XXX_EXISTE_LISTA = 22;
 	var op_Transpose = 23;
+	var op_EXTRAIR_STRING_SEGURA_CSHARP = 24;
+	var op_RETIRAR_LINHAS_POR_REGEX = 25;
 
 	//xxx
 	mainMenu=CreatePopupMenu();
@@ -69,6 +71,7 @@ var main = function(){
 	mainMenu.Add("Transpose",op_Transpose);
 	mainMenu.Add( "", 0, eeMenuSeparator );
 	mainMenu.Add("extrair por Regex", op_REGEX_EXTRACT);
+	mainMenu.Add("retirar linhas por Regex", op_RETIRAR_LINHAS_POR_REGEX);
 	mainMenu.Add( "", 0, eeMenuSeparator );
 
 	//sorts
@@ -104,6 +107,7 @@ var main = function(){
 	submenu.Add("' -> ''",op_ASPA_SIMPLES_TO_ASPAS_DUPLAS);
 	submenu.Add("CPF - colocar Zeros à esquerda",op_CPF_ZEROS_A_ESQUERDA);
 	submenu.Add("link pfcFin",op_LINK_PFC_FINANC);
+	submenu.Add("Extrair string C#",op_EXTRAIR_STRING_SEGURA_CSHARP);
 	mainMenu.AddPopup( "REPLACE", submenu );
 
 	//Misc
@@ -130,6 +134,9 @@ var main = function(){
 			break;
 		case op_REGEX_EXTRACT:
 			NewEditorWindow( regexExtractor( GetAllText() ) );
+			break;
+		case op_RETIRAR_LINHAS_POR_REGEX:
+			NewEditorWindow( regexLinesDeleter( GetAllText() ) );
 			break;
 		case op_EXTRACT_LINKS:
 			NewEditorWindow( ExtrairLinks( GetAllText() ).join('\r\n') )
@@ -199,6 +206,25 @@ var main = function(){
 			break;
 		case op_LINK_PFC_FINANC:
 			document.selection.Replace(".*Seg=(\\d+)&Reg=(\\d+)&Und=(\\d+)&Pfc=(\\d+).*","SELECT * FROM [tbPfcFinanciamento] WHERE [CodSegmento] = \\1 AND [CodReg] = \\2 AND [CodUnd] = \\3 AND [NroPfc] = \\4\x0aupdate [tbPfcFinanciamento] Set CodSituacao = 00 WHERE [CodSegmento] = \\1 AND [CodReg] = \\2 AND [CodUnd] = \\3 AND [NroPfc] = \\4\x0ahttp://localhost/MesaCreditoWeb/AnaliseFichaFinanciamento.aspx?Seg=\\1&Reg=\\2&Und=\\3&Pfc=\\4\x0ahttp://localhost/MesaCreditoWeb/AnaliseHistoricoFinanciamento.aspx?Seg=\\1&Reg=\\2&Und=\\3&Pfc=\\4&Vis=2",eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+			break;
+		case op_EXTRAIR_STRING_SEGURA_CSHARP:
+			document.selection.Find("\x22",eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeFindReplaceQuiet | eeFindAround);
+			document.selection.Replace("\x22","\\\\\x22",eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeReplaceAll);
+			document.selection.Find("\\",eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeFindReplaceQuiet | eeFindAround);
+			document.selection.Find("\\n",eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeFindReplaceQuiet | eeFindAround);
+			document.selection.Find("\\",eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeFindReplaceQuiet | eeFindAround);
+			document.selection.Find("\\s",eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeFindReplaceQuiet | eeFindAround);
+			document.selection.Find("\\s+",eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeFindReplaceQuiet | eeFindAround);
+			document.selection.Replace("\\s+"," ",eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeReplaceAll);
+			document.selection.Replace("\\s+"," ",eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+			document.selection.Find("\\",eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeFindReplaceQuiet | eeFindAround | eeFindReplaceRegExp);
+			document.selection.Find("\\n",eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeFindReplaceQuiet | eeFindAround | eeFindReplaceRegExp);
+			document.selection.Replace("\\n","",eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+			document.selection.EndOfLine(true,eeLineView);
+			document.selection.Copy(eeCopyUnicode);
+			document.Undo();
+			document.Undo();
+			document.Undo();
 			break;
 		case op_ITAU_TO_MONEYLOG:
             document.selection.Replace(".*S A L D O.*","",eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
