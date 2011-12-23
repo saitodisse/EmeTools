@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section js{
+    <script type="text/javascript">
+        NEW_LINE = "\n";
+        $(document).ready(function () {
+            
+            test("XXX converte realiza replace de 'XXX'", function () {
+                var dados = "abc 123\ndef 456\nghi 789";
+                var template = " - XXX\n";
+                var texto = dados + "\n///\n" + template;
+                
+                var resultado = Xxx(texto);
+                
+                var primeiroItem = resultado;
+                var valorEsperado = " - abc 123\n - def 456\n - ghi 789\n";
+                equal(primeiroItem, valorEsperado, "deve substituir o xxx pelo que foi passado");
+            });
+
+            test("XXX para lista", function () {
+                var dados = "abc 123\ndef 456\nghi 789";
+                var template = "1-xxx\n2-xxx\n3-xxx";
+                var texto = dados + "\n///\n" + template;
+
+                var resultado = XxxLista(texto);
+               
+                var valorEsperado = "1-abc 123\n2-def 456\n3-ghi 789";
+                
+                equal(resultado, valorEsperado, "deve substituir cada xxx por cada linha de dados");
+            });
+            
+        });
+    </script>
+}
+<h1 id="qunit-header">
+    EmeTools tests</h1>
+<h2 id="qunit-banner">
+</h2>
+<div id="qunit-testrunner-toolbar">
+</div>
+<h2 id="qunit-userAgent">
+</h2>
+<ol id="qunit-tests">
+</ol>
+<div id="qunit-fixture">
+    test markup, will be hidden</div>
