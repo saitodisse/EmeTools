@@ -126,6 +126,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="README.jQuery.vsdoc.txt" />
+    <Content Include="Scripts\EmeTools\eeTools_Include_Test.js" />
     <Content Include="Scripts\EmeTools\eeTools.js" />
     <Content Include="Scripts\EmeTools\eeTools_Include.js" />
     <Content Include="Scripts\jquery-1.7.1-vsdoc.js" />

@@ -2,6 +2,49 @@ var DEBUG = false;
 var NEW_LINE = '\r\n';
 
 
+var Xixizero = function (dado, template) {
+    this.Dado = dado;
+    this.Template = template;
+
+    this.resultado = function() {
+        return replaceTodos(this.Template, "xxx", this.Dado);
+    };
+};
+
+var RoboXixi = function (texto) {
+    this.Texto = texto;
+    this.Xixizeros = [];
+    var i = 0;
+
+    var listaLinhas = this.Texto.split(NEW_LINE);
+    var listaLinhaDados = [];
+    var listaLinhaTemplates = [];
+    
+    // acha separador
+    for (i = 0; i < listaLinhas.length; i++) {
+        if (listaLinhas[i] == '///') {
+            listaLinhaDados = listaLinhas.slice(0, i);
+            listaLinhaTemplates = listaLinhas.slice(i + 1, listaLinhas.length);
+        }
+    }
+    
+    // template único
+    var joinModeloSemComentario = "";
+    for (i = 0; i < listaLinhaTemplates.length; i++) {
+        if(listaLinhaTemplates[i].substring(0,1) !== "#") {
+            joinModeloSemComentario = joinModeloSemComentario + listaLinhaTemplates[i];
+            //joinModeloSemComentario = joinModeloSemComentario + NEW_LINE;
+        }
+    }
+    
+    // cria Xixizeros
+    for (i = 0; i < listaLinhaDados.length; i++) {
+        this.Xixizeros.push(new Xixizero(listaLinhaDados[i], joinModeloSemComentario));
+    }
+};
+
+
+
 Array.prototype.transpose = function() {
 
     // Calculate the width and height of the Array
@@ -129,7 +172,7 @@ var Xxx = function(texto) {
 
             // XXX1, XXX2, XXX3, ...
             for (var jj = 0; jj < colunas.length; jj++) {
-                resultadoSubstituicao = replaceAll(resultadoSubstituicao, "xxx" + (jj + 1), colunas[jj]);
+                resultadoSubstituicao = replaceTodos(resultadoSubstituicao, "xxx" + (jj + 1), colunas[jj]);
             }
 
             // XXX
@@ -433,7 +476,7 @@ var ExtrairLinks = function(texto) {
 };
 
 
-function replaceAll(string, token, newtoken) {
+function replaceTodos(string, token, newtoken) {
     while (string.indexOf(token) != -1) {
         string = string.replace(token, newtoken);
     }
