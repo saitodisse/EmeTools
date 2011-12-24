@@ -2,47 +2,105 @@ var DEBUG = false;
 var NEW_LINE = '\r\n';
 
 
-var Xixizero = function (dado, template) {
+var Xixizero = function(dado, templates, newLine) {
     this.Dado = dado;
-    this.Template = template;
+    this.Templates = templates;
 
     this.resultado = function() {
-        return replaceTodos(this.Template, "xxx", this.Dado);
+        templates = this.Templates;
+        var retornoParcial = "";
+        
+        // busca joinTemplate para cada template
+        for (var i = 0; i < templates.length; i++) {
+            var ultimoTemplate = (i === templates.length - 1);
+            // não considera comentários
+            var joinTemplate = "";
+            for (var j = 0; j < templates[i].length; j++) {
+                var linhaTemplateAtual = templates[i][j];
+                var linhaVazia = linhaTemplateAtual.length === 0;
+                var linhaComentario = linhaTemplateAtual.substring(0, 1) === "#";
+                
+                if (!linhaComentario) {
+                    joinTemplate += linhaTemplateAtual;
+                    if(linhaVazia && ultimoTemplate) {
+                        joinTemplate += newLine;
+                    }
+                }
+            }
+            templates[i].joinTemplate = joinTemplate;
+        }
+
+        // substitui XXX para cada template
+        for (var i = 0; i < templates.length; i++) {
+            var ultimoTemplate = (i === templates.length - 1);
+            
+            // faz substituição de template sobre template
+            if(!ultimoTemplate) {
+                retornoParcial = replaceTodos(templates[i+1].joinTemplate, "xxx", templates[i].joinTemplate);
+            }
+
+            // faz substituição do dado sobre último template
+            else if(ultimoTemplate && templates.length > 1) {
+                retornoParcial = replaceTodos(retornoParcial, "xxx", this.Dado);
+            }
+
+            // faz substituição simples sobre único template
+            else if(ultimoTemplate && templates.length === 1) {
+                retornoParcial = replaceTodos(templates[i].joinTemplate, "xxx", this.Dado);
+            }
+        }
+        
+        return retornoParcial;
     };
 };
 
-var RoboXixi = function (texto) {
+var RoboXixi = function(texto, newLine) {
     this.Texto = texto;
     this.Xixizeros = [];
-    var i = 0;
 
-    var listaLinhas = this.Texto.split(NEW_LINE);
+    var listaLinhas = this.Texto.split(newLine);
     var listaLinhaDados = [];
+    var templates = [];
     var listaLinhaTemplates = [];
-    
+    var i;
+
     // acha separador
     for (i = 0; i < listaLinhas.length; i++) {
-        if (listaLinhas[i] == '///') {
-            listaLinhaDados = listaLinhas.slice(0, i);
-            listaLinhaTemplates = listaLinhas.slice(i + 1, listaLinhas.length);
+        var dadosPreenchidos = (listaLinhaDados.length > 0);
+        var linhaSeparador = (listaLinhas[i] === '///');
+        var templatePossuiLinha = (listaLinhaTemplates.length > 0);
+        var ultimaLinha = (i === listaLinhas.length - 1);
+
+        // acrescenta linha no template atual
+        if (dadosPreenchidos && !linhaSeparador) {
+            listaLinhaTemplates.push(listaLinhas[i]);
+        }
+        // acrescenta vazio antes do próximo separador
+        else if (dadosPreenchidos && linhaSeparador) {
+            listaLinhaTemplates.push("");
+        }
+
+        //achou um separador ou final
+        if (linhaSeparador || ultimaLinha) {
+            // guarda os dados se for o primeiro separador
+            if (!dadosPreenchidos) {
+                listaLinhaDados = listaLinhas.slice(0, i);
+                continue;
+            }
+
+            // template finalizado, acrescenta na lista templates
+            if (templatePossuiLinha || ultimaLinha) {
+                templates.push(listaLinhaTemplates);
+                listaLinhaTemplates = []; //reseta templateAtual
+            }
         }
     }
-    
-    // template único
-    var joinModeloSemComentario = "";
-    for (i = 0; i < listaLinhaTemplates.length; i++) {
-        if(listaLinhaTemplates[i].substring(0,1) !== "#") {
-            joinModeloSemComentario = joinModeloSemComentario + listaLinhaTemplates[i];
-            //joinModeloSemComentario = joinModeloSemComentario + NEW_LINE;
-        }
-    }
-    
+
     // cria Xixizeros
     for (i = 0; i < listaLinhaDados.length; i++) {
-        this.Xixizeros.push(new Xixizero(listaLinhaDados[i], joinModeloSemComentario));
+        this.Xixizeros.push(new Xixizero(listaLinhaDados[i], templates, newLine));
     }
 };
-
 
 
 Array.prototype.transpose = function() {
@@ -105,49 +163,49 @@ var Transpose = function(texto) {
 
 
 var Xxx = function(texto) {
-    var matches, regexModelo, textoAux, retorno, modeloAtual, listaXxx, resultadoSubstituicao;
+    var matches, regexTemplate, textoAux, retorno, templateAtual, listaXxx, resultadoSubstituicao;
     var listaLinhas = texto.split(NEW_LINE);
-    var dados = [], modelos = [], regMods = [];
+    var dados = [], templates = [], regMods = [];
     var reEhExpressaoRegular = /^(e)?[/](.*?)[/](\w*)$/gi ;
     var indiceMods = -1;
 
     // Busca separador
     for (var i = 0; i < listaLinhas.length; i++) {
-        if (listaLinhas[i] == '///') {
+        if (listaLinhas[i] === '///') {
             dados = listaLinhas.slice(0, i);
-            modelos = listaLinhas.slice(i + 1, listaLinhas.length);
+            templates = listaLinhas.slice(i + 1, listaLinhas.length);
         }
     }
 
-    if (dados.length == 0 || modelos.length == 0) {
+    if (dados.length === 0 || templates.length === 0) {
         return;
     }
 
 
-    var modelosAux = [];
+    var templatesAux = [];
 
     // retira linha de comentários
-    for (var j = 0; j < modelos.length; j++) {
-        if (modelos[j].substring(0, 1) != "#")
-            modelosAux.push(modelos[j]);
+    for (var j = 0; j < templates.length; j++) {
+        if (templates[j].substring(0, 1) != "#")
+            templatesAux.push(templates[j]);
     }
-    modelos = modelosAux;
+    templates = templatesAux;
 
-    // preenche a lista do modelo
-    for (var j = 0; j < modelos.length; j++) {
-        matches = reEhExpressaoRegular.exec(modelos[j]);
+    // preenche a lista do template
+    for (var j = 0; j < templates.length; j++) {
+        matches = reEhExpressaoRegular.exec(templates[j]);
         if (matches != null) {
-            regexModelo = RegexModelo;
-            regexModelo.modoExtrair = (matches[1] == "e");
-            regexModelo.regex = new RegExp(matches[2], matches[3].length == 0 ? "gi" : matches[3]); // REGEX
+            regexTemplate = RegexTemplate;
+            regexTemplate.modoExtrair = (matches[1] === "e");
+            regexTemplate.regex = new RegExp(matches[2], matches[3].length === 0 ? "gi" : matches[3]); // REGEX
 
             //regex
             indiceMods++;
-            regMods.push(regexModelo);
+            regMods.push(regexTemplate);
         } else {
             //substituição simples
             if (j > 0)
-                regMods[indiceMods].AppendReplacer(modelos[j]); // Adiciona linha de "replacer"
+                regMods[indiceMods].AppendReplacer(templates[j]); // Adiciona linha de "replacer"
             else
                 break; // XXX - modo normal
         }
@@ -155,20 +213,20 @@ var Xxx = function(texto) {
 
     retorno = "";
 
-    // substitui os dados no modelo
+    // substitui os dados no template
     for (var i = 0; i < dados.length; i++) {
         ////////////////////////////
         // MODO Clássico, sem regex
         ////////////////////////////
-        if (regMods.length == 0) {
+        if (regMods.length === 0) {
 
-            modeloAtual = modelos.join(NEW_LINE);
+            templateAtual = templates.join(NEW_LINE);
 
             // separa as colunas da linha se vieram com [tab]
             var colunas = dados[i].split('\t');
 
-            // substitui as colunas no modelo
-            resultadoSubstituicao = modeloAtual;
+            // substitui as colunas no template
+            resultadoSubstituicao = templateAtual;
 
             // XXX1, XXX2, XXX3, ...
             for (var jj = 0; jj < colunas.length; jj++) {
@@ -203,15 +261,15 @@ var XxxLista = function(texto) {
     var resultado = [];
     var contador = 0;
 
-    for (i = 0; i < listaLinhas.length; i++) {
-        if (listaLinhas[i] == '///') {
+    for (var i = 0; i < listaLinhas.length; i++) {
+        if (listaLinhas[i] === '///') {
             dados = listaLinhas.slice(0, i);
             resultado = listaLinhas.slice(i + 1, listaLinhas.length);
             break;
         }
     }
 
-    for (i = 0; i < resultado.length; i++) {
+    for (var i = 0; i < resultado.length; i++) {
         if (resultado[i].match( /\bxxx\b/gi ) != null) {
             resultado[i] = resultado[i].replace( /\bxxx\b/gi , dados[contador]);
             contador++;
@@ -227,7 +285,7 @@ var XxxExisteLista = function(texto) {
     var resultado = [];
 
     for (i = 0; i < listaLinhas.length; i++) {
-        if (listaLinhas[i] == '///') {
+        if (listaLinhas[i] === '///') {
             dados = listaLinhas.slice(0, i);
             resultado = listaLinhas.slice(i + 1, listaLinhas.length);
             break;
@@ -242,7 +300,7 @@ var XxxExisteLista = function(texto) {
             }
 
             //chegou ao final sem casar...
-            if (j == dados.length - 1) {
+            if (j === dados.length - 1) {
                 resultado[i] = "";
             }
         }
@@ -251,7 +309,7 @@ var XxxExisteLista = function(texto) {
 };
 
 
-var RegexModelo = {
+var RegexTemplate = {
     texto: '',
     regex: null,
     replacer: null,
@@ -288,7 +346,7 @@ var RegexExtractor = function(texto) {
     retornoFinal = retornoFinal + "---------------";
     retornoFinal = retornoFinal + NEW_LINE;
 
-    if (regex == "" || regex == null)
+    if (regex === "" || regex === null)
         return (retornoFinal);
     matchResultArray = texto.match(regex);
     if (matchResultArray) {
@@ -320,7 +378,7 @@ var regexLinesDeleter = function(texto) {
     retornoFinal = retornoFinal + "---------------";
     retornoFinal = retornoFinal + NEW_LINE;
 
-    if (_regex == "" || _regex == null)
+    if (_regex === "" || _regex === null)
         return (retornoFinal);
     var listaTotal = texto.split(NEW_LINE);
     texto = "";
@@ -336,7 +394,7 @@ var regexLinesDeleter = function(texto) {
 
 
 var OrdenarTudo = function(texto, reverso) {
-    if (reverso == 1) {
+    if (reverso === 1) {
         return texto.split(NEW_LINE).sort().reverse();
     } else {
         return texto.split(NEW_LINE).sort();
@@ -347,7 +405,7 @@ var OrdenarTudo = function(texto, reverso) {
 var Distinct = function(texto, reverso) {
     var listaOrdenada = OrdenarTudo(texto, reverso);
     for (i = listaOrdenada.length - 1; i > 0; i--) {
-        if (listaOrdenada[i] == listaOrdenada[i - 1]) {
+        if (listaOrdenada[i] === listaOrdenada[i - 1]) {
             // ++ arrayObject.splice(index,howmany,element1,.....,elementX) -- http://www.w3schools.com/jsref/jsref_splice.asp
             listaOrdenada.splice(i, 1);
         }
@@ -377,7 +435,7 @@ var IdentarTab2Spaces = function(texto) {
         colunas = linhas[i].split('\t');
         for (j = 0; j < colunas.length; j++) {
             tamanho = colunas[j].length;
-            if (tamanho > maiorTamanhoLista[j] || maiorTamanhoLista[j] == null)
+            if (tamanho > maiorTamanhoLista[j] || maiorTamanhoLista[j] === null)
                 maiorTamanhoLista[j] = tamanho;
         }
 
@@ -433,11 +491,11 @@ var SQL_Converter_Campo_Tipo_CSharp = function(texto) {
         }
     };
     var listaLinhas = texto.split(NEW_LINE);
-    var modelo = "private _tipo_ _xxx;\npublic _tipo_ xxx\n{\n    get { return _xxx; }\n    set { _xxx = value; }\n}";
+    var template = "private _tipo_ _xxx;\npublic _tipo_ xxx\n{\n    get { return _xxx; }\n    set { _xxx = value; }\n}";
     var resultado = [];
 
     for (i = 0; i < listaLinhas.length; i++) {
-        if (listaLinhas[i] == "")
+        if (listaLinhas[i] === "")
             break;
 
         NomeTipo = listaLinhas[i].split('\t');
@@ -445,10 +503,10 @@ var SQL_Converter_Campo_Tipo_CSharp = function(texto) {
         nome = NomeTipo[0];
         tipo = NomeTipo[1];
 
-        modeloReplaced = modelo.replace( /_tipo_/gi , ObterTipoCSharp(tipo));
-        modeloReplaced = modeloReplaced.replace( /_xxx/gi , "_" + nome.substring(0, 1).toLowerCase() + nome.substring(1, nome.length));
-        modeloReplaced = modeloReplaced.replace( /xxx/gi , nome.substring(0, 1).toUpperCase() + nome.substring(1, nome.length));
-        resultado = resultado.concat(modeloReplaced);
+        templateReplaced = template.replace( /_tipo_/gi , ObterTipoCSharp(tipo));
+        templateReplaced = templateReplaced.replace( /_xxx/gi , "_" + nome.substring(0, 1).toLowerCase() + nome.substring(1, nome.length));
+        templateReplaced = templateReplaced.replace( /xxx/gi , nome.substring(0, 1).toUpperCase() + nome.substring(1, nome.length));
+        resultado = resultado.concat(templateReplaced);
     }
 
     return resultado;
@@ -476,9 +534,13 @@ var ExtrairLinks = function(texto) {
 };
 
 
-function replaceTodos(string, token, newtoken) {
-    while (string.indexOf(token) != -1) {
-        string = string.replace(token, newtoken);
-    }
-    return string;
+//function replaceTodos(string, token, newtoken) {
+//    while (string.indexOf(token) != -1) {
+//        string = string.replace(token, newtoken);
+//    }
+//    return string;
+//}
+
+function replaceTodos(texto, de, para) {
+    return texto.replace(new RegExp(de, "gi"), para);
 }
