@@ -1,5 +1,5 @@
 #include "eeTools_Include.js"
-	
+
 //  --------
 //  emeTools
 //  v. 0.05
@@ -57,8 +57,11 @@ var main = function () {
     var OP_EXTRAIR_STRING_SEGURA_CSHARP = 24;
     var OP_RETIRAR_LINHAS_POR_REGEX = 25;
 
+    var OP_XXX_NEW = 26;
+
     //xxx
     var mainMenu = CreatePopupMenu();
+    mainMenu.Add("XXX (novo)", OP_XXX_NEW);
     mainMenu.Add("XXX", OP_XXX);
     mainMenu.Add("XXX para lista", OP_XXX_LISTA);
     mainMenu.Add("XXX existe na lista?", OP_XXX_EXISTE_LISTA);
@@ -116,6 +119,12 @@ var main = function () {
     mainMenu.Add("", 0, eeMenuSeparator);
 
     switch (mainMenu.Track()) {
+        case OP_XXX_NEW:
+            var allText = getAllText();
+            var roboXixizero = new RoboXixi(allText, NEW_LINE);
+            var resultado = roboXixizero.Transformar();
+            newEditorWindow(resultado);
+            break;
         case OP_XXX:
             newEditorWindow(Xxx(getAllText()));
             break;
