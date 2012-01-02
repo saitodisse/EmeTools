@@ -126,7 +126,8 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="README.jQuery.vsdoc.txt" />
-    <Content Include="Scripts\EmeTools\eeTools_Include_Test.js" />
+    <Content Include="Scripts\EmeTools\emetools.js" />
+    <Content Include="Scripts\EmeTools\emetoolsTest.js" />
     <Content Include="Scripts\EmeTools\eeTools.js" />
     <Content Include="Scripts\EmeTools\eeTools_Include.js" />
     <Content Include="Scripts\jquery-1.7.1-vsdoc.js" />
@@ -137,6 +138,7 @@
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jsed\jsed.js" />
     <Content Include="Scripts\modernizr-1.7.js" />
     <Content Include="Scripts\modernizr-1.7.min.js" />
     <Content Include="Scripts\qunit.js" />
