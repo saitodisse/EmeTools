@@ -1,4 +1,5 @@
 #include "eeTools_Include.js"
+#include "emetools.js"
 
 //  --------
 //  emeTools

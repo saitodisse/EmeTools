@@ -1,6 +1,6 @@
-$(document).ready(function () {
-    test("transformar sem newline", function () {
-        
+$(document).ready(function() {
+    test("transformar sem newline", function() {
+
         // cria lista de templates
         var templates = [];
         var primeiroTemplate = [];
@@ -13,8 +13,8 @@ $(document).ready(function () {
         equal(atual, esperado, "substitui xxx por template");
     });
 
-    test("transformar com newline", function () {
-        
+    test("transformar com newline", function() {
+
         // cria lista de templates
         var templates = [];
         var primeiroTemplate = [];
@@ -28,7 +28,7 @@ $(document).ready(function () {
         equal(atual, esperado, "substitui xxx por template");
     });
 
-    test("RoboXixi cria Xixizeros", function () {
+    test("RoboXixi cria Xixizeros", function() {
 
         var texto = "";
         texto += "a\n";
@@ -46,7 +46,7 @@ $(document).ready(function () {
         equal(xixireros[0].transformar(), " - a\n", "1.transformar");
     });
 
-    test("RoboXixi ignora comentário", function () {
+    test("RoboXixi ignora comentário", function() {
 
         var texto = "";
         texto += "a\n";
@@ -65,7 +65,7 @@ $(document).ready(function () {
         equal(xixireros[0].transformar(), " - a\n", "1.transformar");
     });
 
-    test("Xixizeros com dois templates", function () {
+    test("Xixizeros com dois templates", function() {
 
         var texto = "";
         texto += "a\n";
@@ -86,12 +86,12 @@ $(document).ready(function () {
 
         equal(xixireros[0].transformar(), "(_a_)\n", "xixireros[0].transformar()");
         equal(xixireros[1].transformar(), "(_b_)\n", "xixireros[1].transformar()");
-        
+
         equal(xixireros[0].Templates[0].joinTemplate, "_xxx_", "1.template[0].joinTemplate");
         equal(xixireros[0].Templates[1].joinTemplate, "(xxx)\n", "1.template[0].joinTemplate");
     });
 
-    test("RoboXixi.Transformar() devolve string com resultado final", function () {
+    test("RoboXixi.Transformar() devolve string com resultado final", function() {
 
         var texto = "";
         texto += "a-123\n";
@@ -107,18 +107,18 @@ $(document).ready(function () {
         texto += "# coloca chaves\n";
         texto += "#-----------------\n";
         texto += "{xxx}\n";
-        
+
         var roboXixi = new RoboXixi(texto, '\n');
-        
+
         var resultadoEsperado = "";
         resultadoEsperado += "{(a-123)}\n";
         resultadoEsperado += "{(b-234)}\n";
         resultadoEsperado += "{(c-345)}\n";
-        
+
         equal(roboXixi.Transformar(), resultadoEsperado, "roboXixi.Transformar()");
     });
 
-    test("RoboXixi.Transformar() permite mesma linha", function () {
+    test("RoboXixi.Transformar() permite mesma linha", function() {
 
         var texto = "";
         texto += "a\n";
@@ -126,41 +126,53 @@ $(document).ready(function () {
         texto += "c\n";
         texto += "///\n";
         texto += "xxx,";
-        
+
         var roboXixi = new RoboXixi(texto, '\n');
-        
+
         var resultadoEsperado = "a,b,c,";
-        
+
         equal(roboXixi.Transformar(), resultadoEsperado, "roboXixi.Transformar()");
     });
 
-    // código legado
-    //    test("XXX converte realiza replace de 'XXX'", function () {
-    //        var dados = "abc 123\ndef 456\nghi 789";
-    //        var template = " - XXX\n";
-    //        var texto = dados + "\n///\n" + template;
+    test("SED: 'p' com 'n'", function() {
+        var texto = "";
+        texto += "abc\n";
+        texto += "def";
 
-    //        var resultado = Xxx(texto);
+        var sedScript = "";
+        sedScript += "/ef/p";
 
-    //        var primeiroItem = resultado;
-    //        var valorEsperado = " - abc 123\n - def 456\n - ghi 789\n";
-    //        equal(primeiroItem, valorEsperado, "deve substituir o xxx pelo que foi passado");
-    //    });
+        var resultadoEsperado = "";
+        resultadoEsperado += "def\n";
 
-    //    test("XXX para lista", function() {
-    //        var texto = "";
-    //        texto += "a\n";
-    //        texto += "b\n";
-    //        texto += "///\n";
-    //        texto += "1-xxx\n";
-    //        texto += "2-xxx\n";
+        var resultado = sedJsed(
+            texto,
+            sedScript,
+            true,
+            false,
+            10000);
 
-    //        var resultado = XxxLista(texto);
+        equal(resultado, resultadoEsperado, "deve buscar a linha que possui def");
+    });
 
-    //        var valorEsperado = "";
-    //        valorEsperado += "1-a\n";
-    //        valorEsperado += "2-b\n";
+    test("SED: foo para bar", function() {
+        var texto = "";
+        texto += "foo foo fo oo f oo foo foo foo foo foo foo foo foo foo foo foo foo foo";
 
-    //        equal(resultado, valorEsperado, "deve substituir cada xxx por cada linha de dados");
-    //    });
+        var sedScript = "";
+        sedScript += "s/foo/bar/g" + "\n";
+        sedScript += "p";
+
+        var resultadoEsperado = "";
+        resultadoEsperado += "bar bar fo oo f oo bar bar bar bar bar bar bar bar bar bar bar bar bar\n";
+
+        var resultado = sedJsed(
+            texto,
+            sedScript,
+            true,
+            false,
+            10000);
+
+        equal(resultado, resultadoEsperado, "deve buscar a linha que possui def");
+    });
 });

@@ -116,3 +116,18 @@ var RoboXixi = function(texto, newLine) {
 function replaceTodos(texto, de, para) {
     return texto.replace(new RegExp(de, "gi"), para);
 }
+
+// SED
+var o;
+var out = function(s) { o = o + s; };
+var err = function(s) { o = o + "<b>" + s + "</b>"; };
+var sedJsed = function (texto, sedScript, nFlag, posixFlag, jumpMax) {
+    o = "";
+    sed.nflag = nFlag;
+    sed.pflag = posixFlag;
+    sed.jumpmax = jumpMax;
+    sed.out = out;
+    sed.err = err;
+    sed(sedScript, texto);
+    return o;
+};
