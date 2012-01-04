@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     test("SED: 'p' com 'n'", function () {
         var texto = "";
         texto += "abc\n";
@@ -65,11 +65,11 @@ $(document).ready(function() {
     });
 
     test("s[ed] substituir 'b' -> 'x' e imprimir tudo", function () {
-        
+
         var escripti = "";
         escripti += "# coment" + "\n";  //   #   : ignora comentário
-        escripti += "s/b/x/"   + "\n";  // s///  : substitui 'b' por 'x'
-        escripti += "p"        + "\n";  //  'p'  : imprime todas linhas
+        escripti += "s/b/x/" + "\n";  // s///  : substitui 'b' por 'x'
+        escripti += "p" + "\n";  //  'p'  : imprime todas linhas
 
         var xixizero = new Xixizero(escripti, "s", "\n");
         var atual = xixizero.transformar("abc\ndef");
@@ -77,7 +77,7 @@ $(document).ready(function() {
         equal(atual, esperado);
     });
 
-    test("RoboXixi cria Xixizeros", function() {
+    test("RoboXixi cria Xixizeros", function () {
 
         var texto = "";
         texto += "abc\n";
@@ -91,13 +91,30 @@ $(document).ready(function() {
 
         equal(xixireros[0].Escripti, "[xxx]");
         equal(xixireros[0].Comando, "x");
-        
+
         equal(xixireros[1].Escripti, "s/b/\(b\)/");
         equal(xixireros[1].Comando, "s");
     });
 
+    test("RoboXixi lança excessão caso não seja informado o comando", function () {
 
-    test("RoboXixi.Transformar() 's' e 'x'", function() {
+        var texto = "";
+        texto += "abc\n";
+        texto += "///\n"; //COMANDO DESCONHECIDO
+        texto += "[xxx]\n";
+
+        try {
+            // chama o construtor
+            new RoboXixi(texto, '\n');
+            ok(false, 'ComandoNaoInformado não foi disparado');
+        } catch (ex) {
+            // deve lançar excessão
+            equal(ex.name, "ComandoNaoInformado", "nome da excessão não bate com ComandoNaoInformado");
+        }
+    });
+
+
+    test("RoboXixi.Transformar() 's' e 'x'", function () {
 
         var texto = "";
         texto += "aaa\n";
@@ -114,7 +131,7 @@ $(document).ready(function() {
         var resultadoEsperado = "";
         resultadoEsperado += "*aaa\n";
         resultadoEsperado += "xxx\n";
-        resultadoEsperado += "ccc*";
+        resultadoEsperado += "ccc\n*";
 
         equal(roboXixi.Transformar(), resultadoEsperado, "roboXixi.Transformar()");
     });

@@ -1,9 +1,21 @@
-var Xixizero = function (escripti, comando, newLine) {
+function disparaErro(name, message) {
+    var err = new Error();
+    err.name = name;
+    err.message = message;
+    throw (err);
+}  
+
+//Exceptions
+function ComandoNaoInformado() {
+    return "O comando do '///' deve ser informado logo após o '///'";
+};
+
+var Xixizero = function(escripti, comando, newLine) {
     this.DadoTrasformado = "";
     this.Comando = comando;
     this.Escripti = escripti;
 
-    this.transformar = function (texto) {
+    this.transformar = function(texto) {
         // XXX: substitui 'xxx' por Escript
         if (this.Comando === "x") {
             this.DadoTrasformado = replaceTodos(this.Escripti, "xxx", texto);
@@ -43,7 +55,14 @@ var RoboXixi = function (texto, newLine) {
             // define o comando atual (x,s)
             if (linhaSeparador || ultimaLinha) {
                 comandoAnterior = comandoUltimo;
-                comandoUltimo = listaLinhas[i].toString().substring(3, 4);
+                if (!ultimaLinha) {
+                    // comando não informado dispara erro
+                    if (listaLinhas[i].length < 4) {
+                        disparaErro('ComandoNaoInformado', 'a linha [' + i + '] possui o separador porém não foi informado o comando. Ex: ///x ou ///s');
+                    }
+
+                    comandoUltimo = listaLinhas[i].toString().substring(3, 4);
+                }
             }
 
             // acrescenta linha no template atual
@@ -97,7 +116,7 @@ function replaceTodos(texto, de, para) {
 var o;
 var out = function(s) { o = o + s; };
 var err = function(s) { o = o + "<b>" + s + "</b>"; };
-var sedJsed = function (texto, sedScript, nFlag, posixFlag, jumpMax) {
+var sedJsed = function(texto, sedScript, nFlag, posixFlag, jumpMax) {
     o = "";
     sed.nflag = nFlag;
     sed.pflag = posixFlag;
