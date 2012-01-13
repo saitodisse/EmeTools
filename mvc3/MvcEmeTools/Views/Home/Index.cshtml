@@ -1,21 +1,37 @@
 ﻿@{
-    ViewBag.Title = "EmeTools tests";
+    ViewBag.Title = "EmeTools";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@section js{
-    <script src="@Url.Content("~/Scripts/jsed/jsed.js")" type="text/javascript"> </script>
-    <script src="@Url.Content("~/Scripts/EmeTools/emetools.js")" type="text/javascript"> </script>
-    <script src="@Url.Content("~/Scripts/EmeTools/emetoolsTest.js")" type="text/javascript"> </script>
-}
-<h1 id="qunit-header">
-    EmeTools tests</h1>
-<h2 id="qunit-banner">
-</h2>
-<div id="qunit-testrunner-toolbar">
-</div>
-<h2 id="qunit-userAgent">
-</h2>
-<ol id="qunit-tests">
-</ol>
-<div id="qunit-fixture">
-    test markup, will be hidden</div>
+
+<h1>Emetools</h1>
+<pre class="codigo">
+
+1 - Javascript script that emulates SED using jsed.
+2 - Collections of javascript EmEditor's macros. Simple things like trim, sort and sort distinct are very useful.
+
+------------------
+SED - ///s
+------------------
+Executes SED comand with "-n" modificator
+  aaa
+  bbb
+  ///s
+  /b/p
+  
+  result:
+  bbb
+
+
+------------------
+XXX - ///x
+------------------
+Replaces 'XXX' string with the data 'abc'
+  abc
+  ///
+  [xxx]
+
+  result:
+  [abc]
+
+</pre>
+

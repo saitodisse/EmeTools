@@ -1,47 +1,95 @@
 body
 {
     font-size: .85em;
-    font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
+    font-family: "Trebuchet MS" , Verdana, Helvetica, Sans-Serif;
     color: #232323;
     background-color: #fff;
+    margin: 20px;
 }
 
-header,
-footer,
-nav,
-section {
+/* Custom
+-----------------------------------------------------------*/
+.menuTodo
+{
+    width: 910px;
+    margin: 0px 0px 0px 0px;
+    display: inline-block;
+    border: 3px solid #DDD;
+    background-color: #efefef;
+}
+
+.corpo
+{
+    width: 900px;
+    display: inline-block;
+    margin: 10px;
+}
+
+.menuItem
+{
+    font-family: Consolas, Courier New;
+    font-size: 12pt;
+    text-decoration: none;
+    float: left;
+    margin: 10px 0 10px 30px;
+    padding: 4px;
+    height: 20px;
+    border-radius: 10px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    line-height: 18px;
+    text-align: center;
+    border: 3px solid darkGray;
+    border-image: initial;
+    box-shadow: rgb(0, 0, 0) 0px 0px 5px 0px;
+    cursor: pointer;
+    background-color: #f8f8f8;
+}
+
+.codigo
+{
+    font-family: Consolas, Courier New;
+    font-size: 12pt;
+}
+
+/* <end> Custom
+-----------------------------------------------------------*/
+
+
+header, footer, nav, section
+{
     display: block;
 }
 
 /* Styles for basic forms
 -----------------------------------------------------------*/
 
-fieldset 
+fieldset
 {
-    border:1px solid #ddd;
-    padding:0 1.4em 1.4em 1.4em;
-    margin:0 0 1.5em 0;
+    border: 1px solid #ddd;
+    padding: 0 1.4em 1.4em 1.4em;
+    margin: 0 0 1.5em 0;
 }
 
-legend 
+legend
 {
-    font-size:1.2em;
+    font-size: 1.2em;
     font-weight: bold;
 }
 
-textarea 
+textarea
 {
     min-height: 75px;
 }
 
-.editor-label 
+.editor-label
 {
     margin: 1em 0 0 0;
 }
 
-.editor-field 
+.editor-field
 {
-    margin:0.5em 0 0 0;
+    margin: 0.5em 0 0 0;
 }
 
 

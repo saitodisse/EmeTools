@@ -1,18 +1,38 @@
 ﻿<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <title>@ViewBag.Title</title>
-        <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
-        <link href="@Url.Content("~/Content/qunit.css")" rel="stylesheet" type="text/css" />
-    </head>
-
-    <body>
-        @RenderBody()
-    </body>
-    <script src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")" type="text/javascript"> </script>
-    <script src="@Url.Content("~/Scripts/modernizr-1.7.min.js")" type="text/javascript"> </script>
-    <script src="@Url.Content("~/Scripts/qunit.js")" type="text/javascript"> </script>
-    
-    @RenderSection("js", required: false)
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="menuTodo">
+        <a href="@Url.Content("~/Home")" class="menuItem">
+            Home
+        </a>
+        <a href="@Url.Content("~/Home/qUnit")" class="menuItem">
+            qUnit
+        </a>
+        <a href="@Url.Content("~/EmeTemplates/Create")" class="menuItem">
+            EmeTemplates
+        </a>
+    </div>
+    <div class="corpo">
+@RenderBody()
+    </div>
+</body>
+<script src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")" type="text/javascript"> </script>
+<script src="@Url.Content("~/Scripts/modernizr-1.7.min.js")" type="text/javascript"> </script>
+<script src="@Url.Content("~/Scripts/jquery.animate-shadow-min.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    $().ready(function () {
+        $('.menuItem').mouseover(function () {
+            $(this).stop().animate({ boxShadow: '0 0 5px #494' }, 100);
+        });
+        $('.menuItem').mouseout(function () {
+            $(this).stop().animate({ boxShadow: '0 0 5px #000' }, 1000);
+        });
+    });
+</script>
+@RenderSection("js", required: false)
 </html>

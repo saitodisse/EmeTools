@@ -2,12 +2,13 @@ function disparaErro(name, message) {
     var err = new Error();
     err.name = name;
     err.message = message;
-    throw (err);
+    alert('ERROR:\n\n------------------\n' + err.name + '\n' + err.message);
+    throw err;
 }  
 
 //Exceptions
 function ComandoNaoInformado() {
-    return "O comando do '///' deve ser informado logo após o '///'";
+    return "O comando do '///' deve ser informado logo apos o '///'";
 };
 
 var Xixizero = function(escripti, comando, newLine) {
@@ -58,7 +59,7 @@ var RoboXixi = function (texto, newLine) {
                 if (!ultimaLinha) {
                     // comando não informado dispara erro
                     if (listaLinhas[i].length < 4) {
-                        disparaErro('ComandoNaoInformado', 'a linha [' + i + '] possui o separador porém não foi informado o comando. Ex: ///x ou ///s');
+                        disparaErro('ComandoNaoInformado', 'A linha [' + (i+1) + '] possui o separador "///" porem nao foi informado o comando.\nComandos disponiveis: "x" ou "s".\nEx: "///x" ou "///s"');
                     }
 
                     comandoUltimo = listaLinhas[i].toString().substring(3, 4);
