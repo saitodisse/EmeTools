@@ -18,7 +18,7 @@
         <div class="editor-label">
             @Html.LabelFor(model => model.Nome)
         </div>
-        <div class="editor-field">
+        <div class="editor-field textBox">
             @Html.EditorFor(model => model.Nome)
             @Html.ValidationMessageFor(model => model.Nome)
         </div>
@@ -26,16 +26,16 @@
         <div class="editor-label">
             @Html.LabelFor(model => model.Descricao)
         </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Descricao)
+        <div class="editor-field textAreaMedia">
+            @Html.TextAreaFor(model => model.Descricao)
             @Html.ValidationMessageFor(model => model.Descricao)
         </div>
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Texto)
         </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Texto)
+        <div class="editor-field textAreaGrande">
+            @Html.TextAreaFor(model => model.Texto)
             @Html.ValidationMessageFor(model => model.Texto)
         </div>
 

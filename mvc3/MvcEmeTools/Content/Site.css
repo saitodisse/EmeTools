@@ -52,6 +52,17 @@ body
     font-size: 12pt;
 }
 
+.textBox input{
+    width: 424px;
+}
+.textAreaMedia textarea{
+    width: 424px;
+}
+.textAreaGrande textarea{
+    width: 424px;
+    min-height: 424px;
+}
+
 /* <end> Custom
 -----------------------------------------------------------*/
 
