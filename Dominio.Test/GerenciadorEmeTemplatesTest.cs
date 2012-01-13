@@ -11,6 +11,10 @@ namespace Dominio.Test
     {
         public void deve_gravar_arquivo()
         {
+            //TODO: colocar NUnit neste projeto de teste
+            //TODO: colocar Moq
+            //TODO: Mockar o repositorio de arquivo texto
+
             //var gerenciadorEmeTemplates = new GerenciadorEmeTemplates();
             //var escripte = new Escripte();
             //gerenciadorEmeTemplates.GravarEscripte(escripte);
