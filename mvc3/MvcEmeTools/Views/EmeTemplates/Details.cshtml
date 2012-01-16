@@ -1,0 +1,36 @@
+﻿@model Dominio.Entidades.Escripte
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Escripte</legend>
+
+    <div class="display-label">IdSha1</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IdSha1)
+    </div>
+
+    <div class="display-label">Nome</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Nome)
+    </div>
+
+    <div class="display-label">Descricao</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Descricao.Replace("\r\n", "<br />"))
+    </div>
+
+    <div class="display-label">Texto</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Texto)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

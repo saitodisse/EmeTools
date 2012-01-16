@@ -63,6 +63,13 @@ body
     min-height: 424px;
 }
 
+td, th {
+    padding: 4px;
+    border-color: #ddd;
+    border-width: 2px;
+    border-style: solid;
+}
+
 /* <end> Custom
 -----------------------------------------------------------*/
 

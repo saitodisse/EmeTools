@@ -130,7 +130,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\EmeTools\emetools.js" />
     <Content Include="Scripts\EmeTools\emetoolsTest.js" />
-    <Content Include="Scripts\EmeTools\eeTools.js" />
+    <Content Include="Scripts\EmeTools\EmEditor_menu.js" />
     <Content Include="Scripts\EmeTools\eeTools_Include.js" />
     <Content Include="Scripts\jquery-1.7.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
@@ -195,6 +195,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="TemplatesJson\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\EmeTemplates\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\EmeTemplates\Details.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

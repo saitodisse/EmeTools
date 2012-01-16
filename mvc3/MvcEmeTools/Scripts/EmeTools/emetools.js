@@ -1,9 +1,21 @@
+var SHOW_ALERT_ON_ERRORS = false;
+
 function disparaErro(name, message) {
     var err = new Error();
     err.name = name;
     err.message = message;
-    alert('ERROR:\n\n------------------\n' + err.name + '\n' + err.message);
-    throw err;
+    if (SHOW_ALERT_ON_ERRORS) {
+        var sMesssage = ''
+        sMesssage += '--------\n';
+        sMesssage += 'ERROR:\n';
+        sMesssage += '--------\n\n';
+        sMesssage += err.name + '\n';
+        sMesssage += '---------------------------------------------\n';
+        sMesssage += err.message;
+        alert(sMesssage);
+    } else{
+ 	   throw err;
+	}
 }  
 
 //Exceptions
@@ -59,7 +71,9 @@ var RoboXixi = function (texto, newLine) {
                 if (!ultimaLinha) {
                     // comando não informado dispara erro
                     if (listaLinhas[i].length < 4) {
-                        disparaErro('ComandoNaoInformado', 'A linha [' + (i+1) + '] possui o separador "///" porem nao foi informado o comando.\nComandos disponiveis: "x" ou "s".\nEx: "///x" ou "///s"');
+                        disparaErro(
+                            'RoboXixi.Iniciar() -> ComandoNaoInformado',
+                            'A linha [' + (i + 1) + '] possui o separador "///" porem nao foi informado o comando.\nComandos disponiveis: "x" ou "s".\nEx: "///x" ou "///s"');
                     }
 
                     comandoUltimo = listaLinhas[i].toString().substring(3, 4);

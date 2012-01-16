@@ -2,6 +2,8 @@
 #include "emetools.js"
 #include "../jsed/jsed.js"
 
+SHOW_ALERT_ON_ERRORS = true;
+
 //  --------
 //  emeTools
 //  v. 0.05

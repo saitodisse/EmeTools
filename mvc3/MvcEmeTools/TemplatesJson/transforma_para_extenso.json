@@ -1,1 +1,0 @@
-{"Nome":"transforma para extenso","Descricao":"substitui os numeros de 1 a 4 em sua representação por extenso.\r\n\r\nEx: 1 -\u003e um","Texto":"1\r\n2\r\n3\r\n4\r\n///s\r\n#substitui cada um dos quatro numero por seus correspondentes por extenso\r\ns/1/um/\r\ns/2/dois/\r\ns/3/três/\r\ns/4/quatro/\r\n\r\n#imprime todas as linhas\r\np","DadoExemplos":[]}

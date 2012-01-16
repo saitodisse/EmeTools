@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 
 namespace RepositorioArquivoTexto
 {
@@ -7,12 +8,6 @@ namespace RepositorioArquivoTexto
         public static void Gravar(string caminho, string conteudo)
         {
             var fileInfo = new FileInfo(caminho);
-
-            // Cria diretório se não existir
-            if(!fileInfo.Directory.Exists)
-            {
-                fileInfo.Directory.Create();
-            }
 
             // Apaga arquivo se já existir
             if (fileInfo.Exists)
@@ -33,6 +28,12 @@ namespace RepositorioArquivoTexto
             string readToEnd = streamReader.ReadToEnd();
             streamReader.Close();
             return readToEnd;
+        }
+
+        public static FileInfo[] Buscar(string caminhoPasta, string procurarPor)
+        {
+            var dir = new DirectoryInfo(caminhoPasta);
+            return dir.GetFiles(procurarPor);
         }
     }
 }
