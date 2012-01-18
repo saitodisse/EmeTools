@@ -34,5 +34,10 @@ namespace RepositorioArquivoTexto
             var dir = new DirectoryInfo(caminhoPasta);
             return dir.GetFiles(procurarPor);
         }
+
+        public void Remover(string caminho)
+        {
+            File.Delete(caminho);
+        }
     }
 }

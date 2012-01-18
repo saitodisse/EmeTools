@@ -43,6 +43,37 @@ $(document).ready(function () {
         equal(resultado, resultadoEsperado, "deve buscar a linha que possui def");
     });
 
+    test("SED: Rx: abc,   \\([[:alpha:]]\\)", function () {
+        deveCasar("abc", "\\([[:alpha:]]\\)");
+    });
+    test("SED: Rx: ABC,   \\([[:alpha:]]\\)", function () {
+        deveCasar("ABC", "\\([[:alpha:]]\\)");
+    });
+    test("SED: ^Rx:   abc,   \\w\+", function () {
+        // infelizmente o SED não possui os apelidos para POSIX
+        naoDeveCasar("abc", "\\w\+");
+    });
+    test("SED: ^Rx:   áéí,   \\([[:alpha:]]\\)", function () {
+        // a classe POSIX não casa acentos, que pena
+        naoDeveCasar("áéí", "\\([[:alpha:]]\\)");
+    });
+
+    var deveCasar = function (texto, regex) {
+        var textoComNewLine = texto + "\n";
+        var sedScript = "s/" + regex + "/\\1/gp" + "\n";
+        var resultadoEsperado = textoComNewLine;
+        var resultado = sedJsed(textoComNewLine, sedScript, true, false, 10000);
+        equal(resultado, resultadoEsperado, "a regex [" + regex + "] não casou com[" + texto + "]");
+    };
+
+    var naoDeveCasar = function (texto, regex) {
+        var textoComNewLine = texto + "\n";
+        var sedScript = "s/" + regex + "/\\1/gp" + "\n";
+        var resultadoEsperado = textoComNewLine;
+        var resultado = sedJsed(textoComNewLine, sedScript, true, false, 10000);
+        notEqual(resultado, resultadoEsperado, "a regex [" + regex + "] não deveria casar com[" + texto + "]");
+    };
+
     test("x[xx] sem newline", function () {
         var xixizero = new Xixizero(" - xxx", "x", "\n");
         var atual = xixizero.transformar("abc");
@@ -105,11 +136,11 @@ $(document).ready(function () {
 
         try {
             // chama o construtor
-            new RoboXixi(texto, '\n');
+            var foo = new RoboXixi(texto, '\n');
             ok(false, 'ComandoNaoInformado não foi disparado');
         } catch (ex) {
             // deve lançar excessão
-            equal(ex.name, "ComandoNaoInformado", "nome da excessão não bate com ComandoNaoInformado");
+            equal(ex.name, "RoboXixi.Iniciar() -> ComandoNaoInformado", "nome da excessão não bate com ComandoNaoInformado");
         }
     });
 

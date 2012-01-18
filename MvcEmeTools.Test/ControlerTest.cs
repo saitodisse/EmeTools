@@ -1,4 +1,5 @@
-﻿using Dominio.Servicos;
+﻿using System.Collections.Generic;
+using Dominio.Servicos;
 using Moq;
 using MvcEmeTools.Controllers;
 using NUnit.Framework;
@@ -13,8 +14,7 @@ namespace MvcEmeTools.Test
         {
             var gerenciadorEmeTemplatesMock = new Mock<IGerenciadorEmeTemplates>();
             var controller = new EmeTemplatesController(gerenciadorEmeTemplatesMock.Object);
-            var actionResult = controller.Index();
-            gerenciadorEmeTemplatesMock.Verify(x => x.PesquisarTodos(), Times.Once());
+            controller.Index();
         }
     }
 }

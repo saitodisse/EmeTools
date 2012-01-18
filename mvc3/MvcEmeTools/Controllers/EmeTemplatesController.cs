@@ -36,12 +36,7 @@ namespace MvcEmeTools.Controllers
 
         public ActionResult Details(string id)
         {
-            // recupera todos arquivos da pasta
-            string caminhoPasta = Server.MapPath(@"..\..\TemplatesJson\");
-            string nomeArquivo = id + ".json";
-            string conteudoJson = _repositorioArquivoTexto.Ler(caminhoPasta + nomeArquivo);
-
-            var escripte = JsonSerializer.Deserialize<Escripte>(conteudoJson);
+            var escripte = _gerenciadorEmeTemplates.Pesquisar(id);
 
             return View(escripte);
         }
@@ -63,27 +58,8 @@ namespace MvcEmeTools.Controllers
         {
             try
             {
-                // dados da página
-                string nome = collection["Nome"];
-                string descricao = collection["Descricao"];
-                string texto = collection["Texto"];
-
-                // cria objeto
-                var escripte = new Escripte();
-                escripte.Nome = nome;
-                escripte.Descricao = descricao;
-                escripte.Texto = texto;
-                escripte.DadoExemplos = new List<DadoExemplo>();
-
-
-                // grava na pasta do projeto TemplatesJson\...
-                string nomeArquivo = escripte.IdSha1;
-                nomeArquivo = nomeArquivo + ".json";
-                var caminhoArquivo = Server.MapPath(@"..\TemplatesJson\") + nomeArquivo;
-
+                var escripte = ObterEscripteDoResponse(collection);
                 _gerenciadorEmeTemplates.GravarEscripte(escripte);
-
-
                 return RedirectToAction("Index");
             }
             catch
@@ -93,56 +69,43 @@ namespace MvcEmeTools.Controllers
             }
         }
 
+
+        public ActionResult Edit(string id)
+        {
+            return View(_gerenciadorEmeTemplates.Pesquisar(id));
+        }
+
+        [HttpPost]
+        public ActionResult Edit(string id, FormCollection collection)
+        {
+            var escripte = ObterEscripteDoResponse(collection);
+            _gerenciadorEmeTemplates.Atualizar(escripte);
+            return RedirectToAction("Index");
+        }
+
+        private static Escripte ObterEscripteDoResponse(FormCollection collection)
+        {
+            // dados da página
+            string nome = collection["Nome"];
+            string descricao = collection["Descricao"];
+            string texto = collection["Texto"];
+
+            // cria objeto
+            var escripte = new Escripte();
+            escripte.Nome = nome;
+            escripte.Descricao = descricao;
+            escripte.Texto = texto;
+            escripte.DadoExemplos = new List<DadoExemplo>();
+            return escripte;
+        }
+
         //
-        // GET: /EmeTemplates/Edit/5
+        // GET: /EmeTemplates/Delete/5
 
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
-
-        ////
-        //// POST: /EmeTemplates/Edit/5
-
-        //[HttpPost]
-        //public ActionResult Edit(int id, FormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add update logic here
-
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        ////
-        //// GET: /EmeTemplates/Delete/5
-
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        ////
-        //// POST: /EmeTemplates/Delete/5
-
-        //[HttpPost]
-        //public ActionResult Delete(int id, FormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add delete logic here
-
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+        public ActionResult Delete(string id)
+        {
+            _gerenciadorEmeTemplates.Remover(id);
+            return RedirectToAction("Index");
+        }
     }
 }

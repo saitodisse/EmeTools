@@ -1,36 +1,47 @@
 ﻿@model Dominio.Entidades.Escripte
-
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section js{
+    <script src="@Url.Content("~/Scripts/jsed/jsed.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/Scripts/EmeTools/emetools.js")" type="text/javascript"> </script>
+    <script type="text/javascript">
+        $().ready(function () {
+            $("#btnExecutar").click(function () {
+                var texto = $("#txtDados").val() + '\n';
+                texto += $("#preEscripteTexto").html();
 
-<h2>Details</h2>
+                var roboXixi = new RoboXixi(texto, '\n');
+                var resultado = roboXixi.Transformar();
 
+                $("#preResposta").html(resultado);
+            });
+        })
+    </script>
+}
+<h2>
+    Details</h2>
 <fieldset>
-    <legend>Escripte</legend>
-
-    <div class="display-label">IdSha1</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.IdSha1)
+    <legend>@Model.Nome</legend>
+    <div class="display-field ">
+        @Html.DisplayFor(model => model.Descricao)
     </div>
-
-    <div class="display-label">Nome</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Nome)
+    <br/>
+    <div class="display-field preBorda">
+        <pre id="preEscripteTexto">@Model.Texto</pre>
     </div>
-
-    <div class="display-label">Descricao</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Descricao.Replace("\r\n", "<br />"))
+    <div class="textAreaDados">
+        <textarea id="txtDados"></textarea>
     </div>
-
-    <div class="display-label">Texto</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Texto)
+    <div>
+        <input id="btnExecutar" type="button" value="Executar"/>
+    </div>
+    <div>
+        <pre id="preResposta"></pre>
     </div>
 </fieldset>
 <p>
-    @*@Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) |*@
+    @Html.ActionLink("Edit", "Edit", new {  id=Model.IdSha1 }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

@@ -11,6 +11,9 @@ namespace Dominio.Servicos
     {
         void GravarEscripte(Escripte escripte);
         List<Escripte> PesquisarTodos();
+        Escripte Pesquisar(string idSha1);
+        void Remover(string idSha1);
+        void Atualizar(Escripte escripte);
     }
 
     public class GerenciadorEmeTemplates : IGerenciadorEmeTemplates
@@ -76,6 +79,35 @@ namespace Dominio.Servicos
             }
 
             return listaEscripte;
+        }
+
+        public Escripte Pesquisar(string idSha1)
+        {
+            string pastaInterna = _configuracaoGerenciador.RecuperarConfiguracao("caminhoPasta");
+            string caminhoPastaWebServer = _configuracaoGerenciador.BuscarPastaPadraoWebServer(pastaInterna);
+
+            var conteudoJSON = _repositorioArquivoTexto.Ler(string.Format("{0}\\{1}.json", caminhoPastaWebServer, idSha1));
+            return JsonSerializer.Deserialize<Escripte>(conteudoJSON);
+        }
+
+        public void Remover(string idSha1)
+        {
+            string pastaInterna = _configuracaoGerenciador.RecuperarConfiguracao("caminhoPasta");
+            string caminhoPastaWebServer = _configuracaoGerenciador.BuscarPastaPadraoWebServer(pastaInterna);
+            _repositorioArquivoTexto.Remover(string.Format("{0}\\{1}.json", caminhoPastaWebServer, idSha1));
+        }
+
+        public void Atualizar(Escripte escripte)
+        {
+            var serializado = JsonSerializer.Serialize(escripte);
+
+            //recupera do App.Config / Web.Config
+            string pastaInterna = _configuracaoGerenciador.RecuperarConfiguracao("caminhoPasta");
+            string caminhoPastaWebServer = _configuracaoGerenciador.BuscarPastaPadraoWebServer(pastaInterna);
+            string caminhoCompleto = string.Format("{0}\\{1}.json", caminhoPastaWebServer, escripte.IdSha1);
+
+            //grava no disco, APAGANDO O ANTERIOR
+            _repositorioArquivoTexto.Gravar(caminhoCompleto, serializado);
         }
     }
 }

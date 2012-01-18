@@ -1,6 +1,6 @@
 body
 {
-    font-size: .85em;
+    font-size: 1.0em;
     font-family: "Trebuchet MS" , Verdana, Helvetica, Sans-Serif;
     color: #232323;
     background-color: #fff;
@@ -27,12 +27,12 @@ body
 
 .menuItem
 {
-    font-family: Consolas, Courier New;
-    font-size: 12pt;
+    font-family: Arial;
+    font-size: 1.05em;
     text-decoration: none;
     float: left;
     margin: 10px 0 10px 30px;
-    padding: 4px;
+    padding: 6px;
     height: 20px;
     border-radius: 10px;
     -moz-border-radius: 5px;
@@ -52,6 +52,11 @@ body
     font-size: 12pt;
 }
 
+textarea, input{
+    font-family: Consolas, "Courier New";
+    font-size: 12pt;    
+}
+
 .textBox input{
     width: 424px;
 }
@@ -61,6 +66,18 @@ body
 .textAreaGrande textarea{
     width: 424px;
     min-height: 424px;
+}
+
+.textAreaDados textarea{
+    width: 900px;
+    min-height: 324px;
+}
+
+.preBorda {
+    border-color: #ddd;
+    border-width: 2px;
+    border-style: solid;
+    background-color: #fffdfd;
 }
 
 td, th {
