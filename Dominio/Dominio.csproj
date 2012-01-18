@@ -32,14 +32,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entidades\DadoExemplo.cs" />
     <Compile Include="Entidades\Escripte.cs" />
-    <Compile Include="IRepositorios\IRepositorio.cs" />
+    <Compile Include="IRepositorios\IRepositorioArquivoTexto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Servicos\GerenciadorEmeTemplates.cs" />
+    <Compile Include="Servicos\IConfiguracaoGerenciador.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RepositorioJson\JsonHelper.csproj">

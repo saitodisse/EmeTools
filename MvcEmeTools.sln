@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositorioArquivoTexto", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominio.Test", "Dominio.Test\Dominio.Test.csproj", "{7A7986A5-E826-4FF9-A296-866785998D0E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcEmeTools.Test", "MvcEmeTools.Test\MvcEmeTools.Test.csproj", "{8597B326-A6F4-45F3-9A96-FC17327CF354}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{42FE2B2F-2301-4B22-A162-248CDCE58F57}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,8 +41,16 @@ Global
 		{7A7986A5-E826-4FF9-A296-866785998D0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A7986A5-E826-4FF9-A296-866785998D0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A7986A5-E826-4FF9-A296-866785998D0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8597B326-A6F4-45F3-9A96-FC17327CF354}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8597B326-A6F4-45F3-9A96-FC17327CF354}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8597B326-A6F4-45F3-9A96-FC17327CF354}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8597B326-A6F4-45F3-9A96-FC17327CF354}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8597B326-A6F4-45F3-9A96-FC17327CF354} = {42FE2B2F-2301-4B22-A162-248CDCE58F57}
+		{7A7986A5-E826-4FF9-A296-866785998D0E} = {42FE2B2F-2301-4B22-A162-248CDCE58F57}
 	EndGlobalSection
 EndGlobal

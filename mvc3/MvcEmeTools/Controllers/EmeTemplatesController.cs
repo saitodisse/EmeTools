@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using Dominio.Entidades;
+using Dominio.IRepositorios;
+using Dominio.Servicos;
 using JsonHelper;
 using RepositorioArquivoTexto;
 
@@ -9,26 +12,21 @@ namespace MvcEmeTools.Controllers
 {
     public class EmeTemplatesController : Controller
     {
+        private IGerenciadorEmeTemplates _gerenciadorEmeTemplates;
+        private readonly IRepositorioArquivoTexto _repositorioArquivoTexto;
+
+        public EmeTemplatesController(IGerenciadorEmeTemplates gerenciadorEmeTemplates)
+        {
+            _gerenciadorEmeTemplates = gerenciadorEmeTemplates;
+            _repositorioArquivoTexto = new RepositorioArquivoTexto.RepositorioArquivoTexto();
+        }
+
         //
         // GET: /EmeTemplates/
 
         public ActionResult Index()
         {
-            // recupera todos arquivos da pasta
-            var caminhoPasta = Server.MapPath(@"TemplatesJson\");
-            var procurarPor = "*.json";
-            var fileInfos = RepositorioTexto.Buscar(caminhoPasta, procurarPor);
-
-            var caminhos = fileInfos.Select(x => x.FullName);
-
-            var escriptes = new List<Escripte>();
-
-            foreach (var caminho in caminhos)
-            {
-                var escripteSerializadoJson = RepositorioTexto.Ler(caminho);
-                // DESerializa para json
-                escriptes.Add(JsonSerializer.Deserialize<Escripte>(escripteSerializadoJson));
-            }
+            var escriptes = _gerenciadorEmeTemplates.PesquisarTodos();
 
             return View(escriptes);
         }
@@ -39,9 +37,9 @@ namespace MvcEmeTools.Controllers
         public ActionResult Details(string id)
         {
             // recupera todos arquivos da pasta
-            var caminhoPasta = Server.MapPath(@"..\..\TemplatesJson\");
-            var nomeArquivo = id + ".json";
-            var conteudoJson = RepositorioTexto.Ler(caminhoPasta + nomeArquivo);
+            string caminhoPasta = Server.MapPath(@"..\..\TemplatesJson\");
+            string nomeArquivo = id + ".json";
+            string conteudoJson = _repositorioArquivoTexto.Ler(caminhoPasta + nomeArquivo);
 
             var escripte = JsonSerializer.Deserialize<Escripte>(conteudoJson);
 
@@ -65,32 +63,26 @@ namespace MvcEmeTools.Controllers
         {
             try
             {
-                //// dados da página
-                //string nome = collection["Nome"];
-                //string descricao = collection["Descricao"];
-                //string texto = collection["Texto"];
+                // dados da página
+                string nome = collection["Nome"];
+                string descricao = collection["Descricao"];
+                string texto = collection["Texto"];
 
-                //// cria objeto
-                //var escripte = new Escripte();
-                //escripte.Nome = nome;
-                //escripte.Descricao = descricao;
-                //escripte.Texto = texto;
-                //escripte.DadoExemplos = new List<DadoExemplo>();
+                // cria objeto
+                var escripte = new Escripte();
+                escripte.Nome = nome;
+                escripte.Descricao = descricao;
+                escripte.Texto = texto;
+                escripte.DadoExemplos = new List<DadoExemplo>();
 
-                //// serializa para json
-                //string textoObjSerializado = JsonSerializer.Serialize(escripte);
-                
-                //// define SHA1
-                //escripte.IdSha1 = SHA1Hash(textoObjSerializado);
 
-                //// serializa novamente com seu SHA1
-                //textoObjSerializado = JsonSerializer.Serialize(escripte);
+                // grava na pasta do projeto TemplatesJson\...
+                string nomeArquivo = escripte.IdSha1;
+                nomeArquivo = nomeArquivo + ".json";
+                var caminhoArquivo = Server.MapPath(@"..\TemplatesJson\") + nomeArquivo;
 
-                //// grava na pasta do projeto TemplatesJson\...
-                //string nomeArquivo = escripte.IdSha1;
-                //nomeArquivo = nomeArquivo + ".json";
-                //var caminhoArquivo = Server.MapPath(@"..\TemplatesJson\") + nomeArquivo;
-                //RepositorioTexto.Gravar(caminhoArquivo, textoObjSerializado);
+                _gerenciadorEmeTemplates.GravarEscripte(escripte);
+
 
                 return RedirectToAction("Index");
             }
@@ -103,7 +95,7 @@ namespace MvcEmeTools.Controllers
 
         //
         // GET: /EmeTemplates/Edit/5
- 
+
         //public ActionResult Edit(int id)
         //{
         //    return View();
@@ -118,7 +110,7 @@ namespace MvcEmeTools.Controllers
         //    try
         //    {
         //        // TODO: Add update logic here
- 
+
         //        return RedirectToAction("Index");
         //    }
         //    catch
@@ -129,7 +121,7 @@ namespace MvcEmeTools.Controllers
 
         ////
         //// GET: /EmeTemplates/Delete/5
- 
+
         //public ActionResult Delete(int id)
         //{
         //    return View();
@@ -144,7 +136,7 @@ namespace MvcEmeTools.Controllers
         //    try
         //    {
         //        // TODO: Add delete logic here
- 
+
         //        return RedirectToAction("Index");
         //    }
         //    catch
