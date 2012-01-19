@@ -23,14 +23,18 @@ function ComandoNaoInformado() {
     return "O comando do '///' deve ser informado logo apos o '///'";
 };
 
-var Xixizero = function(escripti, comando, newLine) {
+var Xixizero = function (escripti, comando, newLine) {
     this.DadoTrasformado = "";
     this.Comando = comando;
     this.Escripti = escripti;
 
-    this.transformar = function(texto) {
+    this.transformar = function (texto) {
         // XXX: substitui 'xxx' por Escript
-        if (this.Comando === "x") {
+        if (this.Comando === "t") {
+            var ultimaLetra = texto.substring(texto.length - 1, texto.length);
+            if (ultimaLetra === newLine) {
+                texto = texto.substring(0, texto.length - newLine.length);
+            }
             this.DadoTrasformado = replaceTodos(this.Escripti, "xxx", texto);
         }
         // SED: executa comando SED
@@ -73,7 +77,7 @@ var RoboXixi = function (texto, newLine) {
                     if (listaLinhas[i].length < 4) {
                         disparaErro(
                             'RoboXixi.Iniciar() -> ComandoNaoInformado',
-                            'A linha [' + (i + 1) + '] possui o separador "///" porem nao foi informado o comando.\nComandos disponiveis: "x" ou "s".\nEx: "///x" ou "///s"');
+                            'A linha [' + (i + 1) + '] possui o separador "///" porem nao foi informado o comando.\nComandos disponiveis: "x" ou "s".\nEx: "///t" ou "///s"');
                     }
 
                     comandoUltimo = listaLinhas[i].toString().substring(3, 4);

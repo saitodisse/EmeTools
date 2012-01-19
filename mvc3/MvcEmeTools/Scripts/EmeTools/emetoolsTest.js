@@ -94,14 +94,14 @@ $(document).ready(function () {
     };
 
     test("x[xx] sem newline", function () {
-        var xixizero = new Xixizero(" - xxx", "x", "\n");
+        var xixizero = new Xixizero(" - xxx", "t", "\n");
         var atual = xixizero.transformar("abc");
         var esperado = " - abc";
         equal(atual, esperado);
     });
 
     test("x[xx] com newline", function () {
-        var xixizero = new Xixizero(" - xxx\n", "x", "\n");
+        var xixizero = new Xixizero(" - xxx\n", "t", "\n");
         var atual = xixizero.transformar("abc");
         var esperado = " - abc\n";
         equal(atual, esperado);
@@ -131,7 +131,7 @@ $(document).ready(function () {
 
         var texto = "";
         texto += "abc\n";
-        texto += "///x\n"; //COMANDO X
+        texto += "///t\n"; //COMANDO X
         texto += "[xxx]\n";
         texto += "///s\n"; //COMANDO S
         texto += "s/b/\(b\)/";
@@ -140,7 +140,7 @@ $(document).ready(function () {
         var xixireros = roboXixi.Xixizeros;
 
         equal(xixireros[0].Escripti, "[xxx]");
-        equal(xixireros[0].Comando, "x");
+        equal(xixireros[0].Comando, "t");
 
         equal(xixireros[1].Escripti, "s/b/\(b\)/");
         equal(xixireros[1].Comando, "s");
@@ -164,7 +164,7 @@ $(document).ready(function () {
     });
 
 
-    test("RoboXixi.Transformar() 's' e 'x'", function () {
+    test("RoboXixi.Transformar() 's' e 'x' combinados", function () {
 
         var texto = "";
         texto += "aaa\n";
@@ -173,7 +173,7 @@ $(document).ready(function () {
         texto += "///s\n";
         texto += "s/bbb/xxx/\n";
         texto += "p\n";
-        texto += "///x\n";
+        texto += "///t\n";
         texto += "*xxx*";
 
         var roboXixi = new RoboXixi(texto, '\n');
@@ -181,7 +181,7 @@ $(document).ready(function () {
         var resultadoEsperado = "";
         resultadoEsperado += "*aaa\n";
         resultadoEsperado += "xxx\n";
-        resultadoEsperado += "ccc\n*";
+        resultadoEsperado += "ccc*";
 
         equal(roboXixi.Transformar(), resultadoEsperado, "roboXixi.Transformar()");
     });

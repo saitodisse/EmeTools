@@ -128,7 +128,7 @@ var Xxx = function(texto) {
 
             // XXX1, XXX2, XXX3, ...
             for (var jj = 0; jj < colunas.length; jj++) {
-                resultadoSubstituicao = replaceTodos(resultadoSubstituicao, "xxx" + (jj + 1), colunas[jj]);
+                resultadoSubstituicao = resultadoSubstituicao.replace(new RegExp("xxx" + (jj + 1), "gi"), colunas[jj]);
             }
 
             // XXX
@@ -430,7 +430,3 @@ var ExtrairLinks = function(texto) {
     var re = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/gi ;
     return Extrair(re, texto);
 };
-
-function replaceTodos(texto, de, para) {
-    return texto.replace(new RegExp(de, "gi"), para);
-}
