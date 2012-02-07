@@ -29,11 +29,15 @@ var Xixizero = function(escripti, comando, newLine) {
     this.Escripti = escripti;
 
     this.transformar = function(texto) {
-        // XXX: substitui 'xxx' por Escript
+        // (X)XX: substitui 'xxx' por Escript
         if (this.Comando === "x") {
             this.DadoTrasformado = replaceTodos(this.Escripti, "xxx", texto);
         }
-        // SED: executa comando SED
+        // (R)EPLACE: substitui 'xxx' por Escript
+        if (this.Comando === "r") {
+            this.DadoTrasformado = substituirCustomizado(this.Escripti, texto, newLine);
+        }
+        // (S)ED: executa comando SED
         if (this.Comando === "s") {
             this.DadoTrasformado = sedJsed(
                 texto,
@@ -124,7 +128,29 @@ var RoboXixi = function (texto, newLine) {
 };
 
 function replaceTodos(texto, de, para) {
-    return texto.replace(new RegExp(de, "gi"), para);
+    return texto.replace(new RegExp(de, "gmi"), para);
+}
+
+function Obter_replacer_e_substitutor(escripte, newLine) {
+    //retira todos os comentários
+    escripte = replaceTodos(escripte, "^#.*" + newLine, "");
+
+    //busca o separador "/" no escripte
+    var indiceDaBarra = escripte.indexOf(newLine + "/" + newLine) + 1;
+
+    //recupera o replacer e o substitutor
+    var replacer = escripte.substring(0, indiceDaBarra - 1);
+    var substitutor = escripte.substring(indiceDaBarra + 2, escripte.length);
+
+    return {   replacer : replacer,
+            substitutor : substitutor};
+}
+
+function substituirCustomizado(escripte, texto, newLine){
+    var objReplacer = Obter_replacer_e_substitutor(escripte, newLine);
+
+    //realiza a substituicao no texto
+    return replaceTodos(texto, objReplacer.replacer, objReplacer.substitutor);
 }
 
 // SED

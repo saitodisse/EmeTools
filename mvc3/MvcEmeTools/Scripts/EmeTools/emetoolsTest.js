@@ -108,6 +108,34 @@ $(document).ready(function () {
         equal(atual, esperado);
     });
 
+    test("obter replacer e substitutors", function () {
+        var escripti = "";
+        escripti += "# aqui vai a expressão regular casadora" + "\n";  //   #   : ignora comentário
+        escripti += "b" + "\n";
+        escripti += "/" + "\n";
+        escripti += "# aqui vai o que será substituido por x" + "\n";  //   #   : ignora comentário
+        escripti += "x";
+
+        var objReplcerSubstitutor = Obter_replacer_e_substitutor(escripti, "\n");
+        equal(objReplcerSubstitutor.replacer, "b");
+        equal(objReplcerSubstitutor.substitutor, "x");
+    });
+
+    test("r[eplace javascript] permite fazer substuição simples", function () {
+
+        var escripti = "";
+        escripti += "# aqui vai a expressão regular casadora" + "\n";  //   #   : ignora comentário
+        escripti += "b" + "\n";
+        escripti += "/" + "\n";
+        escripti += "# aqui vai o que será substituido por" + "\n";  //   #   : ignora comentário
+        escripti += "x";
+
+        var xixizero = new Xixizero(escripti, "r", "\n");
+        var atual = xixizero.transformar("abc\ndef");
+        var esperado = "axc\ndef";
+        equal(atual, esperado);
+    });
+
     test("RoboXixi cria Xixizeros", function () {
 
         var texto = "";
@@ -115,7 +143,9 @@ $(document).ready(function () {
         texto += "///x\n"; //COMANDO X
         texto += "[xxx]\n";
         texto += "///s\n"; //COMANDO S
-        texto += "s/b/\(b\)/";
+        texto += "s/b/\(b\)/\n";
+        texto += "///r\n"; //COMANDO R
+        texto += "a\n/\nb";
 
         var roboXixi = new RoboXixi(texto, '\n');
         var xixireros = roboXixi.Xixizeros;
@@ -125,6 +155,9 @@ $(document).ready(function () {
 
         equal(xixireros[1].Escripti, "s/b/\(b\)/");
         equal(xixireros[1].Comando, "s");
+
+        equal(xixireros[2].Escripti, "a\n/\nb");
+        equal(xixireros[2].Comando, "r");
     });
 
     test("RoboXixi lança excessão caso não seja informado o comando", function () {
@@ -155,13 +188,17 @@ $(document).ready(function () {
         texto += "s/bbb/xxx/\n";
         texto += "p\n";
         texto += "///x\n";
-        texto += "*xxx*";
+        texto += "*xxx*\n";
+        texto += "///r\n";
+        texto += "x\n";
+        texto += "/\n";
+        texto += "y"
 
         var roboXixi = new RoboXixi(texto, '\n');
 
         var resultadoEsperado = "";
         resultadoEsperado += "*aaa\n";
-        resultadoEsperado += "xxx\n";
+        resultadoEsperado += "yyy\n";
         resultadoEsperado += "ccc\n*";
 
         equal(roboXixi.Transformar(), resultadoEsperado, "roboXixi.Transformar()");
