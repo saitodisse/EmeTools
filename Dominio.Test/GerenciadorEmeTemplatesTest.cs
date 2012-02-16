@@ -35,7 +35,7 @@ namespace Dominio.Test
         [Test]
         public void deve_gravar_arquivo_chamando_o_repositorio()
         {
-            var escripte = new Escripte();
+            var escripte = EscripteStub();
 
             _gerenciadorEmeTemplates.GravarEscripte(escripte);
 

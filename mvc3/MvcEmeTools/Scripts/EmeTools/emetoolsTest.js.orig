@@ -206,19 +206,29 @@ $(document).ready(function () {
         texto += "///s\n";
         texto += "s/bbb/xxx/\n";
         texto += "p\n";
+<<<<<<< HEAD
         texto += "///t\n";
+        texto += "*xxx*";
+=======
+        texto += "///x\n";
         texto += "*xxx*\n";
         texto += "///r\n";
         texto += "x\n";
         texto += "/\n";
         texto += "y"
+>>>>>>> b189033283fae9a168d06e4a85ec08b388068a67
 
         var roboXixi = new RoboXixi(texto, '\n');
 
         var resultadoEsperado = "";
         resultadoEsperado += "*aaa\n";
-        resultadoEsperado += "yyy\n";
+<<<<<<< HEAD
+        resultadoEsperado += "xxx\n";
         resultadoEsperado += "ccc*";
+=======
+        resultadoEsperado += "yyy\n";
+        resultadoEsperado += "ccc\n*";
+>>>>>>> b189033283fae9a168d06e4a85ec08b388068a67
 
         equal(roboXixi.Transformar(), resultadoEsperado, "roboXixi.Transformar()");
     });

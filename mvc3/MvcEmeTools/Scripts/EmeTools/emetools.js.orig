@@ -28,13 +28,19 @@ var Xixizero = function (escripti, comando, newLine) {
     this.Comando = comando;
     this.Escripti = escripti;
 
+<<<<<<< HEAD
     this.transformar = function (texto) {
-        // (X)XX: substitui 'xxx' por Escript
+        // XXX: substitui 'xxx' por Escript
         if (this.Comando === "t") {
             var ultimaLetra = texto.substring(texto.length - 1, texto.length);
             if (ultimaLetra === newLine) {
                 texto = texto.substring(0, texto.length - newLine.length);
             }
+=======
+    this.transformar = function(texto) {
+        // (X)XX: substitui 'xxx' por Escript
+        if (this.Comando === "x") {
+>>>>>>> b189033283fae9a168d06e4a85ec08b388068a67
             this.DadoTrasformado = replaceTodos(this.Escripti, "xxx", texto);
         }
         // (R)EPLACE: substitui 'xxx' por Escript

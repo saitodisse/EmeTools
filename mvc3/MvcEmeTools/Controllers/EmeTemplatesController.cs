@@ -1,24 +1,18 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Web.Mvc;
 using Dominio.Entidades;
 using Dominio.IRepositorios;
 using Dominio.Servicos;
-using JsonHelper;
-using RepositorioArquivoTexto;
 
 namespace MvcEmeTools.Controllers
 {
     public class EmeTemplatesController : Controller
     {
         private IGerenciadorEmeTemplates _gerenciadorEmeTemplates;
-        private readonly IRepositorioArquivoTexto _repositorioArquivoTexto;
 
         public EmeTemplatesController(IGerenciadorEmeTemplates gerenciadorEmeTemplates)
         {
             _gerenciadorEmeTemplates = gerenciadorEmeTemplates;
-            _repositorioArquivoTexto = new RepositorioArquivoTexto.RepositorioArquivoTexto();
         }
 
         //
@@ -58,7 +52,8 @@ namespace MvcEmeTools.Controllers
         {
             try
             {
-                var escripte = ObterEscripteDoResponse(collection);
+                var escripte = new Escripte();
+                escripte = AtualizarDadosViaResponse(collection, escripte);
                 _gerenciadorEmeTemplates.GravarEscripte(escripte);
                 return RedirectToAction("Index");
             }
@@ -72,18 +67,20 @@ namespace MvcEmeTools.Controllers
 
         public ActionResult Edit(string id)
         {
-            return View(_gerenciadorEmeTemplates.Pesquisar(id));
+            var escripte = _gerenciadorEmeTemplates.Pesquisar(id);
+            return View(escripte);
         }
 
         [HttpPost]
         public ActionResult Edit(string id, FormCollection collection)
         {
-            var escripte = ObterEscripteDoResponse(collection);
+            var escripte = _gerenciadorEmeTemplates.Pesquisar(id);
+            AtualizarDadosViaResponse(collection, escripte);
             _gerenciadorEmeTemplates.Atualizar(escripte);
             return RedirectToAction("Index");
         }
 
-        private static Escripte ObterEscripteDoResponse(FormCollection collection)
+        private static Escripte AtualizarDadosViaResponse(FormCollection collection, Escripte escripte)
         {
             // dados da página
             string nome = collection["Nome"];
@@ -91,11 +88,9 @@ namespace MvcEmeTools.Controllers
             string texto = collection["Texto"];
 
             // cria objeto
-            var escripte = new Escripte();
             escripte.Nome = nome;
             escripte.Descricao = descricao;
             escripte.Texto = texto;
-            escripte.DadoExemplos = new List<DadoExemplo>();
             return escripte;
         }
 
