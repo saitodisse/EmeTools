@@ -5,7 +5,7 @@ function disparaErro(name, message) {
     err.name = name;
     err.message = message;
     if (SHOW_ALERT_ON_ERRORS) {
-        var sMesssage = ''
+        var sMesssage = '';
         sMesssage += '--------\n';
         sMesssage += 'ERROR:\n';
         sMesssage += '--------\n\n';
@@ -23,25 +23,25 @@ function ComandoNaoInformado() {
     return "O comando do '///' deve ser informado logo apos o '///'";
 };
 
-var Xixizero = function(escripti, comando, newLine) {
+var Xixizero = function(escripte, comando, newLine) {
     this.DadoTrasformado = "";
     this.Comando = comando;
-    this.Escripti = escripti;
+    this.Escripte = escripte;
 
     this.transformar = function(texto) {
         // (X)XX: substitui 'xxx' por Escript
         if (this.Comando === "x") {
-            this.DadoTrasformado = replaceTodos(this.Escripti, "xxx", texto);
+            this.DadoTrasformado = replaceTodos(this.Escripte, "xxx", texto);
         }
         // (R)EPLACE: substitui 'xxx' por Escript
         if (this.Comando === "r") {
-            this.DadoTrasformado = substituirCustomizado(this.Escripti, texto, newLine);
+            this.DadoTrasformado = substituirCustomizado(this.Escripte, texto, newLine);
         }
         // (S)ED: executa comando SED
         if (this.Comando === "s") {
             this.DadoTrasformado = sedJsed(
                 texto,
-                this.Escripti,
+                this.Escripte,
                 true,
                 false,
                 10000);
@@ -55,7 +55,7 @@ var RoboXixi = function (texto, newLine) {
     this.DadosIniciais = "";
     this.Xixizeros = [];
     var listaLinhas = this.Texto.split(newLine);
-    var escripti = "";
+    var escripte = "";
     var i;
 
     this.Iniciar = function () {
@@ -66,10 +66,10 @@ var RoboXixi = function (texto, newLine) {
         for (i = 0; i < listaLinhas.length; i++) {
             var dadosPreenchidos = (this.DadosIniciais.length > 0);
             var linhaSeparador = (listaLinhas[i].toString().substring(0, 3) === '///');
-            var templatePossuiLinha = (escripti.length > 0);
+            var templatePossuiLinha = (escripte.length > 0);
             var ultimaLinha = (i === listaLinhas.length - 1);
 
-            // define o comando atual (x,s)
+            // define o comando atual (s,t,r)
             if (linhaSeparador || ultimaLinha) {
                 comandoAnterior = comandoUltimo;
                 if (!ultimaLinha) {
@@ -84,42 +84,47 @@ var RoboXixi = function (texto, newLine) {
                 }
             }
 
-            // acrescenta linha no template atual
             if (dadosPreenchidos && !linhaSeparador) {
-                if (escripti.length > 0) {
-                    escripti += newLine;
+                // acrescenta linha no template atual
+                if (escripte.length > 0) {
+                    escripte += newLine;
                 }
-                escripti += listaLinhas[i];
+                escripte += listaLinhas[i];
             }
-
-            // acrescenta nova linha antes do próximo separador
             else if (dadosPreenchidos && linhaSeparador) {
-                //escripti += newLine;
+                // acrescenta nova linha antes do próximo separador
+                // escripte += newLine;
             }
 
             //achou um separador ou final
             if (linhaSeparador || ultimaLinha) {
-                // guarda os dados se for o primeiro separador
                 if (!dadosPreenchidos) {
+                    // guarda os dados se for o primeiro separador
                     this.DadosIniciais = listaLinhas.slice(0, i).join(newLine);
                     continue;
                 }
-
-                // template finalizado, acrescenta na lista templates
                 if (templatePossuiLinha || ultimaLinha) {
-                    this.Xixizeros.push(new Xixizero(escripti, comandoAnterior, newLine));
-                    escripti = ""; //reseta templateAtual
+                    if (ultimaLinha) {
+                        //retira último NEWLINE antes de inserir o último escripte
+                        var ultimoNewLine = escripte.lastIndexOf(newLine); // template finalizado, acrescenta na lista templates
+                        escripte = escripte.substring(0, ultimoNewLine);
+                    }
+
+                    this.Xixizeros.push(new Xixizero(escripte, comandoAnterior, newLine));
+                    escripte = ""; //reseta templateAtual
                 }
             }
         }
     };
 
     this.Transformar = function () {
+        // realiza cada transformação
         var resultadoFinal = this.DadosIniciais;
         for (var j = 0; j < this.Xixizeros.length; j++) {
             var xixizero = this.Xixizeros[j];
             resultadoFinal = xixizero.transformar(resultadoFinal);
         }
+
         return resultadoFinal;
     };
 
@@ -140,7 +145,10 @@ function Obter_replacer_e_substitutor(escripte, newLine) {
 
     //recupera o replacer e o substitutor
     var replacer = escripte.substring(0, indiceDaBarra - 1);
-    var substitutor = escripte.substring(indiceDaBarra + 2, escripte.length);
+
+    var inicioSubstituitor = indiceDaBarra + newLine.length*2;
+    
+    var substitutor = escripte.substring(inicioSubstituitor, escripte.length);
 
     return {   replacer : replacer,
             substitutor : substitutor};
@@ -148,7 +156,7 @@ function Obter_replacer_e_substitutor(escripte, newLine) {
 
 function substituirCustomizado(escripte, texto, newLine){
     var objReplacer = Obter_replacer_e_substitutor(escripte, newLine);
-
+    
     //realiza a substituicao no texto
     return replaceTodos(texto, objReplacer.replacer, objReplacer.substitutor);
 }

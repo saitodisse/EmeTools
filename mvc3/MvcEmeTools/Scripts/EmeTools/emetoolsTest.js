@@ -1,3 +1,5 @@
+NEW_LINE = '\n';
+
 $(document).ready(function () {
     test("SED: 'p' com 'n'", function () {
         var texto = "";
@@ -26,7 +28,7 @@ $(document).ready(function () {
         texto += "foo foo foo foo foo foo foo foo foo foo foo foo foo";
 
         var sedScript = "";
-        sedScript += "s/foo/bar/g" + "\n";
+        sedScript += "s/foo/bar/g" + NEW_LINE;
         sedScript += "p";
 
         var resultadoEsperado = "";
@@ -59,37 +61,37 @@ $(document).ready(function () {
     });
 
     var deveCasar = function (texto, regex) {
-        var textoComNewLine = texto + "\n";
-        var sedScript = "s/" + regex + "/\\1/gp" + "\n";
+        var textoComNewLine = texto + NEW_LINE;
+        var sedScript = "s/" + regex + "/\\1/gp" + NEW_LINE;
         var resultadoEsperado = textoComNewLine;
         var resultado = sedJsed(textoComNewLine, sedScript, true, false, 10000);
         equal(resultado, resultadoEsperado, "a regex [" + regex + "] não casou com[" + texto + "]");
     };
 
     var naoDeveCasar = function (texto, regex) {
-        var textoComNewLine = texto + "\n";
-        var sedScript = "s/" + regex + "/\\1/gp" + "\n";
+        var textoComNewLine = texto + NEW_LINE;
+        var sedScript = "s/" + regex + "/\\1/gp" + NEW_LINE;
         var resultadoEsperado = textoComNewLine;
         var resultado = sedJsed(textoComNewLine, sedScript, true, false, 10000);
         notEqual(resultado, resultadoEsperado, "a regex [" + regex + "] não deveria casar com[" + texto + "]");
     };
 
     test("x[xx] sem newline", function () {
-        var xixizero = new Xixizero(" - xxx", "x", "\n");
+        var xixizero = new Xixizero(" - xxx", "x", NEW_LINE);
         var atual = xixizero.transformar("abc");
         var esperado = " - abc";
         equal(atual, esperado);
     });
 
     test("x[xx] com newline", function () {
-        var xixizero = new Xixizero(" - xxx\n", "x", "\n");
+        var xixizero = new Xixizero(" - xxx\n", "x", NEW_LINE);
         var atual = xixizero.transformar("abc");
         var esperado = " - abc\n";
         equal(atual, esperado);
     });
 
     test("s[ed] localizar linha por endereço", function () {
-        var xixizero = new Xixizero("/ef/p", "s", "\n");
+        var xixizero = new Xixizero("/ef/p", "s", NEW_LINE);
         var atual = xixizero.transformar("abc\ndef");
         var esperado = "def\n";
         equal(atual, esperado);
@@ -98,11 +100,11 @@ $(document).ready(function () {
     test("s[ed] substituir 'b' -> 'x' e imprimir tudo", function () {
 
         var escripti = "";
-        escripti += "# coment" + "\n";  //   #   : ignora comentário
-        escripti += "s/b/x/" + "\n";  // s///  : substitui 'b' por 'x'
-        escripti += "p" + "\n";  //  'p'  : imprime todas linhas
+        escripti += "# coment" + NEW_LINE;  //   #   : ignora comentário
+        escripti += "s/b/x/" + NEW_LINE;  // s///  : substitui 'b' por 'x'
+        escripti += "p" + NEW_LINE;  //  'p'  : imprime todas linhas
 
-        var xixizero = new Xixizero(escripti, "s", "\n");
+        var xixizero = new Xixizero(escripti, "s", NEW_LINE);
         var atual = xixizero.transformar("abc\ndef");
         var esperado = "axc\ndef\n";
         equal(atual, esperado);
@@ -110,13 +112,13 @@ $(document).ready(function () {
 
     test("obter replacer e substitutors", function () {
         var escripti = "";
-        escripti += "# aqui vai a expressão regular casadora" + "\n";  //   #   : ignora comentário
-        escripti += "b" + "\n";
-        escripti += "/" + "\n";
-        escripti += "# aqui vai o que será substituido por x" + "\n";  //   #   : ignora comentário
+        escripti += "# aqui vai a expressão regular casadora" + NEW_LINE;  //   #   : ignora comentário
+        escripti += "b" + NEW_LINE;
+        escripti += "/" + NEW_LINE;
+        escripti += "# aqui vai o que será substituido por x" + NEW_LINE;  //   #   : ignora comentário
         escripti += "x";
 
-        var objReplcerSubstitutor = Obter_replacer_e_substitutor(escripti, "\n");
+        var objReplcerSubstitutor = Obter_replacer_e_substitutor(escripti, NEW_LINE);
         equal(objReplcerSubstitutor.replacer, "b");
         equal(objReplcerSubstitutor.substitutor, "x");
     });
@@ -124,13 +126,13 @@ $(document).ready(function () {
     test("r[eplace javascript] permite fazer substuição simples", function () {
 
         var escripti = "";
-        escripti += "# aqui vai a expressão regular casadora" + "\n";  //   #   : ignora comentário
-        escripti += "b" + "\n";
-        escripti += "/" + "\n";
-        escripti += "# aqui vai o que será substituido por" + "\n";  //   #   : ignora comentário
+        escripti += "# aqui vai a expressão regular casadora" + NEW_LINE;  //   #   : ignora comentário
+        escripti += "b" + NEW_LINE;
+        escripti += "/" + NEW_LINE;
+        escripti += "# aqui vai o que será substituido por" + NEW_LINE;  //   #   : ignora comentário
         escripti += "x";
 
-        var xixizero = new Xixizero(escripti, "r", "\n");
+        var xixizero = new Xixizero(escripti, "r", NEW_LINE);
         var atual = xixizero.transformar("abc\ndef");
         var esperado = "axc\ndef";
         equal(atual, esperado);
@@ -145,20 +147,168 @@ $(document).ready(function () {
         texto += "///s\n"; //COMANDO S
         texto += "s/b/\(b\)/\n";
         texto += "///r\n"; //COMANDO R
-        texto += "a\n/\nb";
+        texto += "a\n/\nb\n";
 
         var roboXixi = new RoboXixi(texto, '\n');
         var xixireros = roboXixi.Xixizeros;
 
-        equal(xixireros[0].Escripti, "[xxx]");
+        equal(xixireros[0].Escripte, "[xxx]");
         equal(xixireros[0].Comando, "x");
 
-        equal(xixireros[1].Escripti, "s/b/\(b\)/");
+        equal(xixireros[1].Escripte, "s/b/\(b\)/");
         equal(xixireros[1].Comando, "s");
 
-        equal(xixireros[2].Escripti, "a\n/\nb");
+        equal(xixireros[2].Escripte, "a\n/\nb");
         equal(xixireros[2].Comando, "r");
     });
+
+    test("r[eplace javascript] caso 1 do Itau -> moneylog com \\n", function () {
+        var NEW_LINE = "\n";
+        var texto = "";
+        texto += "06/02 			SALDO ANTERIOR 				15,70 	" + NEW_LINE;
+        texto += "08/02 			SISDEB NET SP 		49 	- 		" + NEW_LINE;
+        texto += "08/02 			S A L D O 				15,21 	" + NEW_LINE;
+        texto += "10/02 	D 		INT PAG TIT BANCO 237 		42 	- 		" + NEW_LINE;
+        texto += "10/02 			S A L D O 				14,79 	" + NEW_LINE;
+        texto += "13/02 			SISPAG SULAMERICA SEG S 	911 	68 			" + NEW_LINE;
+        texto += "13/02 			S A L D O 				14,47 	" + NEW_LINE;
+        texto += "15/02 	D 		INT PAG TIT BANCO 237 		1,36 	- 		" + NEW_LINE;
+        texto += "15/02 			S A L D O 				13,11 	" + NEW_LINE;
+        texto += "17/02 			ELETROPAULO 1000652491 		34 	- 		" + NEW_LINE;
+        texto += "17/02 			S A L D O 				13,77 	" + NEW_LINE;
+        texto += "22/02 			REMUNERACAO/SALARIO 		1,78 			" + NEW_LINE;
+        texto += "22/02 	D 		DOC INT 953354 julio 	4175 	00 	- 		" + NEW_LINE;
+        texto += "22/02 			S A L D O 				14,55 " + NEW_LINE;
+        texto += "///r" + NEW_LINE;
+        texto += "# retira os tabs com D no meio" + NEW_LINE;
+        texto += " 	D 		" + NEW_LINE;
+        texto += "/" + NEW_LINE;
+        texto += "	" + NEW_LINE;
+
+        var roboXixi = new RoboXixi(texto, NEW_LINE);
+        var xixireros = roboXixi.Xixizeros;
+
+        equal(xixireros[0].Escripte, "# retira os tabs com D no meio\n 	D 		\n/\n\t");
+        equal(xixireros[0].Comando, "r");
+
+        var esperado = "";
+        esperado += "06/02 			SALDO ANTERIOR 				15,70 	" + NEW_LINE;
+        esperado += "08/02 			SISDEB NET SP 		49 	- 		" + NEW_LINE;
+        esperado += "08/02 			S A L D O 				15,21 	" + NEW_LINE;
+        esperado += "10/02	INT PAG TIT BANCO 237 		42 	- 		" + NEW_LINE;
+        esperado += "10/02 			S A L D O 				14,79 	" + NEW_LINE;
+        esperado += "13/02 			SISPAG SULAMERICA SEG S 	911 	68 			" + NEW_LINE;
+        esperado += "13/02 			S A L D O 				14,47 	" + NEW_LINE;
+        esperado += "15/02	INT PAG TIT BANCO 237 		1,36 	- 		" + NEW_LINE;
+        esperado += "15/02 			S A L D O 				13,11 	" + NEW_LINE;
+        esperado += "17/02 			ELETROPAULO 1000652491 		34 	- 		" + NEW_LINE;
+        esperado += "17/02 			S A L D O 				13,77 	" + NEW_LINE;
+        esperado += "22/02 			REMUNERACAO/SALARIO 		1,78 			" + NEW_LINE;
+        esperado += "22/02	DOC INT 953354 julio 	4175 	00 	- 		" + NEW_LINE;
+        esperado += "22/02 			S A L D O 				14,55 ";
+        var resultado = roboXixi.Transformar();
+        equal(resultado, esperado);
+    });
+
+    test("r[eplace javascript] caso 1 do Itau -> moneylog com \\r\\n", function () {
+        var NEW_LINE = "\r\n";
+        var texto = "";
+        texto += "06/02 			SALDO ANTERIOR 				15,70 	" + NEW_LINE;
+        texto += "08/02 			SISDEB NET SP 		49 	- 		" + NEW_LINE;
+        texto += "08/02 			S A L D O 				15,21 	" + NEW_LINE;
+        texto += "10/02 	D 		INT PAG TIT BANCO 237 		42 	- 		" + NEW_LINE;
+        texto += "10/02 			S A L D O 				14,79 	" + NEW_LINE;
+        texto += "13/02 			SISPAG SULAMERICA SEG S 	911 	68 			" + NEW_LINE;
+        texto += "13/02 			S A L D O 				14,47 	" + NEW_LINE;
+        texto += "15/02 	D 		INT PAG TIT BANCO 237 		1,36 	- 		" + NEW_LINE;
+        texto += "15/02 			S A L D O 				13,11 	" + NEW_LINE;
+        texto += "17/02 			ELETROPAULO 1000652491 		34 	- 		" + NEW_LINE;
+        texto += "17/02 			S A L D O 				13,77 	" + NEW_LINE;
+        texto += "22/02 			REMUNERACAO/SALARIO 		1,78 			" + NEW_LINE;
+        texto += "22/02 	D 		DOC INT 953354 julio 	4175 	00 	- 		" + NEW_LINE;
+        texto += "22/02 			S A L D O 				14,55 " + NEW_LINE;
+        texto += "///r" + NEW_LINE;
+        texto += "# retira os tabs com D no meio" + NEW_LINE;
+        texto += " 	D 		" + NEW_LINE;
+        texto += "/" + NEW_LINE;
+        texto += "	" + NEW_LINE;
+
+        var roboXixi = new RoboXixi(texto, NEW_LINE);
+        var xixireros = roboXixi.Xixizeros;
+
+        equal(xixireros[0].Escripte, "# retira os tabs com D no meio" + NEW_LINE + " 	D 		" + NEW_LINE + "/" + NEW_LINE + "\t");
+        equal(xixireros[0].Comando, "r");
+
+        var esperado = "";
+        esperado += "06/02 			SALDO ANTERIOR 				15,70 	" + NEW_LINE;
+        esperado += "08/02 			SISDEB NET SP 		49 	- 		" + NEW_LINE;
+        esperado += "08/02 			S A L D O 				15,21 	" + NEW_LINE;
+        esperado += "10/02	INT PAG TIT BANCO 237 		42 	- 		" + NEW_LINE;
+        esperado += "10/02 			S A L D O 				14,79 	" + NEW_LINE;
+        esperado += "13/02 			SISPAG SULAMERICA SEG S 	911 	68 			" + NEW_LINE;
+        esperado += "13/02 			S A L D O 				14,47 	" + NEW_LINE;
+        esperado += "15/02	INT PAG TIT BANCO 237 		1,36 	- 		" + NEW_LINE;
+        esperado += "15/02 			S A L D O 				13,11 	" + NEW_LINE;
+        esperado += "17/02 			ELETROPAULO 1000652491 		34 	- 		" + NEW_LINE;
+        esperado += "17/02 			S A L D O 				13,77 	" + NEW_LINE;
+        esperado += "22/02 			REMUNERACAO/SALARIO 		1,78 			" + NEW_LINE;
+        esperado += "22/02	DOC INT 953354 julio 	4175 	00 	- 		" + NEW_LINE;
+        esperado += "22/02 			S A L D O 				14,55 ";
+        
+        var resultado = roboXixi.Transformar();
+        equal(resultado, esperado);
+    });
+
+    test("r[eplace javascript] caso 2 do Itau -> moneylog com \\n", function () {
+        var NEW_LINE = "\n";
+        var texto = "";
+        texto += "06/02 			SALDO ANTERIOR 				15,70 	" + NEW_LINE;
+        texto += "08/02 			SISDEB NET SP 		49 	- 		" + NEW_LINE;
+        texto += "08/02 			S A L D O 				15,21 	" + NEW_LINE;
+        texto += "10/02 	D 		INT PAG TIT BANCO 237 		42 	- 		" + NEW_LINE;
+        texto += "10/02 			S A L D O 				14,79 	" + NEW_LINE;
+        texto += "13/02 			SISPAG SULAMERICA SEG S 	911 	68 			" + NEW_LINE;
+        texto += "13/02 			S A L D O 				14,47 	" + NEW_LINE;
+        texto += "15/02 	D 		INT PAG TIT BANCO 237 		1,36 	- 		" + NEW_LINE;
+        texto += "15/02 			S A L D O 				13,11 	" + NEW_LINE;
+        texto += "17/02 			ELETROPAULO 1000652491 		34 	- 		" + NEW_LINE;
+        texto += "17/02 			S A L D O 				13,77 	" + NEW_LINE;
+        texto += "22/02 			REMUNERACAO/SALARIO 		1,78 			" + NEW_LINE;
+        texto += "22/02 	D 		DOC INT 953354 julio 	4175 	00 	- 		" + NEW_LINE;
+        texto += "22/02 			S A L D O 				14,55 " + NEW_LINE;
+        texto += "///r" + NEW_LINE;
+        texto += "# retira os tabs com D no meio" + NEW_LINE;
+        texto += " 	D 		" + NEW_LINE;
+        texto += "/" + NEW_LINE;
+        texto += "	" + NEW_LINE;
+        texto += "///r" + NEW_LINE;
+        texto += "# retira o S A L D O" + NEW_LINE;
+        texto += ".*S A L D O.*\\n?" + NEW_LINE;
+        texto += "/" + NEW_LINE;
+        texto += "" + NEW_LINE;
+
+        var roboXixi = new RoboXixi(texto, NEW_LINE);
+        var xixireros = roboXixi.Xixizeros;
+
+        equal(xixireros[0].Escripte, "# retira os tabs com D no meio\n 	D 		\n/\n\t");
+        equal(xixireros[0].Comando, "r");
+
+        equal(xixireros[1].Escripte, "# retira o S A L D O\n.*S A L D O.*\\n?\n/\n");
+        equal(xixireros[1].Comando, "r");
+
+        var esperado = "";
+        esperado += "06/02 			SALDO ANTERIOR 				15,70 	" + NEW_LINE;
+        esperado += "08/02 			SISDEB NET SP 		49 	- 		" + NEW_LINE;
+        esperado += "10/02	INT PAG TIT BANCO 237 		42 	- 		" + NEW_LINE;
+        esperado += "13/02 			SISPAG SULAMERICA SEG S 	911 	68 			" + NEW_LINE;
+        esperado += "15/02	INT PAG TIT BANCO 237 		1,36 	- 		" + NEW_LINE;
+        esperado += "17/02 			ELETROPAULO 1000652491 		34 	- 		" + NEW_LINE;
+        esperado += "22/02 			REMUNERACAO/SALARIO 		1,78 			" + NEW_LINE;
+        esperado += "22/02	DOC INT 953354 julio 	4175 	00 	- 		" + NEW_LINE;
+        var resultado = roboXixi.Transformar();
+        equal(resultado, esperado);
+    });
+
 
     test("RoboXixi lança excessão caso não seja informado o comando", function () {
 
@@ -192,8 +342,8 @@ $(document).ready(function () {
         texto += "///r\n";
         texto += "x\n";
         texto += "/\n";
-        texto += "y"
-
+        texto += "y";
+        
         var roboXixi = new RoboXixi(texto, '\n');
 
         var resultadoEsperado = "";
