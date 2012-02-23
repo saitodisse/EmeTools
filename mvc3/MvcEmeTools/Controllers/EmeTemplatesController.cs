@@ -35,6 +35,13 @@ namespace MvcEmeTools.Controllers
             return View(escripte);
         }
 
+        public ActionResult Sequencer(string id)
+        {
+            var escripte = _gerenciadorEmeTemplates.Pesquisar(id);
+
+            return View(escripte);
+        }
+
         //
         // GET: /EmeTemplates/Create
 

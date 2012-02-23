@@ -378,4 +378,32 @@ $(document).ready(function () {
         equal(roboXixi.Transformar(), resultadoEsperado, "roboXixi.Transformar()");
     });
 
+    test("RoboXixi.Transformar(com indice)", function () {
+
+        var texto = "";
+        texto += "aaa" + NEW_LINE;
+        texto += "bbb" + NEW_LINE;
+        texto += "ccc" + NEW_LINE;
+        texto += "///r" + NEW_LINE;
+        texto += "a" + NEW_LINE;
+        texto += "/" + NEW_LINE;
+        texto += "x" + NEW_LINE;
+        texto += "///r" + NEW_LINE;
+        texto += "b" + NEW_LINE;
+        texto += "/" + NEW_LINE;
+        texto += "x" + NEW_LINE;
+        texto += "///r" + NEW_LINE;
+        texto += "c" + NEW_LINE;
+        texto += "/" + NEW_LINE;
+        texto += "x" + NEW_LINE;
+
+        var roboXixi = new RoboXixi(texto, NEW_LINE);
+
+        equal(roboXixi.Transformar(0), "xxx" + NEW_LINE + "bbb" + NEW_LINE + "ccc", "roboXixi.Transformar(0)");
+        equal(roboXixi.Transformar(1), "xxx" + NEW_LINE + "xxx" + NEW_LINE + "ccc", "roboXixi.Transformar(1)");
+        equal(roboXixi.Transformar(2), "xxx" + NEW_LINE + "xxx" + NEW_LINE + "xxx", "roboXixi.Transformar(2)");
+        equal(roboXixi.Transformar(),  "xxx" + NEW_LINE + "xxx" + NEW_LINE + "xxx", "roboXixi.Transformar()");
+    });
+
+
 });

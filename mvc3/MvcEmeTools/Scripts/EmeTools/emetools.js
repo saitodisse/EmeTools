@@ -23,10 +23,17 @@ function ComandoNaoInformado() {
     return "O comando do '///' deve ser informado logo apos o '///'";
 };
 
-var Xixizero = function(escripte, comando, newLine) {
+var Xixizero = function (escripte, comando, newLine) {
     this.DadoTransformado = "";
     this.Comando = comando;
     this.Escripte = escripte;
+    this.Indice = -1;
+
+    this.PrimeiroComentario = function () {
+        var inicioComentario = escripte.toString().indexOf("\n#");
+        var fimComentario = escripte.toString().substring(inicioComentario).indexOf("\n");
+        return escripte.toString().substring(inicioComentario, fimComentario);
+    };
 
     this.transformar = function (texto) {
         // (T)emplate: substitui 'xxx' por Escript
@@ -120,16 +127,23 @@ var RoboXixi = function (texto, newLine) {
         }
     };
 
-    this.Transformar = function () {
-        // realiza cada transformação
-        var resultadoFinal = this.DadosIniciais;
-        for (var j = 0; j < this.Xixizeros.length; j++) {
-            var xixizero = this.Xixizeros[j];
-            xixizero.transformar(resultadoFinal);
-            resultadoFinal = xixizero.DadoTransformado;
+    this.Transformar = function (pararNaTransformacao) {
+        // Executa até tal indice
+        var indiceUltimoXixizero = this.Xixizeros.length - 1;
+        if (pararNaTransformacao !== undefined) {
+            indiceUltimoXixizero = pararNaTransformacao;
         }
 
-        return resultadoFinal;
+        // realiza cada transformação
+        var transformacaoAcumulada = this.DadosIniciais;
+        for (var j = 0; j <= indiceUltimoXixizero; j++) {
+            var xixizero = this.Xixizeros[j];
+            xixizero.transformar(transformacaoAcumulada);
+            xixizero.Indice = j;
+            transformacaoAcumulada = xixizero.DadoTransformado;
+        }
+
+        return transformacaoAcumulada;
     };
 
     //main
