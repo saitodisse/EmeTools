@@ -45,27 +45,46 @@ $(document).ready(function () {
         equal(resultado, resultadoEsperado, "deve buscar a linha que possui def");
     });
 
-    test("SED: Rx: abc,   \\([[:alpha:]]\\)", function () {
-        deveCasar("abc", "\\([[:alpha:]]\\)");
+    test("SED: ^Rx:   abc,   [[:alpha:]]+", function () {
+        naoDeveCasar("abc", "[[:alpha:]]+"); //é necessário escapar o "+"
     });
-    test("SED: Rx: ABC,   \\([[:alpha:]]\\)", function () {
-        deveCasar("ABC", "\\([[:alpha:]]\\)");
+    test("SED: Rx: abc,   [[:alpha:]][[:alpha:]]*", function () {
+        deveCasar("abc", "[[:alpha:]][[:alpha:]]*"); //NÃO se deve escapar o "*"
     });
-    test("SED: ^Rx:   abc,   \\w\+", function () {
-        // infelizmente o SED não possui os apelidos para POSIX
-        naoDeveCasar("abc", "\\w\+");
+    test("SED: ^Rx:   abc,   [[:alpha:]][[:alpha:]]\\*", function () {
+        naoDeveCasar("abc", "[[:alpha:]][[:alpha:]]\\*"); //NÃO se pode escapar o "*"
     });
-    test("SED: ^Rx:   áéí,   \\([[:alpha:]]\\)", function () {
-        // a classe POSIX não casa acentos, que pena
-        naoDeveCasar("áéí", "\\([[:alpha:]]\\)");
+    test("SED: Rx: abc,   [[:alpha:]]\\+", function () {
+        deveCasar("abc", "[[:alpha:]]\\+");
+    });
+    test("SED: Rx: ABC,   [[:alpha:]]\\+", function () {
+        deveCasar("ABC", "[[:alpha:]]\\+");
+    });
+    test("SED: ^Rx:   abc,   \\w\\+", function () {
+        naoDeveCasar("abc", "\\w\\+"); // infelizmente o SED não possui os apelidos para POSIX
+    });
+    test("SED: ^Rx:   áéí,   [[:alpha:]]\\+", function () {
+        naoDeveCasar("áéí", "[[:alpha:]]\\+"); // a classe POSIX não casa acentos, que pena
+    });
+    test("SED: Rx: áéí,   [a-zàáâãéêíóôõúüç]\\+", function () {
+        deveCasar("áéí", "[a-zàáâãéêíóôõúüç]\\+"); // é necessário informar manualmente
+    });
+    test("SED: ^Rx:   AAA,   [a]\\+", function () {
+        naoDeveCasar("AAA", "[a]\\+"); // é case sensitive e NÃO tem o modificador ignore case (já testei)
+    });
+    test("SED: Rx: áÉÍ,   [a-zàáâãéêíóôõúüçA-ZÀÁÂÃÉÊÍÓÔÕÚÜÇ]\\+", function () {
+        deveCasar("áÉÍ", "[a-zàáâãéêíóôõúüçA-ZÀÁÂÃÉÊÍÓÔÕÚÜÇ]\\+"); // fica grande, mas é o jeito
+    });
+    test("SED: Rx: áÉÍ12_EF,   [0-9_a-zàáâãéêíóôõúüçA-ZÀÁÂÃÉÊÍÓÔÕÚÜÇ]\\+", function () {
+        deveCasar("áÉÍ12_EF", "[0-9_a-zàáâãéêíóôõúüçA-ZÀÁÂÃÉÊÍÓÔÕÚÜÇ]\\+"); // emulando o \w
     });
 
     var deveCasar = function (texto, regex) {
         var textoComNewLine = texto + NEW_LINE;
-        var sedScript = "s/" + regex + "/\\1/gp" + NEW_LINE;
+        var sedScript = "s/^\\(" + regex + "\\)$/\\1/p" + "\n";
         var resultadoEsperado = textoComNewLine;
         var resultado = sedJsed(textoComNewLine, sedScript, true, false, 10000);
-        equal(resultado, resultadoEsperado, "a regex [" + regex + "] não casou com[" + texto + "]");
+        equal(resultado, resultadoEsperado, "a regex " + regex + " não casou com [" + texto + "]");
     };
 
     var naoDeveCasar = function (texto, regex) {
@@ -73,18 +92,18 @@ $(document).ready(function () {
         var sedScript = "s/" + regex + "/\\1/gp" + NEW_LINE;
         var resultadoEsperado = textoComNewLine;
         var resultado = sedJsed(textoComNewLine, sedScript, true, false, 10000);
-        notEqual(resultado, resultadoEsperado, "a regex [" + regex + "] não deveria casar com[" + texto + "]");
+        notEqual(resultado, resultadoEsperado, "a regex " + regex + " não deveria casar com " + texto + "]");
     };
 
-    test("x[xx] sem newline", function () {
-        var xixizero = new Xixizero(" - xxx", "x", NEW_LINE);
+    test("t[emplate] sem newline", function () {
+        var xixizero = new Xixizero(" - xxx", "t", "\n");
         var atual = xixizero.transformar("abc");
         var esperado = " - abc";
         equal(atual, esperado);
     });
 
-    test("x[xx] com newline", function () {
-        var xixizero = new Xixizero(" - xxx\n", "x", NEW_LINE);
+    test("t[emplate] com newline", function () {
+        var xixizero = new Xixizero(" - xxx\n", "t", "\n");
         var atual = xixizero.transformar("abc");
         var esperado = " - abc\n";
         equal(atual, esperado);
@@ -142,7 +161,7 @@ $(document).ready(function () {
 
         var texto = "";
         texto += "abc\n";
-        texto += "///x\n"; //COMANDO X
+        texto += "///t\n"; //COMANDO X
         texto += "[xxx]\n";
         texto += "///s\n"; //COMANDO S
         texto += "s/b/\(b\)/\n";
@@ -153,7 +172,7 @@ $(document).ready(function () {
         var xixireros = roboXixi.Xixizeros;
 
         equal(xixireros[0].Escripte, "[xxx]");
-        equal(xixireros[0].Comando, "x");
+        equal(xixireros[0].Comando, "t");
 
         equal(xixireros[1].Escripte, "s/b/\(b\)/");
         equal(xixireros[1].Comando, "s");
@@ -328,28 +347,28 @@ $(document).ready(function () {
     });
 
 
-    test("RoboXixi.Transformar() 's' e 'x'", function () {
+    test("RoboXixi.Transformar() 's' e 'x' combinados", function () {
 
         var texto = "";
-        texto += "aaa\n";
-        texto += "bbb\n";
-        texto += "ccc\n";
-        texto += "///s\n";
-        texto += "s/bbb/xxx/\n";
-        texto += "p\n";
-        texto += "///x\n";
-        texto += "*xxx*\n";
-        texto += "///r\n";
-        texto += "x\n";
-        texto += "/\n";
-        texto += "y";
+        texto += "aaa" + NEW_LINE;
+        texto += "bbb" + NEW_LINE;
+        texto += "ccc" + NEW_LINE;
+        texto += "///s" + NEW_LINE;
+        texto += "s/bbb/xxx/" + NEW_LINE;
+        texto += "p" + NEW_LINE;
+        texto += "///t" + NEW_LINE;
+        texto += "*xxx*" + NEW_LINE;
+        texto += "///r" + NEW_LINE;
+        texto += "x" + NEW_LINE;
+        texto += "/" + NEW_LINE;
+        texto += "y" + NEW_LINE;
         
         var roboXixi = new RoboXixi(texto, '\n');
 
         var resultadoEsperado = "";
         resultadoEsperado += "*aaa\n";
         resultadoEsperado += "yyy\n";
-        resultadoEsperado += "ccc\n*";
+        resultadoEsperado += "ccc*";
 
         equal(roboXixi.Transformar(), resultadoEsperado, "roboXixi.Transformar()");
     });

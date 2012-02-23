@@ -39,9 +39,7 @@ namespace Dominio.Servicos
             serialize = JsonSerializer.Serialize(escripte);
 
             //recupera do App.Config / Web.Config
-            string pastaInterna = _configuracaoGerenciador.RecuperarConfiguracao("caminhoPasta");
-            string caminhoPastaWebServer = _configuracaoGerenciador.BuscarPastaPadraoWebServer(pastaInterna);
-            string caminhoCompleto = string.Format("{0}\\{1}.json", caminhoPastaWebServer, escripte.IdSha1);
+            var caminhoCompleto = ObterCaminhoCompleto(escripte);
 
             //grava no disco
             _repositorioArquivoTexto.Gravar(caminhoCompleto, serialize);
@@ -100,14 +98,18 @@ namespace Dominio.Servicos
         public void Atualizar(Escripte escripte)
         {
             var serializado = JsonSerializer.Serialize(escripte);
-
-            //recupera do App.Config / Web.Config
-            string pastaInterna = _configuracaoGerenciador.RecuperarConfiguracao("caminhoPasta");
-            string caminhoPastaWebServer = _configuracaoGerenciador.BuscarPastaPadraoWebServer(pastaInterna);
-            string caminhoCompleto = string.Format("{0}\\{1}.json", caminhoPastaWebServer, escripte.IdSha1);
+            var caminhoCompleto = ObterCaminhoCompleto(escripte);
 
             //grava no disco, APAGANDO O ANTERIOR
             _repositorioArquivoTexto.Gravar(caminhoCompleto, serializado);
+        }
+
+        private string ObterCaminhoCompleto(Escripte escripte)
+        {
+            //recupera do App.Config / Web.Config
+            string pastaInterna = _configuracaoGerenciador.RecuperarConfiguracao("caminhoPasta");
+            string caminhoPastaWebServer = _configuracaoGerenciador.BuscarPastaPadraoWebServer(pastaInterna);
+            return string.Format("{0}\\{1}.json", caminhoPastaWebServer, escripte.IdSha1);
         }
     }
 }
