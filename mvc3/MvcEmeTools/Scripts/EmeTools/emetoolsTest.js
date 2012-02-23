@@ -97,21 +97,24 @@ $(document).ready(function () {
 
     test("t[emplate] sem newline", function () {
         var xixizero = new Xixizero(" - xxx", "t", "\n");
-        var atual = xixizero.transformar("abc");
+        xixizero.transformar("abc");
+        var atual = xixizero.DadoTransformado;
         var esperado = " - abc";
         equal(atual, esperado);
     });
 
     test("t[emplate] com newline", function () {
         var xixizero = new Xixizero(" - xxx\n", "t", "\n");
-        var atual = xixizero.transformar("abc");
+        xixizero.transformar("abc");
+        var atual = xixizero.DadoTransformado;
         var esperado = " - abc\n";
         equal(atual, esperado);
     });
 
     test("s[ed] localizar linha por endereço", function () {
         var xixizero = new Xixizero("/ef/p", "s", NEW_LINE);
-        var atual = xixizero.transformar("abc\ndef");
+        xixizero.transformar("abc\ndef");
+        var atual = xixizero.DadoTransformado;
         var esperado = "def\n";
         equal(atual, esperado);
     });
@@ -124,7 +127,8 @@ $(document).ready(function () {
         escripti += "p" + NEW_LINE;  //  'p'  : imprime todas linhas
 
         var xixizero = new Xixizero(escripti, "s", NEW_LINE);
-        var atual = xixizero.transformar("abc\ndef");
+        xixizero.transformar("abc\ndef");
+        var atual = xixizero.DadoTransformado;
         var esperado = "axc\ndef\n";
         equal(atual, esperado);
     });
@@ -152,7 +156,8 @@ $(document).ready(function () {
         escripti += "x";
 
         var xixizero = new Xixizero(escripti, "r", NEW_LINE);
-        var atual = xixizero.transformar("abc\ndef");
+        xixizero.transformar("abc\ndef");
+        var atual = xixizero.DadoTransformado;
         var esperado = "axc\ndef";
         equal(atual, esperado);
     });
@@ -273,7 +278,7 @@ $(document).ready(function () {
         esperado += "22/02 			REMUNERACAO/SALARIO 		1,78 			" + NEW_LINE;
         esperado += "22/02	DOC INT 953354 julio 	4175 	00 	- 		" + NEW_LINE;
         esperado += "22/02 			S A L D O 				14,55 ";
-        
+
         var resultado = roboXixi.Transformar();
         equal(resultado, esperado);
     });
@@ -362,7 +367,7 @@ $(document).ready(function () {
         texto += "x" + NEW_LINE;
         texto += "/" + NEW_LINE;
         texto += "y" + NEW_LINE;
-        
+
         var roboXixi = new RoboXixi(texto, '\n');
 
         var resultadoEsperado = "";

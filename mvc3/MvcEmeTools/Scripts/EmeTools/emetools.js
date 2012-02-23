@@ -24,7 +24,7 @@ function ComandoNaoInformado() {
 };
 
 var Xixizero = function(escripte, comando, newLine) {
-    this.DadoTrasformado = "";
+    this.DadoTransformado = "";
     this.Comando = comando;
     this.Escripte = escripte;
 
@@ -35,22 +35,21 @@ var Xixizero = function(escripte, comando, newLine) {
             if (ultimaLetra === newLine) {
                 texto = texto.substring(0, texto.length - newLine.length);
             }
-            this.DadoTrasformado = replaceTodos(this.Escripte, "xxx", texto);
+            this.DadoTransformado = replaceTodos(this.Escripte, "xxx", texto);
         }
-        // (R)EPLACE: substitui 'xxx' por Escript
+        // (R)EPLACE: substituição javascript genérica
         if (this.Comando === "r") {
-            this.DadoTrasformado = substituirCustomizado(this.Escripte, texto, newLine);
+            this.DadoTransformado = substituirCustomizado(this.Escripte, texto, newLine);
         }
-        // (S)ED: executa comando SED
+        // (S)ED: executa comando JSED
         if (this.Comando === "s") {
-            this.DadoTrasformado = sedJsed(
+            this.DadoTransformado = sedJsed(
                 texto,
                 this.Escripte,
                 true,
                 false,
                 10000);
         }
-        return this.DadoTrasformado;
     };
 };
 
@@ -126,7 +125,8 @@ var RoboXixi = function (texto, newLine) {
         var resultadoFinal = this.DadosIniciais;
         for (var j = 0; j < this.Xixizeros.length; j++) {
             var xixizero = this.Xixizeros[j];
-            resultadoFinal = xixizero.transformar(resultadoFinal);
+            xixizero.transformar(resultadoFinal);
+            resultadoFinal = xixizero.DadoTransformado;
         }
 
         return resultadoFinal;
