@@ -6,10 +6,8 @@
 @section js{
     <script src="@Url.Content("~/Scripts/google_prettifier/prettify.js")" type="text/javascript"> </script>
     <script src="@Url.Content("~/Scripts/jquery.textchange.min.js")" type="text/javascript"> </script>
-
     <script src="@Url.Content("~/Scripts/jsed/jsed.js")" type="text/javascript"> </script>
     <script src="@Url.Content("~/Scripts/EmeTools/emetools.js")" type="text/javascript"> </script>
-
     <script type="text/javascript">
         $().ready(function () {
             var executarRobo = function () {
@@ -104,14 +102,6 @@
         width: 100%;
     }
     
-    #divPreEscripteCompleto
-    {
-        border-color: #eee;
-        border-style: solid;
-        float: left;
-        width: 100%;
-    }
-    
     #preXixizero
     {
         font-size: 14pt;
@@ -142,24 +132,21 @@
         width: 100%;
     }
     
-    .naoSelecionado {
+    .naoSelecionado
+    {
         background-color: #fff;
     }
-    .selecionado {
+    .selecionado
+    {
         background-color: #fee;
     }
 </style>
-
 <link href="@Url.Content("~/Scripts/google_prettifier/prettify.css")" rel="stylesheet" type="text/css" />
-
 <h2>
     Sequencer</h2>
 <fieldset>
     <legend>@Model.Nome</legend>
     <div id="container">
-        <div id="divEscripte">
-            <pre id="preXixizero" class="prettyprint" contenteditable="true"></pre>
-        </div>
         <div id="divListaXixizeros">
             <ul id="listaXixizeros">
                 <li>0 - original</li>
@@ -168,18 +155,15 @@
         <div id="divResultadoParcial">
             <pre id="preResposta"></pre>
         </div>
+        <div id="divEscripte">
+            <pre id="preXixizero" class="prettyprint" contenteditable="true"></pre>
+        </div>
     </div>
     <br />
     <div class="display-field ">
         @Html.DisplayFor(model => model.Descricao)
     </div>
-    <div id="divPreEscripteCompleto">
-        <pre id="preEscripteCompleto" class="prettyprint">@Model.Texto</pre>
-    </div>
-    <div>
-        <input id="btnSalvar" type="button" value="Salvar" />
-    </div>
-
+    <pre style="display: none" id="preEscripteCompleto">@Model.Texto</pre>
 </fieldset>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.IdSha1 }) |
