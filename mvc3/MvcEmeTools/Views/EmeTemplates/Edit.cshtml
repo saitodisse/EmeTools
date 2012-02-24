@@ -1,19 +1,64 @@
 ﻿@model Dominio.Entidades.Escripte
-
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<h2>
+    Edit</h2>
 
-<h2>Edit</h2>
+<link href="@Url.Content("~/Scripts/google_prettifier/prettify.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/themes/base/minified/jquery-ui.min.css")" rel="stylesheet" type="text/css" />
 
-<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+@section js{
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")"> </script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"> </script>
+    <script src="@Url.Content("~/Scripts/jquery.textchange.min.js")"> </script>
+    <script src="@Url.Content("~/Scripts/google_prettifier/prettify.js")"> </script>
+    <script>
+        $().ready(function () {
+            prettyPrint();
 
-@using (Html.BeginForm()) {
+            var salvar = function () {
+                var dados = {
+                    Nome: $("#Nome").val(),
+                    Descricao: $("#Descricao").val(),
+                    Texto: $("#preEscripteCompleto").text()
+                };
+
+                var request = $.ajax({
+                    type: "POST",
+                    data: dados
+                });
+                
+                request.done(function (data) {
+                    exibirMensagemUi("Sucesso", "Os dados foram salvos com sucesso. Mensagem retornada: [" + data + "]");
+                });
+
+                request.fail(function (jqXHR, textStatus) {
+                    exibirMensagemUi("Request failed", textStatus);
+                });
+            };
+
+            $("#btnSalvar1").click(salvar);
+            $("#btnSalvar2").click(salvar);
+        });
+    </script>
+}
+
+@using (Html.BeginForm())
+{
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>Escripte</legend>
+        <legend>@Model.Nome</legend>
+        <div style="float: right">
+            <input id="btnSalvar1" type="button" value="salvar" />
+        </div>
+        <div>
+            <pre id="preEscripteCompleto" class="prettyprint" contenteditable>@Model.Texto</pre>
+        </div>
+        <div style="float: right">
+            <input id="btnSalvar2" type="button" value="salvar" />
+        </div>
         <div class="editor-label">
             @Html.LabelFor(model => model.Nome)
         </div>
@@ -21,7 +66,6 @@
             @Html.EditorFor(model => model.Nome)
             @Html.ValidationMessageFor(model => model.Nome)
         </div>
-
         <div class="editor-label">
             @Html.LabelFor(model => model.Descricao)
         </div>
@@ -29,21 +73,8 @@
             @Html.TextAreaFor(model => model.Descricao)
             @Html.ValidationMessageFor(model => model.Descricao)
         </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Texto)
-        </div>
-        <div class="editor-field textAreaGrande">
-            @Html.TextAreaFor(model => model.Texto)
-            @Html.ValidationMessageFor(model => model.Texto)
-        </div>
-
-        <p>
-            <input type="submit" value="Save" />
-        </p>
     </fieldset>
 }
-
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>

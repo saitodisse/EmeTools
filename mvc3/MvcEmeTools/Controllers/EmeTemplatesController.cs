@@ -84,7 +84,8 @@ namespace MvcEmeTools.Controllers
             var escripte = _gerenciadorEmeTemplates.Pesquisar(id);
             AtualizarDadosViaResponse(collection, escripte);
             _gerenciadorEmeTemplates.Atualizar(escripte);
-            return RedirectToAction("Index");
+            Response.Write("0");
+            return null;
         }
 
         private static Escripte AtualizarDadosViaResponse(FormCollection collection, Escripte escripte)
