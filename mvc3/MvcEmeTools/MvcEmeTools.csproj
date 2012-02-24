@@ -146,15 +146,20 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\EmeTools\emetools.js" />
-    <Content Include="Scripts\EmeTools\emetoolsTest.js" />
+    <Content Include="Scripts\EmeTools\tests\jsedTest.js" />
+    <Content Include="Scripts\EmeTools\tests\xixizeroTest.js" />
     <Content Include="Scripts\EmeTools\EmEditor_menu.js" />
     <Content Include="Scripts\EmeTools\eeTools_Include.js" />
+    <Content Include="Scripts\EmeTools\tests\roboXixiTest.js" />
+    <Content Include="Scripts\google_prettifier\prettify.css" />
+    <Content Include="Scripts\google_prettifier\prettify.js" />
     <Content Include="Scripts\jquery-1.7.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.16.js" />
     <Content Include="Scripts\jquery-ui-1.8.16.min.js" />
     <Content Include="Scripts\jquery.animate-shadow-min.js" />
+    <Content Include="Scripts\jquery.textchange.min.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -215,9 +220,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\EmeTemplates\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\EmeTemplates\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\EmeTemplates\Edit.cshtml" />
