@@ -7,33 +7,62 @@
     <script src="@Url.Content("~/Scripts/jsed/jsed.js")" type="text/javascript"> </script>
     <script src="@Url.Content("~/Scripts/EmeTools/emetools.js")" type="text/javascript"> </script>
     <script type="text/javascript">
-        
         $().ready(function () {
             var executarRobo = function () {
                 var texto = $("#txtDados").val();
                 return new RoboXixi(texto, '\n');
             };
 
+            // executa toda transformação
             var roboXixi = executarRobo();
-            var resultado = roboXixi.Transformar();
 
-            for (var i = 0; i < roboXixi.Xixizeros.length; i++) {
-                var xixizero = roboXixi.Xixizeros[i];
+            var selecionarEtapa = function (elJquery) {
+                // limpa os itens selecionados
+                $("#listaXixizeros li").attr("class", "naoSelecionado");
+
+                // seleciona o item atual
+                elJquery.attr("class", "selecionado");
+
+                // pega o indice
+                var indiceSelecionado = parseInt(elJquery.html().replace(/^([-\d]+).*/, "$1")) - 1;
+
+                // recupera resultado do indice
+                if (indiceSelecionado >= 0) {
+                    $("#preResposta").html(roboXixi.Xixizeros[indiceSelecionado].DadoTransformado);
+                } else {
+                    $("#preResposta").html(roboXixi.DadosIniciais);
+                }
+            };
+
+            roboXixi.Transformar();
+
+            // cria a lista dos passos
+            for (var i = 1; i <= roboXixi.Xixizeros.length; i++) {
+                var xixizero = roboXixi.Xixizeros[i - 1];
                 $("#listaXixizeros").append("<li>" + xixizero.Indice + " - " + xixizero.PrimeiroComentario() + "</li>");
             }
 
-            $("#preResposta").html(resultado);
+            // Executa toda transformação
+            $("#preResposta").html(roboXixi.ResultadoFinal);
 
+            // coloca evento para mudar a visualização dos resultados
             $("#listaXixizeros li").click(function () {
-                // muda a cor de fundo
-                $("#listaXixizeros li").css("background-color", "#fff");
-                $(this).css("background-color", "#fee");
+                selecionarEtapa($(this));
+            });
 
-                // pega o indice
-                var indiceSelecionado = $(this).html().replace(/^([-\d]+).*/, "$1");
-
-                // recupera resultado do indice
-                $("#preResposta").html(roboXixi.Xixizeros[indiceSelecionado].DadoTransformado);
+            // CTRL + CIMA
+            $.ctrl(38, function () {
+                var anterior = $(".selecionado").prev();
+                if (anterior.length === 0)
+                    return false;
+                selecionarEtapa(anterior);
+            });
+            // CTRL + BAIXO
+            $.ctrl(40, function () {
+                var proximo = $(".selecionado").next();
+                if (proximo.length === 0)
+                    return false;
+                selecionarEtapa(proximo);
             });
         });
 
@@ -51,7 +80,6 @@
         border-style: solid;
         float: left;
         width: 100%;
-        
     }
     
     #listaXixizeros li
@@ -73,21 +101,28 @@
         float: left;
         width: 100%;
     }
+    
+    .naoSelecionado {
+        background-color: #fff;
+    }
+    .selecionado {
+        background-color: #fee;
+    }
 </style>
 <h2>
-    Details</h2>
+    Sequencer</h2>
 <fieldset>
     <legend>@Model.Nome</legend>
     <div id="container">
         <div id="divListaXixizeros">
             <ul id="listaXixizeros">
+                <li>0 - original</li>
             </ul>
         </div>
         <div id="divResultadoParcial">
             <pre id="preResposta"></pre>
         </div>
     </div>
-
     <br />
     <div class="display-field ">
         @Html.DisplayFor(model => model.Descricao)

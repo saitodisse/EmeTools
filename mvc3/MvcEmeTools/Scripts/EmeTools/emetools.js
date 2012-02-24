@@ -1,5 +1,21 @@
 var SHOW_ALERT_ON_ERRORS = false;
 
+$.ctrl = function (key, callback, args) {
+    var isCtrl = false;
+    $(document).keydown(function (e) {
+        if (!args) args = []; // IE barks when args is null
+
+        if (e.ctrlKey) isCtrl = true;
+        if (e.keyCode == key && isCtrl) {
+            callback.apply(this, args);
+            e.preventDefault();
+            return false;
+        }
+    }).keyup(function (e) {
+        if (e.ctrlKey) isCtrl = false;
+    });
+};
+
 function disparaErro(name, message) {
     var err = new Error();
     err.name = name;
@@ -30,9 +46,12 @@ var Xixizero = function (escripte, comando, newLine) {
     this.Indice = -1;
 
     this.PrimeiroComentario = function () {
-        var inicioComentario = escripte.toString().indexOf("\n#");
-        var fimComentario = escripte.toString().substring(inicioComentario).indexOf("\n");
-        return escripte.toString().substring(inicioComentario, fimComentario);
+        var re = /#.*/gi;
+        var m = re.exec(this.Escripte);
+        if (m !== null) {
+            return m[0].substring(1);
+        }
+        return escripte;
     };
 
     this.transformar = function (texto) {
@@ -63,6 +82,7 @@ var Xixizero = function (escripte, comando, newLine) {
 var RoboXixi = function (texto, newLine) {
     this.Texto = texto;
     this.DadosIniciais = "";
+    this.ResultadoFinal = "";
     this.Xixizeros = [];
     var listaLinhas = this.Texto.split(newLine);
     var escripte = "";
@@ -75,7 +95,7 @@ var RoboXixi = function (texto, newLine) {
         //ACHA SEPARADORES
         for (i = 0; i < listaLinhas.length; i++) {
             var dadosPreenchidos = (this.DadosIniciais.length > 0);
-            var linhaSeparador = (listaLinhas[i].toString().substring(0, 3) === '///');
+            var linhaSeparador = (listaLinhas[i].substring(0, 3) === '///');
             var templatePossuiLinha = (escripte.length > 0);
             var ultimaLinha = (i === listaLinhas.length - 1);
 
@@ -90,7 +110,7 @@ var RoboXixi = function (texto, newLine) {
                             'A linha [' + (i + 1) + '] possui o separador "///" porem nao foi informado o comando.\nComandos disponiveis: "x" ou "s".\nEx: "///t" ou "///s"');
                     }
 
-                    comandoUltimo = listaLinhas[i].toString().substring(3, 4);
+                    comandoUltimo = listaLinhas[i].substring(3, 4);
                 }
             }
 
@@ -127,11 +147,11 @@ var RoboXixi = function (texto, newLine) {
         }
     };
 
-    this.Transformar = function (pararNaTransformacao) {
-        // Executa até tal indice
+    this.Transformar = function (indiceDeParada) {
         var indiceUltimoXixizero = this.Xixizeros.length - 1;
-        if (pararNaTransformacao !== undefined) {
-            indiceUltimoXixizero = pararNaTransformacao;
+        if (indiceDeParada !== undefined) {
+            // Define indice final
+            indiceUltimoXixizero = indiceDeParada-1;
         }
 
         // realiza cada transformação
@@ -139,25 +159,32 @@ var RoboXixi = function (texto, newLine) {
         for (var j = 0; j <= indiceUltimoXixizero; j++) {
             var xixizero = this.Xixizeros[j];
             xixizero.transformar(transformacaoAcumulada);
-            xixizero.Indice = j;
+            xixizero.Indice = j+1;
             transformacaoAcumulada = xixizero.DadoTransformado;
         }
-
-        return transformacaoAcumulada;
+        this.ResultadoFinal = transformacaoAcumulada;
     };
 
     //main
     this.Iniciar();
 };
 
-function replaceTodos(texto, de, para) {
-    return texto.replace(new RegExp(de, "gmi"), para);
-}
 
 function Obter_replacer_e_substitutor(escripte, newLine) {
     //retira todos os comentários
-    escripte = replaceTodos(escripte, "^#.*" + newLine, "");
+    escripte = replaceTodos(escripte, "^#.*" + newLine + "?", "");
 
+    // verifica se o ultimo caractere é um newline
+    // caso ocorra algum comentário após o substituitor
+    var ultimoCaractere = escripte.substring(escripte.length - newLine.length, escripte.length);
+    var penultimoCaractere = escripte.substring(escripte.length - newLine.length * 2, escripte.length - newLine.length);
+    // caso o substituitor estiver vazio então ignora essa exclusão
+    if (ultimoCaractere === newLine && penultimoCaractere !== "/") {
+        // reitira o newLine do final
+        escripte = escripte.substring(0, escripte.length - newLine.length);
+    }
+    
+    
     //busca o separador "/" no escripte
     var indiceDaBarra = escripte.indexOf(newLine + "/" + newLine) + 1;
 
@@ -177,6 +204,10 @@ function substituirCustomizado(escripte, texto, newLine){
     
     //realiza a substituicao no texto
     return replaceTodos(texto, objReplacer.replacer, objReplacer.substitutor);
+}
+
+function replaceTodos(texto, de, para) {
+    return texto.replace(new RegExp(de, "gmi"), para);
 }
 
 // SED

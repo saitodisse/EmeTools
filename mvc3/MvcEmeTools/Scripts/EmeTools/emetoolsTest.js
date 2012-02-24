@@ -230,8 +230,9 @@ $(document).ready(function () {
         esperado += "22/02 			REMUNERACAO/SALARIO 		1,78 			" + NEW_LINE;
         esperado += "22/02	DOC INT 953354 julio 	4175 	00 	- 		" + NEW_LINE;
         esperado += "22/02 			S A L D O 				14,55 ";
-        var resultado = roboXixi.Transformar();
-        equal(resultado, esperado);
+        
+        roboXixi.Transformar();
+        equal(roboXixi.ResultadoFinal, esperado);
     });
 
     test("r[eplace javascript] caso 1 do Itau -> moneylog com \\r\\n", function () {
@@ -279,8 +280,8 @@ $(document).ready(function () {
         esperado += "22/02	DOC INT 953354 julio 	4175 	00 	- 		" + NEW_LINE;
         esperado += "22/02 			S A L D O 				14,55 ";
 
-        var resultado = roboXixi.Transformar();
-        equal(resultado, esperado);
+        roboXixi.Transformar();
+        equal(roboXixi.ResultadoFinal, esperado);
     });
 
     test("r[eplace javascript] caso 2 do Itau -> moneylog com \\n", function () {
@@ -329,8 +330,8 @@ $(document).ready(function () {
         esperado += "17/02 			ELETROPAULO 1000652491 		34 	- 		" + NEW_LINE;
         esperado += "22/02 			REMUNERACAO/SALARIO 		1,78 			" + NEW_LINE;
         esperado += "22/02	DOC INT 953354 julio 	4175 	00 	- 		" + NEW_LINE;
-        var resultado = roboXixi.Transformar();
-        equal(resultado, esperado);
+        roboXixi.Transformar();
+        equal(roboXixi.ResultadoFinal, esperado);
     });
 
 
@@ -375,7 +376,8 @@ $(document).ready(function () {
         resultadoEsperado += "yyy\n";
         resultadoEsperado += "ccc*";
 
-        equal(roboXixi.Transformar(), resultadoEsperado, "roboXixi.Transformar()");
+        roboXixi.Transformar();
+        equal(roboXixi.ResultadoFinal, resultadoEsperado);
     });
 
     test("RoboXixi.Transformar(com indice)", function () {
@@ -398,12 +400,31 @@ $(document).ready(function () {
         texto += "x" + NEW_LINE;
 
         var roboXixi = new RoboXixi(texto, NEW_LINE);
+        roboXixi.Transformar();
 
-        equal(roboXixi.Transformar(0), "xxx" + NEW_LINE + "bbb" + NEW_LINE + "ccc", "roboXixi.Transformar(0)");
-        equal(roboXixi.Transformar(1), "xxx" + NEW_LINE + "xxx" + NEW_LINE + "ccc", "roboXixi.Transformar(1)");
-        equal(roboXixi.Transformar(2), "xxx" + NEW_LINE + "xxx" + NEW_LINE + "xxx", "roboXixi.Transformar(2)");
-        equal(roboXixi.Transformar(),  "xxx" + NEW_LINE + "xxx" + NEW_LINE + "xxx", "roboXixi.Transformar()");
+        equal(roboXixi.DadosIniciais, "aaa" + NEW_LINE + "bbb" + NEW_LINE + "ccc", "roboXixi.Transformar(0)");
+        equal(roboXixi.Xixizeros[0].DadoTransformado, "xxx" + NEW_LINE + "bbb" + NEW_LINE + "ccc", "roboXixi.Transformar(1)");
+        equal(roboXixi.Xixizeros[1].DadoTransformado, "xxx" + NEW_LINE + "xxx" + NEW_LINE + "ccc", "roboXixi.Transformar(2)");
+        equal(roboXixi.Xixizeros[2].DadoTransformado, "xxx" + NEW_LINE + "xxx" + NEW_LINE + "xxx", "roboXixi.Transformar(3)");
+        equal(roboXixi.ResultadoFinal, "xxx" + NEW_LINE + "xxx" + NEW_LINE + "xxx", "roboXixi.Transformar( )");
     });
 
+    test("RoboXixi: o comentário pode estar em qualquer lugar do escripte", function () {
 
+        var texto = "";
+        texto += "aaa" + NEW_LINE;
+        texto += "///r" + NEW_LINE;
+        texto += "# replacer: comentário antes" + NEW_LINE;
+        texto += "a" + NEW_LINE;
+        texto += "# replacer: comentário depois" + NEW_LINE;
+        texto += "/" + NEW_LINE;
+        texto += "# substituitor: comentário antes" + NEW_LINE;
+        texto += "x" + NEW_LINE;
+        texto += "# substituitor: comentário depois" + NEW_LINE;
+
+        var roboXixi = new RoboXixi(texto, NEW_LINE);
+        roboXixi.Transformar();
+
+        equal(roboXixi.Xixizeros[0].DadoTransformado, "xxx", "roboXixi.Xixizeros[0].DadoTransformado");
+    });
 });
