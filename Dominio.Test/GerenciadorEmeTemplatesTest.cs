@@ -53,7 +53,7 @@ namespace Dominio.Test
         [Test]
         public void busca_escripte_por_idsha1()
         {
-            var respostaSimuladaJSON = "{\"IdSha1\":\"8E45063BEB9B473C6232F5B764D893E5F310CAED\",\"Nome\":\"a\",\"Descricao\":\"a\",\"Texto\":\"a\",\"DadoExemplos\":[]}";
+            var respostaSimuladaJSON = "{\"IdSha1\":\"8E45063BEB9B473C6232F5B764D893E5F310CAED\",\"Nome\":\"a\",\"Descricao\":\"a\",\"Texto\":\"a\"}";
             _repositorioArquivoEscripteMock.Setup(x => x.Ler(It.IsAny<string>())).Returns(respostaSimuladaJSON);
             _gerenciadorEmeTemplates = new GerenciadorEmeTemplates(_repositorioArquivoEscripteMock.Object, _configuracaoGerenciador.Object);
             Escripte escripte = _gerenciadorEmeTemplates.Pesquisar("8E45063BEB9B473C6232F5B764D893E5F310CAED");
@@ -79,14 +79,13 @@ namespace Dominio.Test
             escripte.Nome = "Name";
             escripte.Descricao = "Descricao";
             escripte.Texto = "Texto";
-            escripte.DadoExemplos = new List<DadoExemplo>();
             return escripte;
         }
 
         [Test]
         public void apaga_por_idsha1()
         {
-            var respostaSimuladaJSON = "{\"IdSha1\":\"8E45063BEB9B473C6232F5B764D893E5F310CAED\",\"Nome\":\"a\",\"Descricao\":\"a\",\"Texto\":\"a\",\"DadoExemplos\":[]}";
+            var respostaSimuladaJSON = "{\"IdSha1\":\"8E45063BEB9B473C6232F5B764D893E5F310CAED\",\"Nome\":\"a\",\"Descricao\":\"a\",\"Texto\":\"a\"}";
             _repositorioArquivoEscripteMock.Setup(x => x.Ler(It.IsAny<string>())).Returns(respostaSimuladaJSON);
             _gerenciadorEmeTemplates = new GerenciadorEmeTemplates(_repositorioArquivoEscripteMock.Object, _configuracaoGerenciador.Object);
             _gerenciadorEmeTemplates.Remover("8E45063BEB9B473C6232F5B764D893E5F310CAED");

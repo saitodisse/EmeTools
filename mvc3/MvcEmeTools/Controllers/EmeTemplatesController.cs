@@ -52,7 +52,8 @@ namespace MvcEmeTools.Controllers
                 var escripte = new Escripte();
                 escripte = AtualizarDadosViaResponse(collection, escripte);
                 _gerenciadorEmeTemplates.GravarEscripte(escripte);
-                return RedirectToAction("Index");
+                Response.Write("criado");
+                return null;
             }
             catch
             {
@@ -74,7 +75,7 @@ namespace MvcEmeTools.Controllers
             var escripte = _gerenciadorEmeTemplates.Pesquisar(id);
             AtualizarDadosViaResponse(collection, escripte);
             _gerenciadorEmeTemplates.Atualizar(escripte);
-            Response.Write("0");
+            Response.Write("salvo");
             return null;
         }
 

@@ -126,8 +126,8 @@ var main = function () {
         case OP_XXX_NEW:
             var allText = getAllText();
             var roboXixizero = new RoboXixi(allText, NEW_LINE);
-            var resultado = roboXixizero.Transformar();
-            newEditorWindow(resultado);
+            roboXixizero.Transformar();
+            newEditorWindow(roboXixizero.ResultadoFinal);
             break;
         case OP_XXX:
             newEditorWindow(Xxx(getAllText()));

@@ -23,11 +23,19 @@ function ComandoNaoInformado() {
     return "O comando do '///' deve ser informado logo apos o '///'";
 };
 
+var replace_show_invisible = function (texto) {
+    texto = texto.replace(/^\/$/gm, "<span class='char_replacer_separator'>/</span>");
+    texto = texto.replace(/$/gm, "<span class='char_n'>\\n</span>");
+    texto = texto.replace(/\t/gm, "<span class='char_tab'>\\t</span>");
+    texto = texto.replace(/^(#.*)$/gm, "<span class='comentario'>$1</span>");
+    return texto;
+};
+
 var Xixizero = function (escripte, comando, newLine) {
     this.DadoTransformado = "";
     this.Comando = comando;
     this.Escripte = escripte;
-    this.Indice = -1;
+    this.Indice = -99;
 
     this.PrimeiroComentario = function () {
         var re = /#.*/gi;
@@ -143,7 +151,7 @@ var RoboXixi = function (texto, newLine) {
         for (var j = 0; j <= indiceUltimoXixizero; j++) {
             var xixizero = this.Xixizeros[j];
             xixizero.transformar(transformacaoAcumulada);
-            xixizero.Indice = j+1;
+            xixizero.Indice = j;
             transformacaoAcumulada = xixizero.DadoTransformado;
         }
         this.ResultadoFinal = transformacaoAcumulada;

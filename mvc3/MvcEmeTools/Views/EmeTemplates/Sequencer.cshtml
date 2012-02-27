@@ -3,18 +3,15 @@
     ViewBag.Title = "Sequencer";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@Html.Partial("menu_edit_sequencer", Model.IdSha1)
+<h2>
+    Sequencer</h2>
 @section js{
-    <script src="@Url.Content("~/Scripts/google_prettifier/prettify.js")" type="text/javascript"> </script>
     <script src="@Url.Content("~/Scripts/jquery.textchange.min.js")" type="text/javascript"> </script>
     <script src="@Url.Content("~/Scripts/jsed/jsed.js")" type="text/javascript"> </script>
     <script src="@Url.Content("~/Scripts/EmeTools/emetools.js")" type="text/javascript"> </script>
     <script type="text/javascript">
         $().ready(function () {
-            var executarRobo = function () {
-                var texto = $("#preEscripteCompleto").html();
-                return new RoboXixi(texto, '\n');
-            };
-
             var selecionarEtapa = function (elJquery) {
                 // limpa os itens selecionados
                 $("#listaXixizeros li").attr("class", "naoSelecionado");
@@ -23,35 +20,28 @@
                 elJquery.attr("class", "selecionado");
 
                 // pega o indice
-                var indiceSelecionado = parseInt(elJquery.html().replace(/^([-\d]+).*/, "$1")) - 1;
+                var html = elJquery.html();
+                var indiceSelecionado = parseInt(html.replace(/^\[([-\d]+)\].*/, "$1"));
 
                 // recupera resultado do indice
                 if (indiceSelecionado >= 0) {
-                    $("#preResposta").html(roboXixi.Xixizeros[indiceSelecionado].DadoTransformado);
-                    $("#preXixizero").html(roboXixi.Xixizeros[indiceSelecionado].Escripte);
+                    $("#preXixizero").html(replace_show_invisible(roboXixi.Xixizeros[indiceSelecionado].Escripte));
+                    $("#preResposta").html(replace_show_invisible(roboXixi.Xixizeros[indiceSelecionado].DadoTransformado));
                 } else {
-                    $("#preResposta").html(roboXixi.DadosIniciais);
+                    $("#preXixizero").html('');
+                    $("#preResposta").html(replace_show_invisible(roboXixi.DadosIniciais));
                 }
-
-                prettyPrint();
             };
 
-            var timeout;
-            $('#preXixizero').bind('textchange', function () {
-                clearTimeout(timeout);
-                timeout = setTimeout(function () {
-                    prettyPrint();
-                }, 3000);
-            });
-
             // executa toda transformação
-            var roboXixi = executarRobo();
+            var texto = $("#preEscripteCompleto").html();
+            var roboXixi = new RoboXixi(texto, '\n');
             roboXixi.Transformar();
 
             // cria a lista dos passos
-            for (var i = 1; i <= roboXixi.Xixizeros.length; i++) {
-                var xixizero = roboXixi.Xixizeros[i - 1];
-                $("#listaXixizeros").append("<li>" + xixizero.Indice + " - " + xixizero.PrimeiroComentario() + "</li>");
+            for (var i = 0; i < roboXixi.Xixizeros.length; i++) {
+                var xixizero = roboXixi.Xixizeros[i];
+                $("#listaXixizeros").append("<li>[" + i + "]: " + xixizero.PrimeiroComentario() + "</li>");
             }
 
             // Executa toda transformação
@@ -68,6 +58,7 @@
                 if (anterior.length === 0)
                     return false;
                 selecionarEtapa(anterior);
+                return false;
             });
             // CTRL + BAIXO
             $.ctrl(40, function () {
@@ -75,9 +66,50 @@
                 if (proximo.length === 0)
                     return false;
                 selecionarEtapa(proximo);
+                return false;
+            });
+
+
+            // Ativa botão para copiar para o clipboard
+            var xixizeroParaCopia = function () {
+                // pega o indice
+                var indiceSelecionado = parseInt($(".selecionado").html().replace(/^\[([-\d]+)\].*/, "$1"));
+
+                if (indiceSelecionado < 0)
+                    return '';
+
+                var dadosAntesTransformacao = '';
+
+                if (indiceSelecionado == 0) {
+                    dadosAntesTransformacao = roboXixi.DadosIniciais;
+                }
+                else {
+                    // pega o dado anterior
+                    dadosAntesTransformacao = roboXixi.Xixizeros[indiceSelecionado - 1].DadoTransformado;
+                }
+
+                var resultado = dadosAntesTransformacao + "\n";
+                // pega o escript atual
+                var xixizeroProximo = roboXixi.Xixizeros[indiceSelecionado];
+                resultado += "///" + xixizeroProximo.Comando + "\n";
+                resultado += xixizeroProximo.Escripte + "\n";
+                return resultado;
+            };
+
+            $("#spanCopyLink").click(function () {
+                $("#preEscripteCompleto").text(xixizeroParaCopia());
+                $("#preEscripteCompleto")[0].focus();
+                $("#preEscripteCompleto")[0].select();
+
+                $("#spanCopyLink").text('copiado. Digite Ctrl + C agora...');
+
+                var timeout;
+                clearTimeout(timeout);
+                timeout = setTimeout(function () {
+                    $("#spanCopyLink").text('copy');
+                }, 2000);
             });
         });
-
 
         $.ctrl = function (key, callback, args) {
             var isCtrl = false;
@@ -104,12 +136,14 @@
         width: 900px;
     }
     
+    
     #divListaXixizeros
     {
         border-color: #eee;
         border-style: solid;
         float: left;
         width: 100%;
+        padding: 8px;
     }
     
     #divEscripte
@@ -118,6 +152,7 @@
         border-style: solid;
         float: left;
         width: 100%;
+        padding: 8px;
     }
     
     #preXixizero
@@ -127,7 +162,7 @@
         border-color: #efe;
         border-style: solid;
         height: 100%;
-        width: 100%;
+        width: 880px;
     }
     
     #listaXixizeros li
@@ -147,7 +182,7 @@
         border-style: solid;
         padding: 8px;
         float: left;
-        width: 100%;
+        width: 880px;
     }
     
     .naoSelecionado
@@ -158,30 +193,61 @@
     {
         background-color: #fee;
     }
+    
+    #divCopyLink
+    {
+        border-color: #eee;
+        border-style: solid;
+        text-align: right;
+        width: 100%;
+    }
+    #spanCopyLink
+    {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+    #preEscripteCompleto
+    {
+        width: 100px;
+        height: 20px;
+        font-size: 8pt;
+    }
+    
+    .subTitulo
+    {
+        padding: 3px;
+        font-size: 11pt;
+        background-color: #eee;
+    }
 </style>
-<link href="@Url.Content("~/Scripts/google_prettifier/prettify.css")" rel="stylesheet" type="text/css" />
-<h2>
-    Sequencer</h2>
 <fieldset>
     <legend>@Model.Nome</legend>
     <div id="container">
         <div id="divListaXixizeros">
+            <div class="subTitulo">
+                sequência</div>
             <ul id="listaXixizeros">
-                <li>0 - original</li>
+                <li>[-1]: ORIGINAL</li>
             </ul>
         </div>
+        <div id="divEscripte">
+            <div class="subTitulo">
+                escripte</div>
+            <pre id="preXixizero"></pre>
+        </div>
         <div id="divResultadoParcial">
+            <div class="subTitulo">
+                resultado</div>
             <pre id="preResposta"></pre>
         </div>
-        <div id="divEscripte">
-            <pre id="preXixizero" class="prettyprint" contenteditable="true"></pre>
+        <div id="divCopyLink">
+            <span id="spanCopyLink">copy</span>
+            <br />
+            @*style="display: none"*@
+            <textarea id="preEscripteCompleto">@Model.Texto</textarea>
         </div>
     </div>
     <br />
-    <div class="display-field ">
-        @Html.DisplayFor(model => model.Descricao)
-    </div>
-    <pre style="display: none" id="preEscripteCompleto">@Model.Texto</pre>
 </fieldset>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.IdSha1 }) |

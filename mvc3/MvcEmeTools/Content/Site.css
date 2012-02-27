@@ -87,6 +87,33 @@ td, th {
     border-style: solid;
 }
 
+
+
+.char_tab {
+    font-size: 90%;
+    margin-left: 3px;
+    margin-right: 3px;
+    color: #333;
+    background-color: #ded;
+}
+.char_n {
+    font-size: 60%;
+    margin-left: 1px;
+    margin-right: 1px;
+    color: #555;
+    background-color: #edd;
+}
+.char_replacer_separator {
+    font-size: 100%;
+    font-weight: bold;
+    color: #222;
+}
+.comentario {
+    font-size: 100%;
+    color: #262;
+}
+
+
 /* <end> Custom
 -----------------------------------------------------------*/
 
