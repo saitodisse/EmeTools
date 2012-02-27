@@ -13,7 +13,7 @@
         position: relative;
         width: 100%;
         height: 600px;
-        font-size: 13pt;
+        /*font-size: 13pt;*/
     }
 </style>
 @section js{
@@ -26,10 +26,22 @@
 
         var editor = null;
         $().ready(function () {
+            // configura o editor
             editor = ace.edit("editor");
+            // tamanho de fonte
+            editor.setFontSize('13pt');
+            // não transformar tab em espaço
+            editor.getSession().setUseSoftTabs(false);
+            // tab = 2 espaços
+            editor.getSession().setTabSize(2);
+            // mostrar invisíveis, TAB, espaca, quebra de linha...
+            editor.setShowInvisibles(true);
+            editor.show
+
+            // modo ruby por causa dos comentários
             var javaScriptMode = require("ace/mode/ruby").Mode;
             editor.getSession().setMode(new javaScriptMode());
-            
+
             var salvar = function () {
                 var dados = {
                     Nome: $("#Nome").val(),

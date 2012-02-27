@@ -1,21 +1,5 @@
 var SHOW_ALERT_ON_ERRORS = false;
 
-$.ctrl = function (key, callback, args) {
-    var isCtrl = false;
-    $(document).keydown(function (e) {
-        if (!args) args = []; // IE barks when args is null
-
-        if (e.ctrlKey) isCtrl = true;
-        if (e.keyCode == key && isCtrl) {
-            callback.apply(this, args);
-            e.preventDefault();
-            return false;
-        }
-    }).keyup(function (e) {
-        if (e.ctrlKey) isCtrl = false;
-    });
-};
-
 function disparaErro(name, message) {
     var err = new Error();
     err.name = name;

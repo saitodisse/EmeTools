@@ -25,16 +25,6 @@ namespace MvcEmeTools.Controllers
             return View(escriptes);
         }
 
-        //
-        // GET: /EmeTemplates/Details/5
-
-        public ActionResult Details(string id)
-        {
-            var escripte = _gerenciadorEmeTemplates.Pesquisar(id);
-
-            return View(escripte);
-        }
-
         public ActionResult Sequencer(string id)
         {
             var escripte = _gerenciadorEmeTemplates.Pesquisar(id);
