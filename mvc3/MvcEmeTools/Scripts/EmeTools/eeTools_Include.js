@@ -291,7 +291,7 @@ var regexLinesDeleter = function(texto) {
 };
 
 
-var OrdenarTudo = function(texto, reverso) {
+var ordenarTudo = function(texto, reverso) {
     if (reverso === 1) {
         return texto.split(NEW_LINE).sort().reverse();
     } else {
@@ -300,8 +300,8 @@ var OrdenarTudo = function(texto, reverso) {
 };
 
 
-var Distinct = function(texto, reverso) {
-    var listaOrdenada = OrdenarTudo(texto, reverso);
+var distinct = function(texto, reverso) {
+    var listaOrdenada = ordenarTudo(texto, reverso);
     for (i = listaOrdenada.length - 1; i > 0; i--) {
         if (listaOrdenada[i] === listaOrdenada[i - 1]) {
             // ++ arrayObject.splice(index,howmany,element1,.....,elementX) -- http://www.w3schools.com/jsref/jsref_splice.asp

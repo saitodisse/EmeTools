@@ -68,6 +68,10 @@ var Xixizero = function (escripte, comando, newLine) {
                 false,
                 10000);
         }
+        // (C)OMANDOS: executa comando pre-determinado daqui mesmo
+        if (this.Comando === "c") {
+            this.DadoTransformado = executarComandos(texto, this.Escripte, newLine);
+        }
     };
 };
 
@@ -216,3 +220,73 @@ var sedJsed = function(texto, sedScript, nFlag, posixFlag, jumpMax) {
     sed(sedScript, texto);
     return o;
 };
+
+
+
+var executarComandos = function (texto, escripte, newLine) {
+    var resultado = texto;
+    var comandos = escripte.split(newLine);
+    for (var i = 0; i < comandos.length; i++) {
+        var comandoAtual = comandos[i];
+        switch (comandoAtual) {
+            case "sort":
+                resultado = ordenarTudo(resultado, 0, newLine);
+                break;
+            case "sort desc":
+                resultado = ordenarTudo(resultado, 1, newLine);
+                break;
+            case "distinct":
+                resultado = distinct(resultado, newLine);
+                break;
+            case "trim":
+                resultado = trim(resultado);
+                break;
+            case "trim lines":
+                resultado = trimLines(resultado, newLine);
+                break;
+            default:
+                break;
+        }
+    }
+    return resultado;
+};
+
+var trim = function (texto) {
+    return texto.replace( /^\s*([^\s]*)\s*$/gm , "$1");
+};
+
+var trimLines = function (texto, newLine) {
+    texto = texto.replace(/^\s*$\n/gm, "");
+    var inicioUltimoNewLine = texto.length - newLine.length;
+    if (texto.lastIndexOf(newLine) === inicioUltimoNewLine) {
+        texto = texto.substring(0, inicioUltimoNewLine);
+    }
+    return texto;
+};
+
+var ordenarTudo = function (texto, reverso, newLine) {
+    if (reverso === 1) {
+        return texto.split(newLine).sort().reverse().join(newLine);
+    } else {
+        return texto.split(newLine).sort().join(newLine);
+    }
+};
+
+
+////////////////////////////////////////////
+// http://www.jslab.dk/library/Array.unique
+////////////////////////////////////////////
+var distinct = function (texto, newLine) {
+    var lista = texto.split(newLine);
+    var a = [];
+    var l = lista.length;
+      for (var i = 0; i < l; i++) {
+          for (var j = i + 1; j < l; j++) {
+              // If lista[i] is found later in the array
+              if (lista[i] === lista[j])
+                  j = ++i;
+          }
+          a.push(lista[i]);
+      }
+      return a.join(newLine);
+  };

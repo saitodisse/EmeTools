@@ -1,5 +1,6 @@
-﻿$().ready(function() {
-    var selecionarEtapa = function(elJquery) {
+﻿$().ready(function () {
+
+    var selecionarEtapa = function (elJquery) {
         // limpa os itens selecionados
         $("#listaXixizeros li").attr("class", "naoSelecionado");
 
@@ -8,19 +9,22 @@
 
         // pega o indice
         var html = elJquery.html();
-        var indiceSelecionado = parseInt(html.replace( /^\[([-\d]+)\].*/ , "$1"));
+        var indiceSelecionado = parseInt(html.replace(/^\[([-\d]+)\].*/, "$1"));
 
         // recupera resultado do indice
-        if (indiceSelecionado >= 0) {
+        if (indiceSelecionado >= 0 && indiceSelecionado < roboXixi.Xixizeros.length) {
             $("#preXixizero").html(replace_show_invisible(roboXixi.Xixizeros[indiceSelecionado].Escripte));
             $("#preResposta").html(replace_show_invisible(roboXixi.Xixizeros[indiceSelecionado].DadoTransformado));
-        } else {
+        } else if (indiceSelecionado < 0) {
             $("#preXixizero").html('');
             $("#preResposta").html(replace_show_invisible(roboXixi.DadosIniciais));
+        } else if (indiceSelecionado === roboXixi.Xixizeros.length) {
+            $("#preXixizero").html('');
+            $("#preResposta").html(replace_show_invisible(roboXixi.ResultadoFinal));
         }
     };
 
-    var prepararCopy = function() {
+    var prepararCopy = function () {
         $("#preEscripteCompleto").text(xixizeroParaCopia());
         $("#preEscripteCompleto")[0].focus();
         $("#preEscripteCompleto")[0].select();
@@ -29,19 +33,25 @@
 
         var timeout;
         clearTimeout(timeout);
-        timeout = setTimeout(function() {
+        timeout = setTimeout(function () {
             $("#spanCopyLink").text('Pressione CTRL + C para copiar');
         }, 2000);
     };
 
     // Ativa botão para copiar para o clipboard
-    var xixizeroParaCopia = function() {
+    var xixizeroParaCopia = function () {
         // pega o indice
-        var indiceSelecionado = parseInt($(".selecionado").html().replace( /^\[([-\d]+)\].*/ , "$1"));
+        var indiceSelecionado = parseInt($(".selecionado").html().replace(/^\[([-\d]+)\].*/, "$1"));
 
-        if (indiceSelecionado < 0)
-            return '';
+        // DadosIniciais
+        if (indiceSelecionado === -1)
+            return roboXixi.DadosIniciais;
 
+        // ResultadoFinal
+        if (indiceSelecionado === roboXixi.Xixizeros.length)
+            return roboXixi.ResultadoFinal;
+
+        // xixizeros intermediários
         var dadosAntesTransformacao = '';
 
         if (indiceSelecionado == 0) {
@@ -60,28 +70,44 @@
     };
 
 
+
+
+    /////////////////////////////
     // executa toda transformação
+    /////////////////////////////
     var texto = $("#preEscripteCompleto").html();
     var roboXixi = new RoboXixi(texto, '\n');
-
     roboXixi.Transformar();
 
+    ///////////////////////////
     // cria a lista dos passos
+    //////////////////////////
     for (var i = 0; i < roboXixi.Xixizeros.length; i++) {
         var xixizero = roboXixi.Xixizeros[i];
         $("#listaXixizeros").append("<li>[" + i + "]: " + xixizero.PrimeiroComentario() + "</li>");
     }
 
+    $("#listaXixizeros").append("<li>[" + roboXixi.Xixizeros.length + "]: RESULTADO FINAL </li>");
+
+    selecionarEtapa($("#listaXixizeros li:last-child"));
+
+    //////////////////////////////
     // Executa toda transformação
+    /////////////////////////////
     $("#preResposta").html(roboXixi.ResultadoFinal);
 
+    //////////////////////////////////////////////////////////
     // coloca evento para mudar a visualização dos resultados
-    $("#listaXixizeros li").click(function() {
+    //////////////////////////////////////////////////////////
+    $("#listaXixizeros li").click(function () {
         selecionarEtapa($(this));
     });
 
+
+
+
     // CTRL + CIMA
-    $.ctrl(38, function() {
+    $.ctrl(38, function () {
         var anterior = $(".selecionado").prev();
         if (anterior.length === 0)
             return false;
@@ -89,22 +115,21 @@
         return false;
     });
     // CTRL + BAIXO
-    $.ctrl(40, function() {
+    $.ctrl(40, function () {
         var proximo = $(".selecionado").next();
         if (proximo.length === 0)
             return false;
         selecionarEtapa(proximo);
         return false;
     });
-    // CTRL + C
+    // binds CTRL + C
     $.ctrl('C'.charCodeAt(0), prepararCopy);
-
     $("#spanCopyLink").click(prepararCopy);
 });
 
-$.ctrl = function(key, callback, args) {
+$.ctrl = function (key, callback, args) {
     var isCtrl = false;
-    $(document).keydown(function(e) {
+    $(document).keydown(function (e) {
         if (!args) args = []; // IE barks when args is null
 
         if (e.ctrlKey) isCtrl = true;
@@ -112,7 +137,7 @@ $.ctrl = function(key, callback, args) {
             callback.apply(this, args);
             //e.preventDefault();
         }
-    }).keyup(function(e) {
+    }).keyup(function (e) {
         if (e.ctrlKey) isCtrl = false;
     });
 };

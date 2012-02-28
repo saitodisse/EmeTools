@@ -170,16 +170,16 @@ var main = function () {
             document.selection.Replace("\\s{2,}", " ", eeFindNext | eeReplaceAll | eeFindReplaceRegExp);
             break;
         case OP_SORT:
-            sameWindow(OrdenarTudo(getAllText(), 0).join('\r\n'));
+            sameWindow(ordenarTudo(getAllText(), 0).join('\r\n'));
             break;
         case OP_SORT_DESC:
-            sameWindow(OrdenarTudo(getAllText(), 1).join('\r\n'));
+            sameWindow(ordenarTudo(getAllText(), 1).join('\r\n'));
             break;
         case OP_SORT_DISTINCT:
-            sameWindow(Distinct(getAllText(), 0).join('\r\n'));
+            sameWindow(distinct(getAllText(), 0).join('\r\n'));
             break;
         case OP_SORT_DISTINCT_DESC:
-            sameWindow(Distinct(getAllText(), 1).join('\r\n'));
+            sameWindow(distinct(getAllText(), 1).join('\r\n'));
             break;
         case OP_SQL_DECLARE_SET:
             if (document.selection.text.length > 0) {
