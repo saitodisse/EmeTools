@@ -1,0 +1,88 @@
+﻿#container
+{
+    width: 900px;
+}
+
+
+#divListaXixizeros
+{
+    border-color: #eee;
+    border-style: solid;
+    float: left;
+    width: 100%;
+    padding: 8px;
+}
+
+#divEscripte
+{
+    border-color: #eee;
+    border-style: solid;
+    float: left;
+    width: 100%;
+    padding: 8px;
+}
+
+#preXixizero
+{
+    font-size: 14pt;
+    background-color: #fcfcfc;
+    border-color: #efe;
+    border-style: solid;
+    height: 100%;
+    width: 880px;
+}
+
+#listaXixizeros li
+{
+    border-color: #eee;
+    border-style: solid;
+    border-width: 1px;
+    padding: 2px;
+    width: 90%;
+    font-size: 10pt;
+    cursor: pointer;
+}
+
+#divResultadoParcial
+{
+    border-color: #eee;
+    border-style: solid;
+    padding: 8px;
+    float: left;
+    width: 880px;
+}
+
+.naoSelecionado
+{
+    background-color: #fff;
+}
+.selecionado
+{
+    background-color: #fee;
+}
+
+#divCopyLink
+{
+    border-color: #eee;
+    border-style: solid;
+    text-align: right;
+    width: 100%;
+}
+#spanCopyLink
+{
+    cursor: pointer;
+    text-decoration: underline;
+}
+#preEscripteCompleto
+{
+    width: 100px;
+    height: 20px;
+    font-size: 8pt;
+}
+
+.subTitulo
+{
+    padding: 3px;
+    font-size: 11pt;
+    background-color: #eee;
+}
