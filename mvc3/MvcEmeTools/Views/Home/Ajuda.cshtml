@@ -3,35 +3,102 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Emetools</h1>
+<h1>Emetools :: ajuda</h1>
 <pre class="codigo">
+--------------------------
+** História do EmeTools **
+--------------------------
+Este projeto iniciou com a criação do macro XXX para EmEditor. 
+O comportamento deste macro é substituir todas ocorrências de
+xxx por cada linha informada na parte de cima. Por exemplo, se
+quisermos colocar um flechinha no começo de cada linha podemos fazer
+assim:
 
-1 - Javascript script that emulates SED using jsed.
-2 - Collections of javascript EmEditor's macros. Simple things like trim, sort and sort distinct are very useful.
+a
+b
+c
+d
+///
+-> xxx
 
-------------------
-SED - ///s
-------------------
-Executes SED comand with "-n" modificator
-  aaa
-  bbb
-  ///s
-  /b/p
+resultado:
+-> a
+-> b
+-> c
+-> d
+
+Cada linha informada acima do separador "///" vai ser ser inserida
+no 'xxx' da parte de baixo, o template.
+
+A função XXX é utilizada no meu dia a dia. Com o tempo fui incluindo mais 
+funcionalidades até que se transformou nos EmeTools. Daí já era possível
+substituir dados de tabelas separados por TAB em: xxx1 xxx2 xxx3
+ordenação, distinct, extração via via regex, procurar na lista e transpose.
+
+Hoje estas funcionalidades estão disponíveis atravéz de um menu javascript,
+que está contido na pasta \EmeTools\mvc3\MvcEmeTools\Scripts\EmeTools\EmEditor_menu.js
+deste projeto.
+
+--------------------------
+** Escriptes **
+--------------------------
+Escriptes é uma nova forma de alterar textos.
+Com ele é possível usar vários separadores com funções diferentes.
+ - Utilizar comandos de SED. (///s)
+ - Realizar multiplas substituições com regex. (///r)
+Com maior maturidade na programação, fiz todo projeto utilizando
+testes e muitas vezes no formato TDD, com qUnit.
+----------------------------
+** Comandos dos Escriptes **
+----------------------------
+
+    -----------------
+    :: Replace - ///r
+    -----------------
+    Realiza uma substituição regex javascript.
+
+      aaa
+      bbb
+      ///r
+      # TROCA TODOS 'A' POR 'X'
+      a
+      /
+      x
+ 
+      result:
+      xxx
+      bbb
+
+
+    -------------
+    :: SED - ///s
+    -------------
+    Executa comando SED com modificador "-n" ativado
+
+      aaa
+      bbb
+      ///s
+      # LOCALIZA A LINHA QUE CONTÉM UM 'B
+      /b/p
   
-  result:
-  bbb
+      result:
+      bbb
 
 
-------------------
-template - ///t
-------------------
-Replaces 'xxx' -> 'abc'
-  abc
-  ///t
-  [xxx]
+    ------------------
+    :: template - ///t
+    ------------------
+    Substitui 'xxx' por 'abc\ndef'
 
-  result:
-  [abc]
+      abc
+      def
+      ///t
+      # substitui as ocorrências de XXX por todo conteúdo passado
+      [xxx]
+
+      result:
+      [abc
+      def]
 
 </pre>
 

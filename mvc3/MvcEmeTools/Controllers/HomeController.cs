@@ -6,7 +6,7 @@ namespace MvcEmeTools.Controllers
     {
         //
         // GET: /Home/
-        public ActionResult Index()
+        public ActionResult Ajuda()
         {
             return View();
         }

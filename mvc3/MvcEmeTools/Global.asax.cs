@@ -20,7 +20,7 @@ namespace MvcEmeTools
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "EmeTemplates", action = "Index", id = UrlParameter.Optional } // Parameter defaults
+                new { controller = "Escriptes", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
 
         }

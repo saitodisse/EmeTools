@@ -8,10 +8,10 @@ using NUnit.Framework;
 namespace Dominio.Test
 {
     [TestFixture]
-    public class GerenciadorEmeTemplatesTest
+    public class GerenciadorEscriptesTest
     {
         private static Mock<IRepositorioArquivoTexto> _repositorioArquivoEscripteMock;
-        private static GerenciadorEmeTemplates _gerenciadorEmeTemplates;
+        private static GerenciadorEscriptes _gerenciadorEscriptes;
         private Mock<IConfiguracaoGerenciador> _configuracaoGerenciador;
 
         [SetUp]
@@ -19,7 +19,7 @@ namespace Dominio.Test
         {
             _repositorioArquivoEscripteMock = new Mock<IRepositorioArquivoTexto>();
             _configuracaoGerenciador = new Mock<IConfiguracaoGerenciador>();
-            _gerenciadorEmeTemplates = new GerenciadorEmeTemplates(_repositorioArquivoEscripteMock.Object, _configuracaoGerenciador.Object);
+            _gerenciadorEscriptes = new GerenciadorEscriptes(_repositorioArquivoEscripteMock.Object, _configuracaoGerenciador.Object);
         }
         
         [Test]
@@ -27,7 +27,7 @@ namespace Dominio.Test
         {
             var escripte = new Escripte();
 
-            _gerenciadorEmeTemplates.GravarEscripte(escripte);
+            _gerenciadorEscriptes.GravarEscripte(escripte);
 
             Assert.IsNotNullOrEmpty(escripte.IdSha1);
         }
@@ -37,7 +37,7 @@ namespace Dominio.Test
         {
             var escripte = EscripteStub();
 
-            _gerenciadorEmeTemplates.GravarEscripte(escripte);
+            _gerenciadorEscriptes.GravarEscripte(escripte);
 
             _repositorioArquivoEscripteMock.Verify(x => x.Gravar(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
         }
@@ -45,7 +45,7 @@ namespace Dominio.Test
         [Test]
         public void recupera_lista_escriptes()
         {
-            _gerenciadorEmeTemplates.PesquisarTodos();
+            _gerenciadorEscriptes.PesquisarTodos();
 
             _repositorioArquivoEscripteMock.Verify(x => x.Buscar(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
         }
@@ -55,8 +55,8 @@ namespace Dominio.Test
         {
             var respostaSimuladaJSON = "{\"IdSha1\":\"8E45063BEB9B473C6232F5B764D893E5F310CAED\",\"Nome\":\"a\",\"Descricao\":\"a\",\"Texto\":\"a\"}";
             _repositorioArquivoEscripteMock.Setup(x => x.Ler(It.IsAny<string>())).Returns(respostaSimuladaJSON);
-            _gerenciadorEmeTemplates = new GerenciadorEmeTemplates(_repositorioArquivoEscripteMock.Object, _configuracaoGerenciador.Object);
-            Escripte escripte = _gerenciadorEmeTemplates.Pesquisar("8E45063BEB9B473C6232F5B764D893E5F310CAED");
+            _gerenciadorEscriptes = new GerenciadorEscriptes(_repositorioArquivoEscripteMock.Object, _configuracaoGerenciador.Object);
+            Escripte escripte = _gerenciadorEscriptes.Pesquisar("8E45063BEB9B473C6232F5B764D893E5F310CAED");
             Assert.AreEqual("a", escripte.Nome);
         }
 
@@ -67,7 +67,7 @@ namespace Dominio.Test
 
             var idSha1 = escripte.IdSha1;
             
-            _gerenciadorEmeTemplates.Atualizar(escripte);
+            _gerenciadorEscriptes.Atualizar(escripte);
             
             Assert.AreEqual(idSha1, escripte.IdSha1);
         }
@@ -87,8 +87,8 @@ namespace Dominio.Test
         {
             var respostaSimuladaJSON = "{\"IdSha1\":\"8E45063BEB9B473C6232F5B764D893E5F310CAED\",\"Nome\":\"a\",\"Descricao\":\"a\",\"Texto\":\"a\"}";
             _repositorioArquivoEscripteMock.Setup(x => x.Ler(It.IsAny<string>())).Returns(respostaSimuladaJSON);
-            _gerenciadorEmeTemplates = new GerenciadorEmeTemplates(_repositorioArquivoEscripteMock.Object, _configuracaoGerenciador.Object);
-            _gerenciadorEmeTemplates.Remover("8E45063BEB9B473C6232F5B764D893E5F310CAED");
+            _gerenciadorEscriptes = new GerenciadorEscriptes(_repositorioArquivoEscripteMock.Object, _configuracaoGerenciador.Object);
+            _gerenciadorEscriptes.Remover("8E45063BEB9B473C6232F5B764D893E5F310CAED");
         }
     }
 }

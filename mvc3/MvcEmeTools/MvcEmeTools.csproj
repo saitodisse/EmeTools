@@ -78,13 +78,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\NinjectMVC3.cs" />
-    <Compile Include="Controllers\EmeTemplatesController.cs" />
+    <Compile Include="Controllers\EscriptesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="Scripts\EmeTools\site\editor.js" />
+    <Content Include="Content\Escriptes\Sequencer.css" />
+    <Content Include="Scripts\Escriptes\Sequencer.js" />
+    <Content Include="Scripts\Escriptes\Edit.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\qunit.css" />
@@ -215,22 +217,22 @@
     <Content Include="Views\Home\qUnit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\EmeTemplates\Create.cshtml" />
+    <Content Include="Views\Escriptes\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="TemplatesJson\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\EmeTemplates\Index.cshtml" />
+    <Content Include="Views\Escriptes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\EmeTemplates\Edit.cshtml" />
+    <Content Include="Views\Escriptes\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\EmeTemplates\Sequencer.cshtml" />
+    <Content Include="Views\Escriptes\Sequencer.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\EmeTemplates\menu_edit_sequencer.cshtml" />
+    <Content Include="Views\Escriptes\menu_edit_sequencer.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

@@ -34,7 +34,7 @@ $().ready(function () {
                 exibirMensagemUi("Sucesso", "Os dados foram salvos com sucesso. Mensagem retornada: [" + data + "]");
             }
             if (data === "criado") {
-                window.location.href = "../EmeTemplates";
+                window.location.href = "../Escriptes";
             }
         });
 

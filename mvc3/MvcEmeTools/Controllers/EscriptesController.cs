@@ -6,34 +6,34 @@ using Dominio.Servicos;
 
 namespace MvcEmeTools.Controllers
 {
-    public class EmeTemplatesController : Controller
+    public class EscriptesController : Controller
     {
-        private IGerenciadorEmeTemplates _gerenciadorEmeTemplates;
+        private IGerenciadorEscriptes _gerenciadorEscriptes;
 
-        public EmeTemplatesController(IGerenciadorEmeTemplates gerenciadorEmeTemplates)
+        public EscriptesController(IGerenciadorEscriptes gerenciadorEscriptes)
         {
-            _gerenciadorEmeTemplates = gerenciadorEmeTemplates;
+            _gerenciadorEscriptes = gerenciadorEscriptes;
         }
 
         //
-        // GET: /EmeTemplates/
+        // GET: /Escriptes/
 
         public ActionResult Index()
         {
-            var escriptes = _gerenciadorEmeTemplates.PesquisarTodos();
+            var escriptes = _gerenciadorEscriptes.PesquisarTodos();
 
             return View(escriptes);
         }
 
         public ActionResult Sequencer(string id)
         {
-            var escripte = _gerenciadorEmeTemplates.Pesquisar(id);
+            var escripte = _gerenciadorEscriptes.Pesquisar(id);
 
             return View(escripte);
         }
 
         //
-        // GET: /EmeTemplates/Create
+        // GET: /Escriptes/Create
 
         public ActionResult Create()
         {
@@ -42,7 +42,7 @@ namespace MvcEmeTools.Controllers
         }
 
         //
-        // POST: /EmeTemplates/Create
+        // POST: /Escriptes/Create
 
         [HttpPost]
         public ActionResult Create(FormCollection collection)
@@ -51,7 +51,7 @@ namespace MvcEmeTools.Controllers
             {
                 var escripte = new Escripte();
                 escripte = AtualizarDadosViaResponse(collection, escripte);
-                _gerenciadorEmeTemplates.GravarEscripte(escripte);
+                _gerenciadorEscriptes.GravarEscripte(escripte);
                 Response.Write("criado");
                 return null;
             }
@@ -65,16 +65,16 @@ namespace MvcEmeTools.Controllers
 
         public ActionResult Edit(string id)
         {
-            var escripte = _gerenciadorEmeTemplates.Pesquisar(id);
+            var escripte = _gerenciadorEscriptes.Pesquisar(id);
             return View(escripte);
         }
 
         [HttpPost]
         public ActionResult Edit(string id, FormCollection collection)
         {
-            var escripte = _gerenciadorEmeTemplates.Pesquisar(id);
+            var escripte = _gerenciadorEscriptes.Pesquisar(id);
             AtualizarDadosViaResponse(collection, escripte);
-            _gerenciadorEmeTemplates.Atualizar(escripte);
+            _gerenciadorEscriptes.Atualizar(escripte);
             Response.Write("salvo");
             return null;
         }
@@ -94,11 +94,11 @@ namespace MvcEmeTools.Controllers
         }
 
         //
-        // GET: /EmeTemplates/Delete/5
+        // GET: /Escriptes/Delete/5
 
         public ActionResult Delete(string id)
         {
-            _gerenciadorEmeTemplates.Remover(id);
+            _gerenciadorEscriptes.Remover(id);
             return RedirectToAction("Index");
         }
     }

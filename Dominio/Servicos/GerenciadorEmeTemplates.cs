@@ -7,7 +7,7 @@ using JsonHelper;
 
 namespace Dominio.Servicos
 {
-    public interface IGerenciadorEmeTemplates
+    public interface IGerenciadorEscriptes
     {
         void GravarEscripte(Escripte escripte);
         List<Escripte> PesquisarTodos();
@@ -16,12 +16,12 @@ namespace Dominio.Servicos
         void Atualizar(Escripte escripte);
     }
 
-    public class GerenciadorEmeTemplates : IGerenciadorEmeTemplates
+    public class GerenciadorEscriptes : IGerenciadorEscriptes
     {
         private readonly IRepositorioArquivoTexto _repositorioArquivoTexto;
         private readonly IConfiguracaoGerenciador _configuracaoGerenciador;
 
-        public GerenciadorEmeTemplates(IRepositorioArquivoTexto repositorioArquivoTexto, IConfiguracaoGerenciador configuracaoGerenciador)
+        public GerenciadorEscriptes(IRepositorioArquivoTexto repositorioArquivoTexto, IConfiguracaoGerenciador configuracaoGerenciador)
         {
             _repositorioArquivoTexto = repositorioArquivoTexto;
             _configuracaoGerenciador = configuracaoGerenciador;

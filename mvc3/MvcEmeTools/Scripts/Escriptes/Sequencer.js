@@ -1,5 +1,5 @@
-﻿$().ready(function () {
-    var selecionarEtapa = function (elJquery) {
+﻿$().ready(function() {
+    var selecionarEtapa = function(elJquery) {
         // limpa os itens selecionados
         $("#listaXixizeros li").attr("class", "naoSelecionado");
 
@@ -8,7 +8,7 @@
 
         // pega o indice
         var html = elJquery.html();
-        var indiceSelecionado = parseInt(html.replace(/^\[([-\d]+)\].*/, "$1"));
+        var indiceSelecionado = parseInt(html.replace( /^\[([-\d]+)\].*/ , "$1"));
 
         // recupera resultado do indice
         if (indiceSelecionado >= 0) {
@@ -20,24 +20,24 @@
         }
     };
 
-    var prepararCopy = function () {
+    var prepararCopy = function() {
         $("#preEscripteCompleto").text(xixizeroParaCopia());
         $("#preEscripteCompleto")[0].focus();
         $("#preEscripteCompleto")[0].select();
 
-        $("#spanCopyLink").text('copiado. Digite Ctrl + C agora...');
+        $("#spanCopyLink").text('OK! Copiado!');
 
         var timeout;
         clearTimeout(timeout);
-        timeout = setTimeout(function () {
-            $("#spanCopyLink").text('copy');
+        timeout = setTimeout(function() {
+            $("#spanCopyLink").text('Pressione CTRL + C para copiar');
         }, 2000);
     };
 
     // Ativa botão para copiar para o clipboard
-    var xixizeroParaCopia = function () {
+    var xixizeroParaCopia = function() {
         // pega o indice
-        var indiceSelecionado = parseInt($(".selecionado").html().replace(/^\[([-\d]+)\].*/, "$1"));
+        var indiceSelecionado = parseInt($(".selecionado").html().replace( /^\[([-\d]+)\].*/ , "$1"));
 
         if (indiceSelecionado < 0)
             return '';
@@ -46,8 +46,7 @@
 
         if (indiceSelecionado == 0) {
             dadosAntesTransformacao = roboXixi.DadosIniciais;
-        }
-        else {
+        } else {
             // pega o dado anterior
             dadosAntesTransformacao = roboXixi.Xixizeros[indiceSelecionado - 1].DadoTransformado;
         }
@@ -77,12 +76,12 @@
     $("#preResposta").html(roboXixi.ResultadoFinal);
 
     // coloca evento para mudar a visualização dos resultados
-    $("#listaXixizeros li").click(function () {
+    $("#listaXixizeros li").click(function() {
         selecionarEtapa($(this));
     });
 
     // CTRL + CIMA
-    $.ctrl(38, function () {
+    $.ctrl(38, function() {
         var anterior = $(".selecionado").prev();
         if (anterior.length === 0)
             return false;
@@ -90,7 +89,7 @@
         return false;
     });
     // CTRL + BAIXO
-    $.ctrl(40, function () {
+    $.ctrl(40, function() {
         var proximo = $(".selecionado").next();
         if (proximo.length === 0)
             return false;
@@ -103,9 +102,9 @@
     $("#spanCopyLink").click(prepararCopy);
 });
 
-$.ctrl = function (key, callback, args) {
+$.ctrl = function(key, callback, args) {
     var isCtrl = false;
-    $(document).keydown(function (e) {
+    $(document).keydown(function(e) {
         if (!args) args = []; // IE barks when args is null
 
         if (e.ctrlKey) isCtrl = true;
@@ -113,7 +112,7 @@ $.ctrl = function (key, callback, args) {
             callback.apply(this, args);
             //e.preventDefault();
         }
-    }).keyup(function (e) {
+    }).keyup(function(e) {
         if (e.ctrlKey) isCtrl = false;
     });
 };
