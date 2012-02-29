@@ -69,6 +69,30 @@
         return resultado;
     };
 
+    //////////////////////////////////////////////////////////
+    // KEY-BINDS:
+    //////////////////////////////////////////////////////////
+    // CTRL + CIMA
+    $.ctrl(38, false, function () {
+        var anterior = $(".selecionado").prev();
+        if (anterior.length === 0)
+            return false;
+        selecionarEtapa(anterior);
+        return false;
+    });
+    // CTRL + BAIXO
+    $.ctrl(40, false, function () {
+        var proximo = $(".selecionado").next();
+        if (proximo.length === 0)
+            return false;
+        selecionarEtapa(proximo);
+        return false;
+    });
+    // CTRL + C
+    $.ctrl('C'.charCodeAt(0), true, prepararCopy);
+    $("#spanCopyLink").click(prepararCopy);
+
+
 
 
 
@@ -102,31 +126,7 @@
     $("#listaXixizeros li").click(function () {
         selecionarEtapa($(this));
     });
-
-
-
-    //////////////////////////////////////////////////////////
-    // KEY-BINDS:
-    //////////////////////////////////////////////////////////
-    // CTRL + CIMA
-    $.ctrl(38, false, function () {
-        var anterior = $(".selecionado").prev();
-        if (anterior.length === 0)
-            return false;
-        selecionarEtapa(anterior);
-        return false;
-    });
-    // CTRL + BAIXO
-    $.ctrl(40, false, function () {
-        var proximo = $(".selecionado").next();
-        if (proximo.length === 0)
-            return false;
-        selecionarEtapa(proximo);
-        return false;
-    });
-    // CTRL + C
-    $.ctrl('C'.charCodeAt(0), true, prepararCopy);
-    $("#spanCopyLink").click(prepararCopy);
+    
 });
 
 $.ctrl = function (key, propagate, callback, args) {
