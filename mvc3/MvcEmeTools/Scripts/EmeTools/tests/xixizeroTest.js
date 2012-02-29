@@ -47,7 +47,7 @@ $(document).ready(function () {
         escripti += "# aqui vai o que será substituido por x" + NEW_LINE;  //   #   : ignora comentário
         escripti += "x";
 
-        var objReplcerSubstitutor = Obter_replacer_e_substitutor(escripti, NEW_LINE);
+        var objReplcerSubstitutor = obter_replacer_e_substitutor(escripti, NEW_LINE);
         equal(objReplcerSubstitutor.replacer, "b");
         equal(objReplcerSubstitutor.substitutor, "x");
     });

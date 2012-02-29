@@ -19,11 +19,12 @@ function disparaErro(name, message) {
 }  
 
 //Exceptions
-function ComandoNaoInformado() {
+var COMANDO_NAO_INFORMADO = function() {
     return "O comando do '///' deve ser informado logo apos o '///'";
 };
 
 var replace_show_invisible = function (texto) {
+    texto = texto.replace(/^(\/\/\/\w)$/gm, "<span class='comando'>$1</span>");
     texto = texto.replace(/^\/$/gm, "<span class='char_replacer_separator'>/</span>");
     texto = texto.replace(/$/gm, "<span class='char_n'>\\n</span>");
     texto = texto.replace(/\t/gm, "<span class='char_tab'>\\t</span>");
@@ -37,7 +38,16 @@ var Xixizero = function (escripte, comando, newLine) {
     this.Escripte = escripte;
     this.Indice = -99;
 
-    this.PrimeiroComentario = function () {
+    this.escripteFormatado = function () {
+        var resultado = "";
+        resultado += "///";
+        resultado += this.Comando;
+        resultado += newLine;
+        resultado += this.Escripte;
+        return resultado;
+    };
+
+    this.primeiroComentario = function () {
         var re = /#.*/gi;
         var m = re.exec(this.Escripte);
         if (m !== null) {
@@ -84,7 +94,7 @@ var RoboXixi = function (texto, newLine) {
     var escripte = "";
     var i;
 
-    this.Iniciar = function () {
+    this.iniciar = function () {
         var comandoAnterior = "";
         var comandoUltimo = "";
 
@@ -102,8 +112,8 @@ var RoboXixi = function (texto, newLine) {
                     // comando não informado dispara erro
                     if (listaLinhas[i].length < 4) {
                         disparaErro(
-                            'RoboXixi.Iniciar() -> ComandoNaoInformado',
-                            'A linha [' + (i + 1) + '] possui o separador "///" porem nao foi informado o comando.\nComandos disponiveis: "x" ou "s".\nEx: "///t" ou "///s"');
+                            'RoboXixi.iniciar() -> COMANDO_NAO_INFORMADO',
+                            'A linha [' + (i + 1) + '] possui o separador "///" porem nao foi informado o comando.\nComandos disponiveis: "///c", "///t", "///r" ou "///s".');
                     }
 
                     comandoUltimo = listaLinhas[i].substring(3, 4);
@@ -143,7 +153,7 @@ var RoboXixi = function (texto, newLine) {
         }
     };
 
-    this.Transformar = function (indiceDeParada) {
+    this.transformar = function (indiceDeParada) {
         var indiceUltimoXixizero = this.Xixizeros.length - 1;
         if (indiceDeParada !== undefined) {
             // Define indice final
@@ -162,11 +172,11 @@ var RoboXixi = function (texto, newLine) {
     };
 
     //main
-    this.Iniciar();
+    this.iniciar();
 };
 
 
-function Obter_replacer_e_substitutor(escripte, newLine) {
+function obter_replacer_e_substitutor(escripte, newLine) {
     //retira todos os comentários
     escripte = replaceTodos(escripte, "^#.*" + newLine + "?", "");
 
@@ -196,7 +206,7 @@ function Obter_replacer_e_substitutor(escripte, newLine) {
 }
 
 function substituirCustomizado(escripte, texto, newLine){
-    var objReplacer = Obter_replacer_e_substitutor(escripte, newLine);
+    var objReplacer = obter_replacer_e_substitutor(escripte, newLine);
     
     //realiza a substituicao no texto
     return replaceTodos(texto, objReplacer.replacer, objReplacer.substitutor);

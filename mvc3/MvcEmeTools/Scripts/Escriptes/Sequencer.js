@@ -13,7 +13,7 @@
 
         // recupera resultado do indice
         if (indiceSelecionado >= 0 && indiceSelecionado < roboXixi.Xixizeros.length) {
-            $("#preXixizero").html(replace_show_invisible(roboXixi.Xixizeros[indiceSelecionado].Escripte));
+            $("#preXixizero").html(replace_show_invisible(roboXixi.Xixizeros[indiceSelecionado].escripteFormatado()));
             $("#preResposta").html(replace_show_invisible(roboXixi.Xixizeros[indiceSelecionado].DadoTransformado));
         } else if (indiceSelecionado < 0) {
             $("#preXixizero").html('');
@@ -25,7 +25,7 @@
     };
 
     var prepararCopy = function () {
-        $("#preEscripteCompleto").text(xixizeroParaCopia());
+        $("#preEscripteCompleto").val(xixizeroParaCopia());
         $("#preEscripteCompleto")[0].focus();
         $("#preEscripteCompleto")[0].select();
 
@@ -77,14 +77,14 @@
     /////////////////////////////
     var texto = $("#preEscripteCompleto").html();
     var roboXixi = new RoboXixi(texto, '\n');
-    roboXixi.Transformar();
+    roboXixi.transformar();
 
     ///////////////////////////
     // cria a lista dos passos
     //////////////////////////
     for (var i = 0; i < roboXixi.Xixizeros.length; i++) {
         var xixizero = roboXixi.Xixizeros[i];
-        $("#listaXixizeros").append("<li>[" + i + "]: " + xixizero.PrimeiroComentario() + "</li>");
+        $("#listaXixizeros").append("<li>[" + i + "]: " + xixizero.primeiroComentario() + "</li>");
     }
 
     $("#listaXixizeros").append("<li>[" + roboXixi.Xixizeros.length + "]: RESULTADO FINAL </li>");
@@ -105,9 +105,11 @@
 
 
 
-
+    //////////////////////////////////////////////////////////
+    // KEY-BINDS:
+    //////////////////////////////////////////////////////////
     // CTRL + CIMA
-    $.ctrl(38, function () {
+    $.ctrl(38, false, function () {
         var anterior = $(".selecionado").prev();
         if (anterior.length === 0)
             return false;
@@ -115,19 +117,19 @@
         return false;
     });
     // CTRL + BAIXO
-    $.ctrl(40, function () {
+    $.ctrl(40, false, function () {
         var proximo = $(".selecionado").next();
         if (proximo.length === 0)
             return false;
         selecionarEtapa(proximo);
         return false;
     });
-    // binds CTRL + C
-    $.ctrl('C'.charCodeAt(0), prepararCopy);
+    // CTRL + C
+    $.ctrl('C'.charCodeAt(0), true, prepararCopy);
     $("#spanCopyLink").click(prepararCopy);
 });
 
-$.ctrl = function (key, callback, args) {
+$.ctrl = function (key, propagate, callback, args) {
     var isCtrl = false;
     $(document).keydown(function (e) {
         if (!args) args = []; // IE barks when args is null
@@ -135,7 +137,10 @@ $.ctrl = function (key, callback, args) {
         if (e.ctrlKey) isCtrl = true;
         if (e.keyCode == key && isCtrl) {
             callback.apply(this, args);
-            //e.preventDefault();
+            if (propagate === false) {
+                e.preventDefault();
+                return false;
+            }
         }
     }).keyup(function (e) {
         if (e.ctrlKey) isCtrl = false;

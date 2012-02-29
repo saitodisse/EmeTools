@@ -1,4 +1,4 @@
-NEW_LINE = '\n';
+﻿NEW_LINE = '\n';
 
 $(document).ready(function () {
     test("RoboXixi cria Xixizeros", function () {
@@ -70,7 +70,7 @@ $(document).ready(function () {
         esperado += "22/02	DOC INT 953354 julio 	4175 	00 	- 		" + NEW_LINE;
         esperado += "22/02 			S A L D O 				14,55 ";
         
-        roboXixi.Transformar();
+        roboXixi.transformar();
         equal(roboXixi.ResultadoFinal, esperado);
     });
 
@@ -119,7 +119,7 @@ $(document).ready(function () {
         esperado += "22/02	DOC INT 953354 julio 	4175 	00 	- 		" + NEW_LINE;
         esperado += "22/02 			S A L D O 				14,55 ";
 
-        roboXixi.Transformar();
+        roboXixi.transformar();
         equal(roboXixi.ResultadoFinal, esperado);
     });
 
@@ -169,7 +169,7 @@ $(document).ready(function () {
         esperado += "17/02 			ELETROPAULO 1000652491 		34 	- 		" + NEW_LINE;
         esperado += "22/02 			REMUNERACAO/SALARIO 		1,78 			" + NEW_LINE;
         esperado += "22/02	DOC INT 953354 julio 	4175 	00 	- 		" + NEW_LINE;
-        roboXixi.Transformar();
+        roboXixi.transformar();
         equal(roboXixi.ResultadoFinal, esperado);
     });
 
@@ -184,15 +184,15 @@ $(document).ready(function () {
         try {
             // chama o construtor
             var foo = new RoboXixi(texto, '\n');
-            ok(false, 'ComandoNaoInformado não foi disparado');
+            ok(false, 'COMANDO_NAO_INFORMADO não foi disparado');
         } catch (ex) {
             // deve lançar excessão
-            equal(ex.name, "RoboXixi.Iniciar() -> ComandoNaoInformado", "nome da excessão não bate com ComandoNaoInformado");
+            equal(ex.name, "RoboXixi.iniciar() -> COMANDO_NAO_INFORMADO", "nome da excessão não bate com COMANDO_NAO_INFORMADO");
         }
     });
 
 
-    test("RoboXixi.Transformar() 's' e 'x' combinados", function () {
+    test("RoboXixi.transformar() 's' e 'x' combinados", function () {
 
         var texto = "";
         texto += "aaa" + NEW_LINE;
@@ -215,11 +215,11 @@ $(document).ready(function () {
         resultadoEsperado += "yyy\n";
         resultadoEsperado += "ccc*";
 
-        roboXixi.Transformar();
+        roboXixi.transformar();
         equal(roboXixi.ResultadoFinal, resultadoEsperado);
     });
 
-    test("RoboXixi.Transformar(com indice)", function () {
+    test("RoboXixi.transformar(com indice)", function () {
 
         var texto = "";
         texto += "aaa" + NEW_LINE;
@@ -239,13 +239,13 @@ $(document).ready(function () {
         texto += "x" + NEW_LINE;
 
         var roboXixi = new RoboXixi(texto, NEW_LINE);
-        roboXixi.Transformar();
+        roboXixi.transformar();
 
-        equal(roboXixi.DadosIniciais, "aaa" + NEW_LINE + "bbb" + NEW_LINE + "ccc", "roboXixi.Transformar(0)");
-        equal(roboXixi.Xixizeros[0].DadoTransformado, "xxx" + NEW_LINE + "bbb" + NEW_LINE + "ccc", "roboXixi.Transformar(1)");
-        equal(roboXixi.Xixizeros[1].DadoTransformado, "xxx" + NEW_LINE + "xxx" + NEW_LINE + "ccc", "roboXixi.Transformar(2)");
-        equal(roboXixi.Xixizeros[2].DadoTransformado, "xxx" + NEW_LINE + "xxx" + NEW_LINE + "xxx", "roboXixi.Transformar(3)");
-        equal(roboXixi.ResultadoFinal, "xxx" + NEW_LINE + "xxx" + NEW_LINE + "xxx", "roboXixi.Transformar( )");
+        equal(roboXixi.DadosIniciais, "aaa" + NEW_LINE + "bbb" + NEW_LINE + "ccc", "roboXixi.transformar(0)");
+        equal(roboXixi.Xixizeros[0].DadoTransformado, "xxx" + NEW_LINE + "bbb" + NEW_LINE + "ccc", "roboXixi.transformar(1)");
+        equal(roboXixi.Xixizeros[1].DadoTransformado, "xxx" + NEW_LINE + "xxx" + NEW_LINE + "ccc", "roboXixi.transformar(2)");
+        equal(roboXixi.Xixizeros[2].DadoTransformado, "xxx" + NEW_LINE + "xxx" + NEW_LINE + "xxx", "roboXixi.transformar(3)");
+        equal(roboXixi.ResultadoFinal, "xxx" + NEW_LINE + "xxx" + NEW_LINE + "xxx", "roboXixi.transformar( )");
     });
 
     test("RoboXixi: o comentário pode estar em qualquer lugar do escripte", function () {
@@ -262,7 +262,7 @@ $(document).ready(function () {
         texto += "# substituitor: comentário depois" + NEW_LINE;
 
         var roboXixi = new RoboXixi(texto, NEW_LINE);
-        roboXixi.Transformar();
+        roboXixi.transformar();
 
         equal(roboXixi.Xixizeros[0].DadoTransformado, "xxx", "roboXixi.Xixizeros[0].DadoTransformado");
     });
