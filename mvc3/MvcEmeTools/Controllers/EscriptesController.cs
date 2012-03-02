@@ -45,6 +45,7 @@ namespace MvcEmeTools.Controllers
         // POST: /Escriptes/Create
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Create(FormCollection collection)
         {
             try
@@ -70,6 +71,7 @@ namespace MvcEmeTools.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Edit(string id, FormCollection collection)
         {
             var escripte = _gerenciadorEscriptes.Pesquisar(id);

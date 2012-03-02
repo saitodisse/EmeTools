@@ -61,6 +61,8 @@
             dadosAntesTransformacao = roboXixi.Xixizeros[indiceSelecionado - 1].DadoTransformado;
         }
 
+        dadosAntesTransformacao = decodeHtml(dadosAntesTransformacao);
+
         var resultado = dadosAntesTransformacao + "\n";
         // pega o escript atual
         var xixizeroProximo = roboXixi.Xixizeros[indiceSelecionado];
@@ -126,7 +128,7 @@
     $("#listaXixizeros li").click(function () {
         selecionarEtapa($(this));
     });
-    
+
 });
 
 $.ctrl = function (key, propagate, callback, args) {

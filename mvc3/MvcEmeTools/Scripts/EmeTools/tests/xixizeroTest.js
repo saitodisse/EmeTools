@@ -27,12 +27,12 @@ $(document).ready(function () {
 
     test("s[ed] substituir 'b' -> 'x' e imprimir tudo", function () {
 
-        var escripti = "";
-        escripti += "# coment" + NEW_LINE;  //   #   : ignora comentário
-        escripti += "s/b/x/" + NEW_LINE;  // s///  : substitui 'b' por 'x'
-        escripti += "p" + NEW_LINE;  //  'p'  : imprime todas linhas
+        var escripte = "";
+        escripte += "# coment" + NEW_LINE;  //   #   : ignora comentário
+        escripte += "s/b/x/" + NEW_LINE;  // s///  : substitui 'b' por 'x'
+        escripte += "p" + NEW_LINE;  //  'p'  : imprime todas linhas
 
-        var xixizero = new Xixizero(escripti, "s", NEW_LINE);
+        var xixizero = new Xixizero(escripte, "s", NEW_LINE);
         xixizero.transformar("abc\ndef");
         var atual = xixizero.DadoTransformado;
         var esperado = "axc\ndef\n";
@@ -40,31 +40,62 @@ $(document).ready(function () {
     });
 
     test("obter replacer e substitutors", function () {
-        var escripti = "";
-        escripti += "# aqui vai a expressão regular casadora" + NEW_LINE;  //   #   : ignora comentário
-        escripti += "b" + NEW_LINE;
-        escripti += "/" + NEW_LINE;
-        escripti += "# aqui vai o que será substituido por x" + NEW_LINE;  //   #   : ignora comentário
-        escripti += "x";
+        var escripte = "";
+        escripte += "# aqui vai a expressão regular casadora" + NEW_LINE;  //   #   : ignora comentário
+        escripte += "b" + NEW_LINE;
+        escripte += "/" + NEW_LINE;
+        escripte += "# aqui vai o que será substituido por x" + NEW_LINE;  //   #   : ignora comentário
+        escripte += "x";
 
-        var objReplcerSubstitutor = obter_replacer_e_substitutor(escripti, NEW_LINE);
+        var objReplcerSubstitutor = obter_replacer_e_substitutor(escripte, NEW_LINE);
         equal(objReplcerSubstitutor.replacer, "b");
         equal(objReplcerSubstitutor.substitutor, "x");
     });
 
     test("r[eplace javascript] permite fazer substuição simples", function () {
 
-        var escripti = "";
-        escripti += "# aqui vai a expressão regular casadora" + NEW_LINE;  //   #   : ignora comentário
-        escripti += "b" + NEW_LINE;
-        escripti += "/" + NEW_LINE;
-        escripti += "# aqui vai o que será substituido por" + NEW_LINE;  //   #   : ignora comentário
-        escripti += "x";
+        var escripte = "";
+        escripte += "# aqui vai a expressão regular casadora" + NEW_LINE;  //   #   : ignora comentário
+        escripte += "b" + NEW_LINE;
+        escripte += "/" + NEW_LINE;
+        escripte += "# aqui vai o que será substituido por" + NEW_LINE;  //   #   : ignora comentário
+        escripte += "x";
 
-        var xixizero = new Xixizero(escripti, "r", NEW_LINE);
+        var xixizero = new Xixizero(escripte, "r", NEW_LINE);
         xixizero.transformar("abc\ndef");
         var atual = xixizero.DadoTransformado;
         var esperado = "axc\ndef";
+        equal(atual, esperado);
+    });
+
+    test("replace classico", function () {
+        var expected = ".\n.\n.";
+        notEqual("aaa\nbbb\nccc".replace(/.*/gm, "."), expected, "/.*/gm");
+        equal("aaa\nbbb\nccc".replace(/^.*/gm, "."), expected, "/^.*/gm");
+        notEqual("aaa\nbbb\nccc".replace(/.*$/gm, "."), expected, "/.*$/gm");
+        equal("aaa\nbbb\nccc".replace(/.+/gm, "."), expected, "/.+/gm");
+    });
+
+    test("r[eplace] aceita \\n, \\t, \\[0-9] no substituitor", function () {
+
+        var dados = "";
+        dados += "aaa" + NEW_LINE;
+        dados += "bbb" + NEW_LINE;
+        dados += "ccc";
+
+        var escripte = "";
+        escripte += "(.+)" + NEW_LINE;
+        escripte += "/" + NEW_LINE;
+        escripte += "\\t\\1";
+
+        var esperado = "";
+        esperado += "\taaa" + NEW_LINE;
+        esperado += "\tbbb" + NEW_LINE;
+        esperado += "\tccc";
+
+        var xixizero = new Xixizero(escripte, "r", NEW_LINE);
+        xixizero.transformar(dados);
+        var atual = xixizero.DadoTransformado;
         equal(atual, esperado);
     });
 

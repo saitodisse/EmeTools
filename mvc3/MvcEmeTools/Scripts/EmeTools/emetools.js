@@ -207,7 +207,11 @@ function obter_replacer_e_substitutor(escripte, newLine) {
 
 function substituirCustomizado(escripte, texto, newLine){
     var objReplacer = obter_replacer_e_substitutor(escripte, newLine);
-    
+
+    objReplacer.substitutor = objReplacer.substitutor.replace(/\\n/gmi, "\n");
+    objReplacer.substitutor = objReplacer.substitutor.replace(/\\t/gmi, "\t");
+    objReplacer.substitutor = objReplacer.substitutor.replace(/\\(\d)/gmi, "$$$1");
+
     //realiza a substituicao no texto
     return replaceTodos(texto, objReplacer.replacer, objReplacer.substitutor);
 }
