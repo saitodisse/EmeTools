@@ -1,5 +1,4 @@
 ﻿$().ready(function () {
-
     var selecionarEtapa = function (elJquery) {
         // limpa os itens selecionados
         $("#listaXixizeros li").attr("class", "naoSelecionado");

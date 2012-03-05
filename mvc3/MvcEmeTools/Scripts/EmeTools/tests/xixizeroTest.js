@@ -196,4 +196,42 @@ $(document).ready(function () {
         equal(atual, esperado);
     });
 
+    test("d[ust.js] templates", function () {
+        var escripte = "";
+        escripte += 'Eu recebi o dado = [{linhas}]';
+        
+        var xixizero = new Xixizero(escripte, "d", "\n");
+
+        var dados = "";
+        dados += "abcd";
+
+        var esperado = "";
+        esperado += "Eu recebi o dado = [abcd]";
+
+        xixizero.transformar(dados);
+        var atual = xixizero.DadoTransformado;
+        equal(atual, esperado);
+    });
+
+    test("d[ust.js] com lista", function () {
+        var escripte = "";
+        escripte += '{#linhas}-> {.}{~n}{/linhas}';
+        
+        var xixizero = new Xixizero(escripte, "d", "\n");
+
+        var dados = "";
+        dados += "abc1" + NEW_LINE;
+        dados += "abc2" + NEW_LINE;
+        dados += "abc3";
+
+        var esperado = "";
+        esperado += "-> abc1" + NEW_LINE;
+        esperado += "-> abc2" + NEW_LINE;
+        esperado += "-> abc3" + NEW_LINE;
+
+        xixizero.transformar(dados);
+        var atual = xixizero.DadoTransformado;
+        equal(atual, esperado);
+    });
+
 });
