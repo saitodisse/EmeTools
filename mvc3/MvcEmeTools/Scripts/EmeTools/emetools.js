@@ -19,26 +19,26 @@ function disparaErro(name, message) {
 }
 
 //Exceptions
-var COMANDO_NAO_INFORMADO = function() {
+var COMANDO_NAO_INFORMADO = function () {
     return "O comando do '///' deve ser informado logo apos o '///'";
 };
 
-var replace_show_invisible = function(texto) {
-    texto = texto.replace( /^(\/\/\/\w)$/gm , "<span class='comando'>$1</span>");
-    texto = texto.replace( /^\/$/gm , "<span class='char_replacer_separator'>/</span>");
-    texto = texto.replace( /$/gm , "<span class='char_n'>\\n</span>");
-    texto = texto.replace( /\t/gm , "<span class='char_tab'>\\t</span>");
-    texto = texto.replace( /^(#.*)$/gm , "<span class='comentario'>$1</span>");
+var replace_show_invisible = function (texto) {
+    texto = texto.replace(/^(\/\/\/\w)$/gm, "<span class='comando'>$1</span>");
+    texto = texto.replace(/^\/$/gm, "<span class='char_replacer_separator'>/</span>");
+    texto = texto.replace(/$/gm, "<span class='char_n'>\\n</span>");
+    texto = texto.replace(/\t/gm, "<span class='char_tab'>\\t</span>");
+    texto = texto.replace(/^(#.*)$/gm, "<span class='comentario'>$1</span>");
     return texto;
 };
 
-var Xixizero = function(escripte, comando, newLine) {
+var Xixizero = function (escripte, comando, newLine) {
     this.DadoTransformado = "";
     this.Comando = comando;
     this.Escripte = escripte;
     this.Indice = -99;
 
-    this.escripteFormatado = function() {
+    this.escripteFormatado = function () {
         var resultado = "";
         resultado += "///";
         resultado += this.Comando;
@@ -47,8 +47,8 @@ var Xixizero = function(escripte, comando, newLine) {
         return resultado;
     };
 
-    this.primeiroComentario = function() {
-        var re = /#.*/gi ;
+    this.primeiroComentario = function () {
+        var re = /#.*/gi;
         var m = re.exec(this.Escripte);
         if (m !== null) {
             return m[0].substring(1);
@@ -56,14 +56,10 @@ var Xixizero = function(escripte, comando, newLine) {
         return escripte;
     };
 
-    this.transformar = function(texto) {
+    this.transformar = function (texto, roboXixi) {
         // (T)emplate: substitui 'xxx' por Escript
         if (this.Comando === "t") {
-            var ultimaLetra = texto.substring(texto.length - 1, texto.length);
-            if (ultimaLetra === newLine) {
-                texto = texto.substring(0, texto.length - newLine.length);
-            }
-            this.DadoTransformado = replaceTodos(this.Escripte, "xxx", texto);
+            this.DadoTransformado = aplicarTemplateUnderscore(texto, this, newLine, roboXixi);
         }
         // (R)EPLACE: substituição javascript genérica
         if (this.Comando === "r") {
@@ -82,22 +78,22 @@ var Xixizero = function(escripte, comando, newLine) {
         if (this.Comando === "c") {
             this.DadoTransformado = executarComandos(texto, this.Escripte, newLine);
         }
-        // (D)UST.JS: template engine
-        if (this.Comando === "d") {
-            aplicarTemplateDustjs(texto, this, newLine);
-        }
     };
 };
 
-var aplicarTemplateDustjs = function (texto, xixizero, newLine) {
-    var compiled = dust.compile(xixizero.Escripte, "template");
-    dust.loadSource(compiled);
-    dust.render("template", { "linhas": texto.split(newLine) }, function (err, out) {
-        xixizero.DadoTransformado = out;
-    });
+var aplicarTemplateUnderscore = function (texto, xixizero, newLine, roboXixi) {
+    var objetoPassado = {
+        "linhas": texto.split(newLine),
+        "roboXixi": roboXixi
+    };
+
+    //retira todos os comentários
+    var escripte = replaceTodos(xixizero.Escripte, "^#.*" + newLine + "?", "");
+
+    return _.template(escripte, objetoPassado);
 };
 
-var RoboXixi = function(texto, newLine) {
+var RoboXixi = function (texto, newLine) {
     this.Texto = texto;
     this.DadosIniciais = "";
     this.ResultadoFinal = "";
@@ -106,7 +102,7 @@ var RoboXixi = function(texto, newLine) {
     var escripte = "";
     var i;
 
-    this.iniciar = function() {
+    this.iniciar = function () {
         var comandoAnterior = "";
         var comandoUltimo = "";
 
@@ -164,7 +160,7 @@ var RoboXixi = function(texto, newLine) {
         }
     };
 
-    this.transformar = function(indiceDeParada) {
+    this.transformar = function (indiceDeParada) {
         var indiceUltimoXixizero = this.Xixizeros.length - 1;
         if (indiceDeParada !== undefined) {
             // Define indice final
@@ -175,7 +171,7 @@ var RoboXixi = function(texto, newLine) {
         var transformacaoAcumulada = this.DadosIniciais;
         for (var j = 0; j <= indiceUltimoXixizero; j++) {
             var xixizero = this.Xixizeros[j];
-            xixizero.transformar(transformacaoAcumulada);
+            xixizero.transformar(transformacaoAcumulada, this);
             xixizero.Indice = j;
             transformacaoAcumulada = xixizero.DadoTransformado;
         }
@@ -221,9 +217,9 @@ function obter_replacer_e_substitutor(escripte, newLine) {
 function substituirCustomizado(escripte, texto, newLine) {
     var objReplacer = obter_replacer_e_substitutor(escripte, newLine);
 
-    objReplacer.substitutor = objReplacer.substitutor.replace( /\\n/gmi , "\n");
-    objReplacer.substitutor = objReplacer.substitutor.replace( /\\t/gmi , "\t");
-    objReplacer.substitutor = objReplacer.substitutor.replace( /\\(\d)/gmi , "$$$1");
+    objReplacer.substitutor = objReplacer.substitutor.replace(/\\n/gmi, "\n");
+    objReplacer.substitutor = objReplacer.substitutor.replace(/\\t/gmi, "\t");
+    objReplacer.substitutor = objReplacer.substitutor.replace(/\\(\d)/gmi, "$$$1");
 
     //realiza a substituicao no texto
     return replaceTodos(texto, objReplacer.replacer, objReplacer.substitutor);
@@ -235,9 +231,9 @@ function replaceTodos(texto, de, para) {
 
 // SED
 var o;
-var out = function(s) { o = o + s; };
-var err = function(s) { o = o + "<b>" + s + "</b>"; };
-var sedJsed = function(texto, sedScript, nFlag, posixFlag, jumpMax) {
+var out = function (s) { o = o + s; };
+var err = function (s) { o = o + "<b>" + s + "</b>"; };
+var sedJsed = function (texto, sedScript, nFlag, posixFlag, jumpMax) {
     o = "";
     sed.nflag = nFlag;
     sed.pflag = posixFlag;
@@ -249,40 +245,40 @@ var sedJsed = function(texto, sedScript, nFlag, posixFlag, jumpMax) {
 };
 
 
-var executarComandos = function(texto, escripte, newLine) {
+var executarComandos = function (texto, escripte, newLine) {
     var resultado = texto;
     var comandos = escripte.split(newLine);
     for (var i = 0; i < comandos.length; i++) {
         var comandoAtual = comandos[i];
         switch (comandoAtual) {
-        case "sort":
-            resultado = ordenarTudo(resultado, 0, newLine);
-            break;
-        case "sort desc":
-            resultado = ordenarTudo(resultado, 1, newLine);
-            break;
-        case "distinct":
-            resultado = distinct(resultado, newLine);
-            break;
-        case "trim":
-            resultado = trim(resultado);
-            break;
-        case "trim lines":
-            resultado = trimLines(resultado, newLine);
-            break;
-        default:
-            break;
+            case "sort":
+                resultado = ordenarTudo(resultado, 0, newLine);
+                break;
+            case "sort desc":
+                resultado = ordenarTudo(resultado, 1, newLine);
+                break;
+            case "distinct":
+                resultado = distinct(resultado, newLine);
+                break;
+            case "trim":
+                resultado = trim(resultado);
+                break;
+            case "trim lines":
+                resultado = trimLines(resultado, newLine);
+                break;
+            default:
+                break;
         }
     }
     return resultado;
 };
 
-var trim = function(texto) {
-    return texto.replace( /^\s*([^\s]*)\s*$/gm , "$1");
+var trim = function (texto) {
+    return texto.replace(/^\s*([^\s]*)\s*$/gm, "$1");
 };
 
-var trimLines = function(texto, newLine) {
-    texto = texto.replace( /^\s*$\n/gm , "");
+var trimLines = function (texto, newLine) {
+    texto = texto.replace(/^\s*$\n/gm, "");
     var inicioUltimoNewLine = texto.length - newLine.length;
     if (texto.lastIndexOf(newLine) === inicioUltimoNewLine) {
         texto = texto.substring(0, inicioUltimoNewLine);
@@ -290,7 +286,7 @@ var trimLines = function(texto, newLine) {
     return texto;
 };
 
-var ordenarTudo = function(texto, reverso, newLine) {
+var ordenarTudo = function (texto, reverso, newLine) {
     if (reverso === 1) {
         return texto.split(newLine).sort().reverse().join(newLine);
     } else {
@@ -302,7 +298,7 @@ var ordenarTudo = function(texto, reverso, newLine) {
 ////////////////////////////////////////////
 // http://www.jslab.dk/library/Array.unique
 ////////////////////////////////////////////
-var distinct = function(texto, newLine) {
+var distinct = function (texto, newLine) {
     var lista = texto.split(newLine);
     var a = [];
     var l = lista.length;

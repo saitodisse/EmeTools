@@ -2,7 +2,7 @@ NEW_LINE = '\n';
 
 $(document).ready(function () {
     test("t[emplate] sem newline", function () {
-        var xixizero = new Xixizero(" - xxx", "t", "\n");
+        var xixizero = new Xixizero(" - <%= linhas %>", "t", "\n");
         xixizero.transformar("abc");
         var atual = xixizero.DadoTransformado;
         var esperado = " - abc";
@@ -10,13 +10,32 @@ $(document).ready(function () {
     });
 
     test("t[emplate] com newline", function () {
-        var xixizero = new Xixizero(" - xxx\n", "t", "\n");
+        var xixizero = new Xixizero(" - <%= linhas %>\n", "t", "\n");
         xixizero.transformar("abc");
         var atual = xixizero.DadoTransformado;
         var esperado = " - abc\n";
         equal(atual, esperado);
     });
+    test("t[emplate] com lista", function () {
+        var escripte = "";
+        escripte += '<% _.each(linhas, function(linha) { %>-> <%= linha %>\n<% }); %>';
 
+        var xixizero = new Xixizero(escripte, "t", "\n");
+
+        var dados = "";
+        dados += "abc1" + NEW_LINE;
+        dados += "abc2" + NEW_LINE;
+        dados += "abc3";
+
+        var esperado = "";
+        esperado += "-> abc1" + NEW_LINE;
+        esperado += "-> abc2" + NEW_LINE;
+        esperado += "-> abc3" + NEW_LINE;
+
+        xixizero.transformar(dados);
+        var atual = xixizero.DadoTransformado;
+        equal(atual, esperado);
+    });
     test("s[ed] localizar linha por endereço", function () {
         var xixizero = new Xixizero("/ef/p", "s", NEW_LINE);
         xixizero.transformar("abc\ndef");
@@ -195,43 +214,4 @@ $(document).ready(function () {
         var atual = xixizero.DadoTransformado;
         equal(atual, esperado);
     });
-
-    test("d[ust.js] templates", function () {
-        var escripte = "";
-        escripte += 'Eu recebi o dado = [{linhas}]';
-        
-        var xixizero = new Xixizero(escripte, "d", "\n");
-
-        var dados = "";
-        dados += "abcd";
-
-        var esperado = "";
-        esperado += "Eu recebi o dado = [abcd]";
-
-        xixizero.transformar(dados);
-        var atual = xixizero.DadoTransformado;
-        equal(atual, esperado);
-    });
-
-    test("d[ust.js] com lista", function () {
-        var escripte = "";
-        escripte += '{#linhas}-> {.}{~n}{/linhas}';
-        
-        var xixizero = new Xixizero(escripte, "d", "\n");
-
-        var dados = "";
-        dados += "abc1" + NEW_LINE;
-        dados += "abc2" + NEW_LINE;
-        dados += "abc3";
-
-        var esperado = "";
-        esperado += "-> abc1" + NEW_LINE;
-        esperado += "-> abc2" + NEW_LINE;
-        esperado += "-> abc3" + NEW_LINE;
-
-        xixizero.transformar(dados);
-        var atual = xixizero.DadoTransformado;
-        equal(atual, esperado);
-    });
-
 });
