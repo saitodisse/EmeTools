@@ -12,9 +12,12 @@ $().ready(function () {
     editor.setShowInvisibles(true);
 
     // modo ruby por causa dos comentários
-    var javaScriptMode = require("ace/mode/ruby").Mode;
-    editor.getSession().setMode(new javaScriptMode());
+    var rubyMode = require("ace/mode/ruby").Mode;
+    var rubyInstanciado = new rubyMode();
+    rubyInstanciado.$tokenizer.rules.start.splice(10, 1, { token: "comment", regex: "aaa" });
+    editor.getSession().setMode(rubyInstanciado);
 
+    //editor.getSession().getMode().$tokenizer.rules.append({token: "comment", regex: "each"});
     editor.show;
 
     var salvar = function () {

@@ -1,5 +1,8 @@
 var SHOW_ALERT_ON_ERRORS = false;
 
+// configura template do underscore
+//_.templateSettings.interpolate = /\{\{(.+?)\}\}/g;
+
 function disparaErro(name, message) {
     var err = new Error();
     err.name = name;
@@ -89,6 +92,9 @@ var aplicarTemplateUnderscore = function (texto, xixizero, newLine, roboXixi) {
 
     //retira todos os comentários
     var escripte = replaceTodos(xixizero.Escripte, "^#.*" + newLine + "?", "");
+    escripte = decodeHtml(escripte);
+    escripte = escripte.replace(/\\n/gmi, "\n");
+    escripte = escripte.replace(/\\t/gmi, "\t");
 
     return _.template(escripte, objetoPassado);
 };
@@ -196,7 +202,6 @@ function obter_replacer_e_substitutor(escripte, newLine) {
         // reitira o newLine do final
         escripte = escripte.substring(0, escripte.length - newLine.length);
     }
-
 
     //busca o separador "/" no escripte
     var indiceDaBarra = escripte.indexOf(newLine + "/" + newLine) + 1;

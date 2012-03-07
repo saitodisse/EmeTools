@@ -94,7 +94,8 @@
     $("#spanCopyLink").click(prepararCopy);
 
 
-
+    $("#horizontalSplitter").kendoSplitter();
+    $("#verticalSplitter").kendoSplitter({ orientation: "vertical" });
 
 
     /////////////////////////////

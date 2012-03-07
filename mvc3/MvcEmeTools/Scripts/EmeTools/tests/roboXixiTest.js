@@ -191,34 +191,6 @@ $(document).ready(function () {
         }
     });
 
-
-    test("RoboXixi.transformar() 's' e 'x' combinados", function () {
-
-        var texto = "";
-        texto += "aaa" + NEW_LINE;
-        texto += "bbb" + NEW_LINE;
-        texto += "ccc" + NEW_LINE;
-        texto += "///s" + NEW_LINE;
-        texto += "s/bbb/xxx/" + NEW_LINE;
-        texto += "p" + NEW_LINE;
-        texto += "///t" + NEW_LINE;
-        texto += "*xxx*" + NEW_LINE;
-        texto += "///r" + NEW_LINE;
-        texto += "x" + NEW_LINE;
-        texto += "/" + NEW_LINE;
-        texto += "y" + NEW_LINE;
-
-        var roboXixi = new RoboXixi(texto, '\n');
-
-        var resultadoEsperado = "";
-        resultadoEsperado += "*aaa\n";
-        resultadoEsperado += "yyy\n";
-        resultadoEsperado += "ccc*";
-
-        roboXixi.transformar();
-        equal(roboXixi.ResultadoFinal, resultadoEsperado);
-    });
-
     test("RoboXixi.transformar(com indice)", function () {
 
         var texto = "";

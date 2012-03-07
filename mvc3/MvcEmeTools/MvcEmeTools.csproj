@@ -85,7 +85,6 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\Escriptes\Sequencer.css" />
-    <Content Include="Scripts\EmeTools\dust-full-0.3.0.min.js" />
     <Content Include="Scripts\EmeTools\underscore-min.js" />
     <Content Include="Scripts\Escriptes\Sequencer.js" />
     <Content Include="Scripts\Escriptes\Edit.js" />
