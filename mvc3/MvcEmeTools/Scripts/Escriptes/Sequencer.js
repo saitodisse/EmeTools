@@ -1,107 +1,28 @@
-﻿$().ready(function () {
-    var selecionarEtapa = function (elJquery) {
-        // limpa os itens selecionados
-        $("#listaXixizeros li").attr("class", "naoSelecionado");
-
-        // seleciona o item atual
-        elJquery.attr("class", "selecionado");
-
-        // pega o indice
-        var html = elJquery.html();
-        var indiceSelecionado = parseInt(html.replace(/^\[([-\d]+)\].*/, "$1"));
-
-        // recupera resultado do indice
-        if (indiceSelecionado >= 0 && indiceSelecionado < roboXixi.Xixizeros.length) {
-            $("#preXixizero").html(replace_show_invisible(roboXixi.Xixizeros[indiceSelecionado].escripteFormatado()));
-            $("#preResposta").html(replace_show_invisible(roboXixi.Xixizeros[indiceSelecionado].DadoTransformado));
-        } else if (indiceSelecionado < 0) {
-            $("#preXixizero").html('');
-            $("#preResposta").html(replace_show_invisible(roboXixi.DadosIniciais));
-        } else if (indiceSelecionado === roboXixi.Xixizeros.length) {
-            $("#preXixizero").html('');
-            $("#preResposta").html(replace_show_invisible(roboXixi.ResultadoFinal));
-        }
-    };
-
-    var prepararCopy = function () {
-        $("#preEscripteCompleto").val(xixizeroParaCopia());
-        $("#preEscripteCompleto")[0].focus();
-        $("#preEscripteCompleto")[0].select();
-
-        $("#spanCopyLink").text('OK! Copiado!');
-
-        var timeout;
-        clearTimeout(timeout);
-        timeout = setTimeout(function () {
-            $("#spanCopyLink").text('Pressione CTRL + C para copiar');
-        }, 2000);
-    };
-
-    // Ativa botão para copiar para o clipboard
-    var xixizeroParaCopia = function () {
-        // pega o indice
-        var indiceSelecionado = parseInt($(".selecionado").html().replace(/^\[([-\d]+)\].*/, "$1"));
-
-        // DadosIniciais
-        if (indiceSelecionado === -1)
-            return roboXixi.DadosIniciais;
-
-        // ResultadoFinal
-        if (indiceSelecionado === roboXixi.Xixizeros.length)
-            return roboXixi.ResultadoFinal;
-
-        // xixizeros intermediários
-        var dadosAntesTransformacao = '';
-
-        if (indiceSelecionado == 0) {
-            dadosAntesTransformacao = roboXixi.DadosIniciais;
-        } else {
-            // pega o dado anterior
-            dadosAntesTransformacao = roboXixi.Xixizeros[indiceSelecionado - 1].DadoTransformado;
-        }
-
-        dadosAntesTransformacao = decodeHtml(dadosAntesTransformacao);
-
-        var resultado = dadosAntesTransformacao + "\n";
-        // pega o escript atual
-        var xixizeroProximo = roboXixi.Xixizeros[indiceSelecionado];
-        resultado += "///" + xixizeroProximo.Comando + "\n";
-        resultado += xixizeroProximo.Escripte + "\n";
-        return resultado;
-    };
-
-    //////////////////////////////////////////////////////////
-    // KEY-BINDS:
-    //////////////////////////////////////////////////////////
-    // CTRL + CIMA
-    $.ctrl(38, false, function () {
-        var anterior = $(".selecionado").prev();
-        if (anterior.length === 0)
-            return false;
-        selecionarEtapa(anterior);
-        return false;
+﻿var buscarTextoViaAjax = function (primeiraVez) {
+    var request = $.ajax({
+        type: "GET",
+        url: "../PorId/" + window.idSha1
     });
-    // CTRL + BAIXO
-    $.ctrl(40, false, function () {
-        var proximo = $(".selecionado").next();
-        if (proximo.length === 0)
-            return false;
-        selecionarEtapa(proximo);
-        return false;
+
+    request.done(function (data) {
+        carregarRobo(data, primeiraVez);
     });
-    // CTRL + C
-    $.ctrl('C'.charCodeAt(0), true, prepararCopy);
-    $("#spanCopyLink").click(prepararCopy);
 
+    request.fail(function (jqXHR, textStatus) {
+        exibirMensagemUi("Request failed", textStatus);
+    });
+};
 
-    $("#horizontalSplitter").kendoSplitter();
-    $("#verticalSplitter").kendoSplitter({ orientation: "vertical" });
+$("#btnRefresh").click(function () {
+    buscarTextoViaAjax(false);
+});
 
+var carregarRobo = function (texto, primeiraVez) {
+    $("#listaXixizeros").html("");
 
     /////////////////////////////
-    // executa toda transformação
+    // executa transformação
     /////////////////////////////
-    var texto = $("#preEscripteCompleto").html();
     var roboXixi = new RoboXixi(texto, '\n');
     roboXixi.transformar();
 
@@ -115,20 +36,109 @@
 
     $("#listaXixizeros").append("<li>[" + roboXixi.Xixizeros.length + "]: RESULTADO FINAL </li>");
 
-    selecionarEtapa($("#listaXixizeros li:last-child"));
+    selecionarEtapa($("#listaXixizeros li:last-child"), roboXixi);
 
     //////////////////////////////
     // Executa toda transformação
     /////////////////////////////
     $("#preResposta").html(roboXixi.ResultadoFinal);
 
+
+
+
+    if (primeiraVez) {
+        var prepararCopy = function () {
+            $("#preEscripteCompleto").val(xixizeroParaCopia());
+            $("#preEscripteCompleto")[0].focus();
+            $("#preEscripteCompleto")[0].select();
+
+            $("#spanCopyLink").text('OK! Copiado!');
+
+            var timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(function () {
+                $("#spanCopyLink").text('Pressione CTRL + C para copiar');
+            }, 2000);
+        };
+
+        //////////////////////////////////////////////////////////
+        // KEY-BINDS:
+        //////////////////////////////////////////////////////////
+
+        // CTRL + CIMA
+        $.ctrl(38, false, function () {
+            var anterior = $(".selecionado").prev();
+            if (anterior.length === 0)
+                return false;
+            selecionarEtapa(anterior, roboXixi);
+            return false;
+        });
+
+        // CTRL + BAIXO
+        $.ctrl(40, false, function () {
+            var proximo = $(".selecionado").next();
+            if (proximo.length === 0)
+                return false;
+            selecionarEtapa(proximo, roboXixi);
+            return false;
+        });
+
+        // CTRL + C
+        $.ctrl('C'.charCodeAt(0), true, prepararCopy);
+        $("#spanCopyLink").click(prepararCopy);
+
+
+
+        // Ativa botão para copiar para o clipboard
+        var xixizeroParaCopia = function () {
+            // pega o indice
+            var indiceSelecionado = parseInt($(".selecionado").html().replace(/^\[([-\d]+)\].*/, "$1"));
+
+            // DadosIniciais
+            if (indiceSelecionado === -1)
+                return roboXixi.DadosIniciais;
+
+            // ResultadoFinal
+            if (indiceSelecionado === roboXixi.Xixizeros.length)
+                return roboXixi.ResultadoFinal;
+
+            // xixizeros intermediários
+            var dadosAntesTransformacao;
+
+            if (indiceSelecionado == 0) {
+                dadosAntesTransformacao = roboXixi.DadosIniciais;
+            } else {
+                // pega o dado anterior
+                dadosAntesTransformacao = roboXixi.Xixizeros[indiceSelecionado - 1].DadoTransformado;
+            }
+
+            dadosAntesTransformacao = decodeHtml(dadosAntesTransformacao);
+
+            var resultado = dadosAntesTransformacao + "\n";
+            // pega o escript atual
+            var xixizeroProximo = roboXixi.Xixizeros[indiceSelecionado];
+            resultado += "///" + xixizeroProximo.Comando + "\n";
+            resultado += xixizeroProximo.Escripte + "\n";
+            return resultado;
+        };
+    }
+
     //////////////////////////////////////////////////////////
     // coloca evento para mudar a visualização dos resultados
     //////////////////////////////////////////////////////////
     $("#listaXixizeros li").click(function () {
-        selecionarEtapa($(this));
+        selecionarEtapa($(this), roboXixi);
     });
 
+
+    return roboXixi;
+};
+
+$().ready(function () {
+    buscarTextoViaAjax(true);
+
+    $("#horizontalSplitter").kendoSplitter();
+    $("#verticalSplitter").kendoSplitter({ orientation: "vertical" });
 });
 
 $.ctrl = function (key, propagate, callback, args) {
@@ -148,3 +158,28 @@ $.ctrl = function (key, propagate, callback, args) {
         if (e.ctrlKey) isCtrl = false;
     });
 };
+
+var selecionarEtapa = function (elJquery, roboXixi) {
+    // limpa os itens selecionados
+    $("#listaXixizeros li").attr("class", "naoSelecionado");
+
+    // seleciona o item atual
+    elJquery.attr("class", "selecionado");
+
+    // pega o indice
+    var html = elJquery.html();
+    var indiceSelecionado = parseInt(html.replace(/^\[([-\d]+)\].*/, "$1"));
+
+    // recupera resultado do indice
+    if (indiceSelecionado >= 0 && indiceSelecionado < roboXixi.Xixizeros.length) {
+        $("#preXixizero").html(replace_show_invisible(roboXixi.Xixizeros[indiceSelecionado].escripteFormatado()));
+        $("#preResposta").html(replace_show_invisible(roboXixi.Xixizeros[indiceSelecionado].DadoTransformado));
+    } else if (indiceSelecionado < 0) {
+        $("#preXixizero").html('');
+        $("#preResposta").html(replace_show_invisible(roboXixi.DadosIniciais));
+    } else if (indiceSelecionado === roboXixi.Xixizeros.length) {
+        $("#preXixizero").html('');
+        $("#preResposta").html(replace_show_invisible(roboXixi.ResultadoFinal));
+    }
+};
+
