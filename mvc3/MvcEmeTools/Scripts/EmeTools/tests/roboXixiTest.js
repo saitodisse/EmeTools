@@ -69,7 +69,7 @@ $(document).ready(function () {
         esperado += "22/02 			REMUNERACAO/SALARIO 		1,78 			" + NEW_LINE;
         esperado += "22/02	DOC INT 953354 julio 	4175 	00 	- 		" + NEW_LINE;
         esperado += "22/02 			S A L D O 				14,55 ";
-        
+
         roboXixi.transformar();
         equal(roboXixi.ResultadoFinal, esperado);
     });
@@ -238,4 +238,75 @@ $(document).ready(function () {
 
         equal(roboXixi.Xixizeros[0].DadoTransformado, "xxx", "roboXixi.Xixizeros[0].DadoTransformado");
     });
+
+    test("[c]omando GET: busca resultados anteriores", function () {
+
+        var texto = "";
+        texto += "a" + NEW_LINE;  // 0: x b c
+        texto += "b" + NEW_LINE;  // 1: x x c
+        texto += "c" + NEW_LINE;  // 2: x x x
+        texto += "///r" + NEW_LINE;
+        texto += "a" + NEW_LINE;
+        texto += "/" + NEW_LINE;
+        texto += "x" + NEW_LINE;
+        texto += "///r" + NEW_LINE;
+        texto += "b" + NEW_LINE;
+        texto += "/" + NEW_LINE;
+        texto += "x" + NEW_LINE;
+        texto += "///r" + NEW_LINE;
+        texto += "c" + NEW_LINE;
+        texto += "/" + NEW_LINE;
+        texto += "x" + NEW_LINE;
+        texto += "///c" + NEW_LINE;
+        texto += "get(NUMERO_A_SER_SUBSTITUIDO)" + NEW_LINE;
+
+        var roboXixi = new RoboXixi(texto, NEW_LINE);
+
+        roboXixi.Xixizeros[3].Escripte = "get(-1)" + NEW_LINE;
+        roboXixi.transformar();
+        var dadoTransformado = roboXixi.ResultadoFinal;
+        var esperado = "";
+        esperado += "a" + NEW_LINE;
+        esperado += "b" + NEW_LINE;
+        esperado += "c";
+        equal(dadoTransformado, esperado, "get(-1)");
+
+        roboXixi.Xixizeros[3].Escripte = "get(0)" + NEW_LINE;
+        roboXixi.transformar();
+        dadoTransformado = roboXixi.ResultadoFinal;
+        esperado = "";
+        esperado += "x" + NEW_LINE;
+        esperado += "b" + NEW_LINE;
+        esperado += "c";
+        equal(dadoTransformado, esperado, "get(0)");
+
+        roboXixi.Xixizeros[3].Escripte = "get(1)" + NEW_LINE;
+        roboXixi.transformar();
+        dadoTransformado = roboXixi.ResultadoFinal;
+        esperado = "";
+        esperado += "x" + NEW_LINE;
+        esperado += "x" + NEW_LINE;
+        esperado += "c";
+        equal(dadoTransformado, esperado, "get(1)");
+
+        roboXixi.Xixizeros[3].Escripte = "get(2)" + NEW_LINE;
+        roboXixi.transformar();
+        dadoTransformado = roboXixi.ResultadoFinal;
+        esperado = "";
+        esperado += "x" + NEW_LINE;
+        esperado += "x" + NEW_LINE;
+        esperado += "x";
+        equal(dadoTransformado, esperado, "get(2)");
+
+        // ELE MESMO!!! pega o mesmo que o anterior...
+        roboXixi.Xixizeros[3].Escripte = "get(3)" + NEW_LINE;
+        roboXixi.transformar();
+        dadoTransformado = roboXixi.ResultadoFinal;
+        esperado = "";
+        esperado += "x" + NEW_LINE;
+        esperado += "x" + NEW_LINE;
+        esperado += "x";
+        equal(dadoTransformado, esperado, "get(3)");
+    });
+
 });

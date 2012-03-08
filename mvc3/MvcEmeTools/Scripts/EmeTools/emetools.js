@@ -79,7 +79,7 @@ var Xixizero = function (escripte, comando, newLine) {
         }
         // (C)OMANDOS: executa comando pre-determinado daqui mesmo
         if (this.Comando === "c") {
-            this.DadoTransformado = executarComandos(texto, this.Escripte, newLine);
+            this.DadoTransformado = executarComandos(texto, this.Escripte, newLine, roboXixi);
         }
     };
 };
@@ -250,11 +250,12 @@ var sedJsed = function (texto, sedScript, nFlag, posixFlag, jumpMax) {
 };
 
 
-var executarComandos = function (texto, escripte, newLine) {
+var executarComandos = function (texto, escripte, newLine, roboXixi) {
     var resultado = texto;
     var comandos = escripte.split(newLine);
     for (var i = 0; i < comandos.length; i++) {
-        var comandoAtual = comandos[i];
+        var comandoAtual = comandos[i].replace(/(\w+\s*)(\(.*?\))/gmi, "$1");
+        var parametro = comandos[i].replace(/(\w+\s*)(\((.*?)\))/gmi, "$3");
         switch (comandoAtual) {
             case "sort":
                 resultado = ordenarTudo(resultado, 0, newLine);
@@ -271,11 +272,23 @@ var executarComandos = function (texto, escripte, newLine) {
             case "trim lines":
                 resultado = trimLines(resultado, newLine);
                 break;
+            case "get":
+                resultado = getResultadoXixizero(parametro, roboXixi);
+                break;
             default:
                 break;
         }
     }
     return resultado;
+};
+
+var getResultadoXixizero = function (par, roboXixi) {
+    var indiceXixizero = parseInt(par);
+    if (indiceXixizero === -1) {
+        return roboXixi.DadosIniciais;
+    } else {
+        return roboXixi.Xixizeros[indiceXixizero].DadoTransformado;
+    }
 };
 
 var trim = function (texto) {
