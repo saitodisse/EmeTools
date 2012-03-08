@@ -214,4 +214,37 @@ $(document).ready(function () {
         var atual = xixizero.DadoTransformado;
         equal(atual, esperado);
     });
+
+    test("c[omando] firstToLower", function () {
+        var xixizero = new Xixizero("firstToLower", "c", "\n");
+
+        var dados = "";
+        dados += "ABC\n";
+        dados += "Abc";
+
+        var esperado = "";
+        esperado += "aBC\n";
+        esperado += "abc";
+
+        xixizero.transformar(dados);
+        var atual = xixizero.DadoTransformado;
+        equal(atual, esperado);
+    });
+
+    test("c[omando] firstToUpper", function () {
+        var xixizero = new Xixizero("firstToUpper", "c", "\n");
+
+        var dados = "";
+        dados += "abc\n";
+        dados += "aBC";
+
+        var esperado = "";
+        esperado += "Abc\n";
+        esperado += "ABC";
+
+        xixizero.transformar(dados);
+        var atual = xixizero.DadoTransformado;
+        equal(atual, esperado);
+    });
+    
 });

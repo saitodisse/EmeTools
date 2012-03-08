@@ -41,9 +41,7 @@ var carregarRobo = function (texto, primeiraVez) {
     //////////////////////////////
     // Executa toda transformação
     /////////////////////////////
-    $("#preResposta").html(roboXixi.ResultadoFinal);
-
-
+    $("#preResposta").html(encodeHtml(roboXixi.ResultadoFinal));
 
 
     if (primeiraVez) {

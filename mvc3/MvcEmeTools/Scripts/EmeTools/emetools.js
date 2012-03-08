@@ -256,7 +256,7 @@ var executarComandos = function (texto, escripte, newLine, roboXixi) {
     for (var i = 0; i < comandos.length; i++) {
         var comandoAtual = comandos[i].replace(/(\w+\s*)(\(.*?\))/gmi, "$1");
         var parametro = comandos[i].replace(/(\w+\s*)(\((.*?)\))/gmi, "$3");
-        switch (comandoAtual) {
+        switch (comandoAtual.toLowerCase()) {
             case "sort":
                 resultado = ordenarTudo(resultado, 0, newLine);
                 break;
@@ -275,6 +275,12 @@ var executarComandos = function (texto, escripte, newLine, roboXixi) {
             case "get":
                 resultado = getResultadoXixizero(parametro, roboXixi);
                 break;
+            case "firsttolower":
+                resultado = firstToLower(resultado, newLine);
+                break;
+            case "firsttoupper":
+                resultado = firstToUpper(resultado, newLine);
+                break;
             default:
                 break;
         }
@@ -289,6 +295,38 @@ var getResultadoXixizero = function (par, roboXixi) {
     } else {
         return roboXixi.Xixizeros[indiceXixizero].DadoTransformado;
     }
+};
+
+var firstToLower = function (texto, newLine) {
+    var primeiraLetra = "";
+    var resto = "";
+    var linha = "";
+    var linhasResultado = [];
+    var linhas = texto.split(newLine);
+
+    for (var i = 0; i < linhas.length; i++) {
+        linha = linhas[i];
+        primeiraLetra = linha.replace(/^(\w)(\w+)(.*)/g, "$1").toLowerCase();
+        resto = linha.replace(/^(\w)(\w+)(.*)/g, "$2$3");
+        linhasResultado.push(primeiraLetra + resto);
+    }
+    return linhasResultado.join(newLine);
+};
+
+var firstToUpper = function (texto, newLine) {
+    var primeiraLetra = "";
+    var resto = "";
+    var linha = "";
+    var linhasResultado = [];
+    var linhas = texto.split(newLine);
+    
+    for (var i = 0; i < linhas.length; i++) {
+        linha = linhas[i];
+        primeiraLetra = linha.replace(/^(\w)(\w+)(.*)/g, "$1").toUpperCase();
+        resto = linha.replace(/^(\w)(\w+)(.*)/g, "$2$3");
+        linhasResultado.push(primeiraLetra + resto);
+    }
+    return linhasResultado.join(newLine);
 };
 
 var trim = function (texto) {
