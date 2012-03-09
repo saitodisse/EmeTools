@@ -60,7 +60,7 @@ var Xixizero = function (escripte, comando, newLine) {
     };
 
     this.transformar = function (texto, roboXixi) {
-        // (T)emplate: substitui 'xxx' por Escript
+        // (T)emplate: template do undescore
         if (this.Comando === "t") {
             this.DadoTransformado = aplicarTemplateUnderscore(texto, this, newLine, roboXixi);
         }
@@ -81,8 +81,72 @@ var Xixizero = function (escripte, comando, newLine) {
         if (this.Comando === "c") {
             this.DadoTransformado = executarComandos(texto, this.Escripte, newLine, roboXixi);
         }
+        // (X)XX: template XXX. 
+        //   xxx0 pega o resultado da primeira transformação em lista "splitada(\n)"
+        //   e aplica no template passado.
+        if (this.Comando === "x") {
+            this.DadoTransformado = transformarXxx(texto, this.Escripte, newLine, roboXixi);
+        }
     };
 };
+
+var transformarXxx = function (texto, escripte, newLine, roboXixi) {
+    var possuiXxxNumerado = escripte.replace(/(xxx-?\d)/gi, "$1").length > 0;
+    var regex = new RegExp("xxx(-?\\d)", "gi");
+    var resultadoParcial = "";
+
+    var primeiraVez = true;
+
+    //Caso seja Xxx com NUMERO
+    if (possuiXxxNumerado) {
+        //Primeira Vez monta o escripte para cada linha do primeiro dado
+
+        var linhaAtual;
+        var xxxCasado;
+
+        // A primeira vez só cria as linhas de templates a partir da repetição do escripte
+        for (var matches = regex.exec(escripte); matches != null; matches = regex.exec(escripte)) {
+            // Pega o dado transformado
+            var linhas = obterResultadoXixizero(matches, roboXixi, newLine);
+
+            for (var a = 0; a < linhas.length; a++) {
+                resultadoParcial += escripte;
+                // se não for a última linha, coloca newLine
+                if (a != linhas.length - 1) {
+                    resultadoParcial += newLine;
+                }
+            }
+            break;
+        }
+
+        regex = new RegExp("xxx(-?\\d)", "gi");
+
+        // Agora ocorre a substituição
+        for (matches = regex.exec(resultadoParcial); matches != null; matches = regex.exec(resultadoParcial)) {
+            // Pega o dado transformado
+            linhas = obterResultadoXixizero(matches, roboXixi, newLine);
+            xxxCasado = matches[0];
+            for (var i = 0; i < linhas.length; i++) {
+                linhaAtual = linhas[i];
+                resultadoParcial = resultadoParcial.replace(xxxCasado, linhaAtual);
+            }
+        }
+    }
+    return resultadoParcial;
+};
+
+var obterResultadoXixizero = function (matches, roboXixi, newLine) {
+    var resultadoXixizero;
+    var indiceXxx = parseInt(matches[1]);
+
+    if (indiceXxx === -1) {
+        resultadoXixizero = roboXixi.DadosIniciais;
+    } else {
+        resultadoXixizero = roboXixi.Xixizeros[indiceXxx].DadoTransformado;
+    }
+    return resultadoXixizero.split(newLine);
+};
+
 
 var aplicarTemplateUnderscore = function (texto, xixizero, newLine, roboXixi) {
     var objetoPassado = {

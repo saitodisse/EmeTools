@@ -246,5 +246,4 @@ $(document).ready(function () {
         var atual = xixizero.DadoTransformado;
         equal(atual, esperado);
     });
-    
 });

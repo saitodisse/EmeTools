@@ -171,13 +171,13 @@ var selecionarEtapa = function (elJquery, roboXixi) {
     // recupera resultado do indice
     if (indiceSelecionado >= 0 && indiceSelecionado < roboXixi.Xixizeros.length) {
         $("#preXixizero").html(replace_show_invisible(roboXixi.Xixizeros[indiceSelecionado].escripteFormatado()));
-        $("#preResposta").html(replace_show_invisible(roboXixi.Xixizeros[indiceSelecionado].DadoTransformado));
+        $("#preResposta").html(replace_show_invisible(encodeHtml(roboXixi.Xixizeros[indiceSelecionado].DadoTransformado)));
     } else if (indiceSelecionado < 0) {
         $("#preXixizero").html('');
-        $("#preResposta").html(replace_show_invisible(roboXixi.DadosIniciais));
+        $("#preResposta").html(replace_show_invisible(encodeHtml(roboXixi.DadosIniciais)));
     } else if (indiceSelecionado === roboXixi.Xixizeros.length) {
         $("#preXixizero").html('');
-        $("#preResposta").html(replace_show_invisible(roboXixi.ResultadoFinal));
+        $("#preResposta").html(replace_show_invisible(encodeHtml(roboXixi.ResultadoFinal)));
     }
 };
 
