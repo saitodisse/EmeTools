@@ -308,57 +308,56 @@ $(document).ready(function () {
         esperado += "x";
         equal(dadoTransformado, esperado, "get(3)");
     });
-    
-    test("[x]xx template com dados de outros xixizeros e lista", function () {
+
+    test("[x]xx templates simples", function () {
+        equal(executarRoboComXxxNoFinal("xxx-1"), "a\na", "xxx-1 => a");
+        equal(executarRoboComXxxNoFinal("xxx0"), "b\nb", "xxx0   => b");
+        equal(executarRoboComXxxNoFinal("xxx1"), "c\nc", "xxx1   => c");
+        equal(executarRoboComXxxNoFinal("xxx0xxx0"), "bb\nbb", "xxx0xxx0  => bb");
+        equal(executarRoboComXxxNoFinal("xxx0xxx0xxx0"), "bbb\nbbb", "xxx0xxx0xxx0  => bbb");
+        equal(executarRoboComXxxNoFinal("xxx0xxx0xxx0xxx0"), "bbbb\nbbbb", "xxx0xxx0xxx0xxx0  => bbbb");
+    });
+
+    test("[x]xx = ababacado", function () {
+        var escripteXxx = "";
+        escripteXxx += "xxx-1";  //a
+        escripteXxx += "xxx0";   //b
+        escripteXxx += "xxx-1";  //a
+        escripteXxx += "xxx0";   //b
+        escripteXxx += "xxx-1";  //a
+        escripteXxx += "xxx1";   //c
+        escripteXxx += "xxx-1";  //a
+        escripteXxx += "xxx2";   //d
+        escripteXxx += "xxx3";   //o
+        equal(executarRoboComXxxNoFinal(escripteXxx), "ababacado\nababacado", "ababacado");
+    });
+
+
+    var executarRoboComXxxNoFinal = function (escripteXxx) {
         var texto = "";
         texto += "a" + NEW_LINE;
-        texto += "b" + NEW_LINE;
-        texto += "c" + NEW_LINE;
+        texto += "a" + NEW_LINE;
         texto += "///r" + NEW_LINE;
         texto += "a" + NEW_LINE;
         texto += "/" + NEW_LINE;
-        texto += "z" + NEW_LINE;
+        texto += "b" + NEW_LINE;
+        texto += "///r" + NEW_LINE;
+        texto += "b" + NEW_LINE;
+        texto += "/" + NEW_LINE;
+        texto += "c" + NEW_LINE;
+        texto += "///r" + NEW_LINE;
+        texto += "c" + NEW_LINE;
+        texto += "/" + NEW_LINE;
+        texto += "d" + NEW_LINE;
+        texto += "///r" + NEW_LINE;
+        texto += "d" + NEW_LINE;
+        texto += "/" + NEW_LINE;
+        texto += "o" + NEW_LINE;
         texto += "///x" + NEW_LINE;
-        texto += " -> xxx-1, xxx0" + NEW_LINE;
+        texto += escripteXxx + NEW_LINE;
 
         var roboXixi = new RoboXixi(texto, NEW_LINE);
         roboXixi.transformar();
-        var dadoTransformado = roboXixi.ResultadoFinal;
-        
-        var esperado = "";
-        esperado += "abacaxi" + NEW_LINE;
-        esperado += "abacaxi" + NEW_LINE;
-        esperado += "abacaxi";
-        
-        equal(dadoTransformado, esperado, "xxx com Robo");
-    });
-
-    test("[x]xx template com dados 2", function () {
-        var texto = "";
-        texto += "a" + NEW_LINE;
-        texto += "a" + NEW_LINE;
-        texto += "a" + NEW_LINE;
-        texto += "///r" + NEW_LINE;
-        texto += "a" + NEW_LINE;
-        texto += "/" + NEW_LINE;
-        texto += "b" + NEW_LINE;
-        texto += "///r" + NEW_LINE;
-        texto += "b" + NEW_LINE;
-        texto += "/" + NEW_LINE;
-        texto += "c" + NEW_LINE;
-        texto += "///x" + NEW_LINE;
-        texto += "xxx-1xxx0xxx-1xxx1xxx-1xi" + NEW_LINE;
-
-        var roboXixi = new RoboXixi(texto, NEW_LINE);
-        roboXixi.transformar();
-        var dadoTransformado = roboXixi.ResultadoFinal;
-        
-        var esperado = "";
-        esperado += "abacaxi" + NEW_LINE;
-        esperado += "abacaxi" + NEW_LINE;
-        esperado += "abacaxi";
-        
-        equal(dadoTransformado, esperado, "xxx com Robo");
-    });
-
+        return roboXixi.ResultadoFinal;
+    };
 });

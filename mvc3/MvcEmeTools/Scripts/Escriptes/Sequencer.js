@@ -157,6 +157,15 @@ $.ctrl = function (key, propagate, callback, args) {
     });
 };
 
+var replace_show_invisible = function (texto) {
+    texto = texto.replace(/^(\/\/\/\w)$/gm, "<span class='comando'>$1</span>");
+    texto = texto.replace(/^\/$/gm, "<span class='char_replacer_separator'>/</span>");
+    texto = texto.replace(/$/gm, "<span class='char_n'>\\n</span>");
+    texto = texto.replace(/\t/gm, "<span class='char_tab'>\\t</span>");
+    texto = texto.replace(/^(#.*)$/gm, "<span class='comentario'>$1</span>");
+    return texto;
+};
+
 var selecionarEtapa = function (elJquery, roboXixi) {
     // limpa os itens selecionados
     $("#listaXixizeros li").attr("class", "naoSelecionado");

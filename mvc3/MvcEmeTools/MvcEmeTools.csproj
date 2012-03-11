@@ -85,7 +85,24 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\Escriptes\Sequencer.css" />
-    <Content Include="Scripts\EmeTools\underscore-min.js" />
+    <Content Include="Scripts\EmeTools\comandos.js" />
+    <Content Include="Scripts\EmeTools\ZZZ_qunit_local.html" />
+    <Content Include="Scripts\EmeTools\transformarXxx.js" />
+    <Content Include="Scripts\EmeTools\roboXixi.js" />
+    <Content Include="Scripts\kendo\Default\editor.png" />
+    <Content Include="Scripts\kendo\Default\imagebrowser.png" />
+    <Content Include="Scripts\kendo\Default\loading-image.gif" />
+    <Content Include="Scripts\kendo\Default\loading.gif" />
+    <Content Include="Scripts\kendo\Default\slider-h.gif" />
+    <Content Include="Scripts\kendo\Default\slider-v.gif" />
+    <Content Include="Scripts\kendo\Default\sprite.png" />
+    <Content Include="Scripts\kendo\kendo.all.min.js" />
+    <Content Include="Scripts\kendo\kendo.common.min.css" />
+    <Content Include="Scripts\kendo\kendo.default.min.css" />
+    <Content Include="Scripts\kendo\textures\glass.png" />
+    <Content Include="Scripts\kendo\textures\highlight.png" />
+    <Content Include="Scripts\underscore\underscore-min.js" />
+    <Content Include="Scripts\EmeTools\xixizero.js" />
     <Content Include="Scripts\Escriptes\Sequencer.js" />
     <Content Include="Scripts\Escriptes\Edit.js" />
   </ItemGroup>
@@ -154,8 +171,8 @@
     <Content Include="Scripts\EmeTools\emetools.js" />
     <Content Include="Scripts\EmeTools\tests\jsedTest.js" />
     <Content Include="Scripts\EmeTools\tests\xixizeroTest.js" />
-    <Content Include="Scripts\EmeTools\EmEditor_menu.js" />
-    <Content Include="Scripts\EmeTools\eeTools_Include.js" />
+    <Content Include="Scripts\EmeTools\oldEmeTools\EmEditor_menu.js" />
+    <Content Include="Scripts\EmeTools\oldEmeTools\eeTools_Include.js" />
     <Content Include="Scripts\EmeTools\tests\roboXixiTest.js" />
     <Content Include="Scripts\helpers.js" />
     <Content Include="Scripts\jquery-1.7.1-vsdoc.js" />
