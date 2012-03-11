@@ -86,6 +86,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\Escriptes\Sequencer.css" />
     <Content Include="Scripts\EmeTools\comandos.js" />
+    <Content Include="Scripts\EmeTools\Z_Escripte_SAME.js" />
+    <Content Include="Scripts\EmeTools\Z_Escripte_NEW.js" />
     <Content Include="Scripts\EmeTools\ZZZ_qunit_local.html" />
     <Content Include="Scripts\EmeTools\transformarXxx.js" />
     <Content Include="Scripts\EmeTools\roboXixi.js" />
@@ -171,8 +173,8 @@
     <Content Include="Scripts\EmeTools\emetools.js" />
     <Content Include="Scripts\EmeTools\tests\jsedTest.js" />
     <Content Include="Scripts\EmeTools\tests\xixizeroTest.js" />
-    <Content Include="Scripts\EmeTools\oldEmeTools\EmEditor_menu.js" />
-    <Content Include="Scripts\EmeTools\oldEmeTools\eeTools_Include.js" />
+    <Content Include="Scripts\oldEmeTools\EmEditor_menu.js" />
+    <Content Include="Scripts\oldEmeTools\eeTools_Include.js" />
     <Content Include="Scripts\EmeTools\tests\roboXixiTest.js" />
     <Content Include="Scripts\helpers.js" />
     <Content Include="Scripts\jquery-1.7.1-vsdoc.js" />
