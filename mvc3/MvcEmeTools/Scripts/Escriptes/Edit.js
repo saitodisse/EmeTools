@@ -20,31 +20,47 @@ $().ready(function () {
     //editor.getSession().getMode().$tokenizer.rules.append({token: "comment", regex: "each"});
     editor.show;
 
-    var salvar = function () {
-        var dados = {
-            Nome: $("#Nome").val(),
-            Descricao: $("#Descricao").val(),
-            Texto: editor.getSession().getValue()
-        };
-
-        var request = $.ajax({
-            type: "POST",
-            data: dados
-        });
-
-        request.done(function (data) {
-            if (data === "salvo") {
-                exibirMensagemUi("Sucesso", "Os dados foram salvos com sucesso. Mensagem retornada: [" + data + "]");
-            }
-            if (data === "criado") {
-                window.location.href = "../Escriptes";
-            }
-        });
-
-        request.fail(function (jqXHR, textStatus) {
-            exibirMensagemUi("Request failed", textStatus);
-        });
-    };
-
     $("#btnSalvar").click(salvar);
 });
+
+var salvar = function () {
+    var dados = {
+        Nome: $("#Nome").val(),
+        Descricao: $("#Descricao").val(),
+        Texto: editor.getSession().getValue()
+    };
+
+    var request = $.ajax({
+        type: "POST",
+        data: dados
+    });
+
+    request.done(function (data) {
+        if (data === "salvo") {
+            exibirMensagemUi(
+                "Sucesso",
+                "Os dados foram salvos com sucesso. Mensagem retornada: [" + data + "]",
+                1000
+            );
+        }
+        if (data === "criado") {
+            window.location.href = "../Escriptes";
+        }
+    });
+
+    request.fail(function (jqXHR, textStatus) {
+        exibirMensagemUi("Request failed", textStatus);
+    });
+};
+
+//////////////////////////////////////////////////////////
+// KEY-BINDS:
+//////////////////////////////////////////////////////////
+window.onkeydown = function (evt) {
+    evt = evt || window.event;
+    // Ctrl + S -> salvar
+    if (evt.ctrlKey && evt.keyCode === "S".charCodeAt(0)) {
+        salvar();
+        return false; // Prevent any default browser behaviour
+    }
+};

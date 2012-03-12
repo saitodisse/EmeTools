@@ -62,27 +62,30 @@ var carregarRobo = function (texto, primeiraVez) {
         //////////////////////////////////////////////////////////
         // KEY-BINDS:
         //////////////////////////////////////////////////////////
-
-        // CTRL + CIMA
-        $.ctrl(38, false, function () {
-            var anterior = $(".selecionado").prev();
-            if (anterior.length === 0)
+        window.onkeydown = function (evt) {
+            evt = evt || window.event;
+            // CTRL + CIMA
+            if (evt.ctrlKey && evt.keyCode === 38) {
+                var anterior = $(".selecionado").prev();
+                if (anterior.length === 0)
+                    return false;
+                selecionarEtapa(anterior, roboXixi);
                 return false;
-            selecionarEtapa(anterior, roboXixi);
-            return false;
-        });
-
-        // CTRL + BAIXO
-        $.ctrl(40, false, function () {
-            var proximo = $(".selecionado").next();
-            if (proximo.length === 0)
+            }
+            // CTRL + BAXO
+            if (evt.ctrlKey && evt.keyCode === 40) {
+                var proximo = $(".selecionado").next();
+                if (proximo.length === 0)
+                    return false;
+                selecionarEtapa(proximo, roboXixi);
                 return false;
-            selecionarEtapa(proximo, roboXixi);
-            return false;
-        });
+            }
+            // CTRL + C
+            if (evt.ctrlKey && evt.keyCode === 40) {
+                prepararCopy();
+            }
+        };
 
-        // CTRL + C
-        $.ctrl('C'.charCodeAt(0), true, prepararCopy);
         $("#spanCopyLink").click(prepararCopy);
 
 
@@ -138,24 +141,6 @@ $().ready(function () {
     $("#horizontalSplitter").kendoSplitter();
     $("#verticalSplitter").kendoSplitter({ orientation: "vertical" });
 });
-
-$.ctrl = function (key, propagate, callback, args) {
-    var isCtrl = false;
-    $(document).keydown(function (e) {
-        if (!args) args = []; // IE barks when args is null
-
-        if (e.ctrlKey) isCtrl = true;
-        if (e.keyCode == key && isCtrl) {
-            callback.apply(this, args);
-            if (propagate === false) {
-                e.preventDefault();
-                return false;
-            }
-        }
-    }).keyup(function (e) {
-        if (e.ctrlKey) isCtrl = false;
-    });
-};
 
 var replace_show_invisible = function (texto) {
     texto = texto.replace(/^(\/\/\/\w)$/gm, "<span class='comando'>$1</span>");

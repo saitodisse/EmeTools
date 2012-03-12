@@ -125,9 +125,9 @@ var main = function () {
     switch (mainMenu.Track()) {
         case OP_XXX_NEW:
             var allText = getAllText();
-            var roboXixizero = new RoboXixi(allText, NEW_LINE);
-            roboXixizero.transformar();
-            newEditorWindow(roboXixizero.ResultadoFinal);
+            var roboXixi = new RoboXixi(allText, NEW_LINE);
+            roboXixi.transformar();
+            newEditorWindow(roboXixi.ResultadoFinal);
             break;
         case OP_XXX:
             newEditorWindow(Xxx(getAllText()));

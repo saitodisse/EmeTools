@@ -37,11 +37,11 @@ var newEditorWindow = function (texto) {
 // take all text from windows
 var allText = getAllText();
 
-// initialize roboXixizero
-var roboXixizero = new RoboXixi(allText, NEW_LINE);
+// initialize roboXixi
+var roboXixi = new RoboXixi(allText, NEW_LINE);
 
 // make the transformation
-roboXixizero.transformar();
+roboXixi.transformar();
 
 // print result in a new window
-newEditorWindow(roboXixizero.ResultadoFinal);
+newEditorWindow(roboXixi.ResultadoFinal);
