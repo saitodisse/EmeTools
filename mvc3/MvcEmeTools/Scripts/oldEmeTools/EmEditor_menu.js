@@ -1,6 +1,4 @@
 #include "eeTools_Include.js"
-#include "emetools.js"
-#include "../jsed/jsed.js"
 
 SHOW_ALERT_ON_ERRORS = true;
 
@@ -11,9 +9,9 @@ SHOW_ALERT_ON_ERRORS = true;
 //  
 //  based on emeditor_perfecta_en.jsee (http://yangshuai.googlepages.com/emeditor_perfecta.html)
 
-var main = function () {
+var main = function() {
 
-    var getAllText = function () {
+    var getAllText = function() {
         document.selection.SelectAll();
         var text = document.selection.text;
 
@@ -21,14 +19,14 @@ var main = function () {
         document.selection.EndOfLine(false, eeLineView);
         return text;
     };
-    var sameWindow = function (texto) {
+    var sameWindow = function(texto) {
         document.selection.SelectAll();
         document.selection.text = texto;
 
         document.HighlightFind = false;
         document.selection.EndOfLine(false, eeLineView);
     };
-    var newEditorWindow = function (texto) {
+    var newEditorWindow = function(texto) {
         editor.NewFile();
         document.write(texto);
 
@@ -61,11 +59,8 @@ var main = function () {
     var OP_EXTRAIR_STRING_SEGURA_CSHARP = 24;
     var OP_RETIRAR_LINHAS_POR_REGEX = 25;
 
-    var OP_XXX_NEW = 26;
-
     //xxx
     var mainMenu = CreatePopupMenu();
-    mainMenu.Add("XXX (novo)", OP_XXX_NEW);
     mainMenu.Add("XXX", OP_XXX);
     mainMenu.Add("XXX para lista", OP_XXX_LISTA);
     mainMenu.Add("XXX existe na lista?", OP_XXX_EXISTE_LISTA);
@@ -123,152 +118,145 @@ var main = function () {
     mainMenu.Add("", 0, eeMenuSeparator);
 
     switch (mainMenu.Track()) {
-        case OP_XXX_NEW:
-            var allText = getAllText();
-            var roboXixi = new RoboXixi(allText, NEW_LINE);
-            roboXixi.transformar();
-            newEditorWindow(roboXixi.ResultadoFinal);
-            break;
-        case OP_XXX:
-            newEditorWindow(Xxx(getAllText()));
-            break;
-        case OP_XXX_LISTA:
-            newEditorWindow(XxxLista(getAllText()));
-            break;
-        case OP_XXX_EXISTE_LISTA:
-            newEditorWindow(XxxExisteLista(getAllText()));
-            break;
-        case OP_REGEX_EXTRACT:
-            newEditorWindow(RegexExtractor(getAllText()));
-            break;
-        case OP_RETIRAR_LINHAS_POR_REGEX:
-            newEditorWindow(regexLinesDeleter(getAllText()));
-            break;
-        case OP_EXTRACT_LINKS:
-            newEditorWindow(ExtrairLinks(getAllText()).join('\r\n'));
-            break;
-        case OP_TRIM:
-            document.selection.SelectAll();
-            document.selection.Replace("^\\s*", "", eeFindNext | eeReplaceAll | eeFindReplaceRegExp);
-            document.selection.Replace("\\s*$", "", eeFindNext | eeReplaceAll | eeFindReplaceRegExp);
-            break;
-        case OP_TRIM_LINES:
-            document.selection.SelectAll();
-            document.selection.Replace("^\\s*$\\n", "", eeFindNext | eeReplaceAll | eeFindReplaceRegExp);
-            break;
-        case OP_TAB_TO_SPACES:
-            document.selection.SelectAll();
-            texto = IdentarTab2Spaces(getAllText()).join('\r\n');
-            editor.NewFile();
-            document.write(texto);
-            break;
-        case OP_SPACES_TO_TABS:
-            newEditorWindow(IdentarSpaces2Tab(getAllText()).join('\r\n'));
-            break;
-        case OP_SPACES_TO_SPACE:
-            document.selection.SelectAll();
-            document.selection.Replace("\\s{2,}", " ", eeFindNext | eeReplaceAll | eeFindReplaceRegExp);
-            break;
-        case OP_SORT:
-            sameWindow(ordenarTudo(getAllText(), 0).join('\r\n'));
-            break;
-        case OP_SORT_DESC:
-            sameWindow(ordenarTudo(getAllText(), 1).join('\r\n'));
-            break;
-        case OP_SORT_DISTINCT:
-            sameWindow(distinct(getAllText(), 0).join('\r\n'));
-            break;
-        case OP_SORT_DISTINCT_DESC:
-            sameWindow(distinct(getAllText(), 1).join('\r\n'));
-            break;
-        case OP_SQL_DECLARE_SET:
-            if (document.selection.text.length > 0) {
-                document.selection.Replace("\\s*(@\\w+)\\s*(\\w+(\\(.*?\\))?).*", "Declare \\1 \\2;\\nSet \\1 = null;\\n", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp | eeReplaceSelOnly);
-            }
-            else {
-                document.selection.Replace("\\s*(@\\w+)\\s*(\\w+(\\(.*?\\))?).*", "Declare \\1 \\2;\\nSet \\1 = null;\\n", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
-            }
-            break;
-        case OP_SQL_EXEC:
-            document.selection.Replace("^create\\s+\\w+\\s+", "", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
-            document.selection.Replace("\\s*(@\\w+)(.*?)(,?$)", "\\t\\1\\4 = null\\3", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
-            document.selection.Replace("[()]", "", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
-            document.selection.StartOfLine(true, eeLineView);
+    case OP_XXX:
+        newEditorWindow(Xxx(getAllText()));
+        break;
+    case OP_XXX_LISTA:
+        newEditorWindow(XxxLista(getAllText()));
+        break;
+    case OP_XXX_EXISTE_LISTA:
+        newEditorWindow(XxxExisteLista(getAllText()));
+        break;
+    case OP_REGEX_EXTRACT:
+        newEditorWindow(RegexExtractor(getAllText()));
+        break;
+    case OP_RETIRAR_LINHAS_POR_REGEX:
+        newEditorWindow(regexLinesDeleter(getAllText()));
+        break;
+    case OP_EXTRACT_LINKS:
+        newEditorWindow(ExtrairLinks(getAllText()).join('\r\n'));
+        break;
+    case OP_TRIM:
+        document.selection.SelectAll();
+        document.selection.Replace("^\\s*", "", eeFindNext | eeReplaceAll | eeFindReplaceRegExp);
+        document.selection.Replace("\\s*$", "", eeFindNext | eeReplaceAll | eeFindReplaceRegExp);
+        break;
+    case OP_TRIM_LINES:
+        document.selection.SelectAll();
+        document.selection.Replace("^\\s*$\\n", "", eeFindNext | eeReplaceAll | eeFindReplaceRegExp);
+        break;
+    case OP_TAB_TO_SPACES:
+        document.selection.SelectAll();
+        texto = IdentarTab2Spaces(getAllText()).join('\r\n');
+        editor.NewFile();
+        document.write(texto);
+        break;
+    case OP_SPACES_TO_TABS:
+        newEditorWindow(IdentarSpaces2Tab(getAllText()).join('\r\n'));
+        break;
+    case OP_SPACES_TO_SPACE:
+        document.selection.SelectAll();
+        document.selection.Replace("\\s{2,}", " ", eeFindNext | eeReplaceAll | eeFindReplaceRegExp);
+        break;
+    case OP_SORT:
+        sameWindow(ordenarTudo(getAllText(), 0).join('\r\n'));
+        break;
+    case OP_SORT_DESC:
+        sameWindow(ordenarTudo(getAllText(), 1).join('\r\n'));
+        break;
+    case OP_SORT_DISTINCT:
+        sameWindow(distinct(getAllText(), 0).join('\r\n'));
+        break;
+    case OP_SORT_DISTINCT_DESC:
+        sameWindow(distinct(getAllText(), 1).join('\r\n'));
+        break;
+    case OP_SQL_DECLARE_SET:
+        if (document.selection.text.length > 0) {
+            document.selection.Replace("\\s*(@\\w+)\\s*(\\w+(\\(.*?\\))?).*", "Declare \\1 \\2;\\nSet \\1 = null;\\n", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp | eeReplaceSelOnly);
+        } else {
+            document.selection.Replace("\\s*(@\\w+)\\s*(\\w+(\\(.*?\\))?).*", "Declare \\1 \\2;\\nSet \\1 = null;\\n", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+        }
+        break;
+    case OP_SQL_EXEC:
+        document.selection.Replace("^create\\s+\\w+\\s+", "", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+        document.selection.Replace("\\s*(@\\w+)(.*?)(,?$)", "\\t\\1\\4 = null\\3", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+        document.selection.Replace("[()]", "", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+        document.selection.StartOfLine(true, eeLineView);
 
-            document.selection.StartOfDocument(false);
-            document.selection.Text = "/*\nexec ";
-            document.selection.EndOfDocument(false);
-            document.selection.Text = "*/";
+        document.selection.StartOfDocument(false);
+        document.selection.Text = "/*\nexec ";
+        document.selection.EndOfDocument(false);
+        document.selection.Text = "*/";
 
             //Retira linhas em branco
-            document.selection.Replace("\\s{2,}", "\\t", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
-            document.selection.Replace("^$\\n", "", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
-            document.selection.Replace("(^\\s+\x27|\x27\\s*\\+\\s*$)", "", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+        document.selection.Replace("\\s{2,}", "\\t", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+        document.selection.Replace("^$\\n", "", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+        document.selection.Replace("(^\\s+\x27|\x27\\s*\\+\\s*$)", "", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
 
-            document.selection.SelectAll();
-            document.selection.Copy(eeCopyUnicode);
-            document.selection.StartOfDocument(false);
-            document.HighlightFind = false;
+        document.selection.SelectAll();
+        document.selection.Copy(eeCopyUnicode);
+        document.selection.StartOfDocument(false);
+        document.HighlightFind = false;
 
-            document.selection.EndOfDocument(false);
-            document.selection.Text = "\n\nCopiado para o clipBoard...";
-            break;
-        case OP_SQL_SP_HELP_TO_CSHARP:
-            document.selection.SelectAll();
-            texto = SQL_Converter_Campo_Tipo_CSharp(getAllText()).join('\r\n');
-            editor.NewFile();
-            document.write(texto);
-            break;
-        case OP_PONTO_VIRGULA:
-            document.selection.SelectAll();
-            document.selection.Replace("\\.", ",", eeFindNext | eeReplaceAll | eeFindReplaceRegExp);
-            break;
-        case OP_ASPA_SIMPLES_TO_ASPAS_DUPLAS:
-            document.selection.Replace("'", "''", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
-            break;
-        case OP_CPF_ZEROS_A_ESQUERDA:
+        document.selection.EndOfDocument(false);
+        document.selection.Text = "\n\nCopiado para o clipBoard...";
+        break;
+    case OP_SQL_SP_HELP_TO_CSHARP:
+        document.selection.SelectAll();
+        texto = SQL_Converter_Campo_Tipo_CSharp(getAllText()).join('\r\n');
+        editor.NewFile();
+        document.write(texto);
+        break;
+    case OP_PONTO_VIRGULA:
+        document.selection.SelectAll();
+        document.selection.Replace("\\.", ",", eeFindNext | eeReplaceAll | eeFindReplaceRegExp);
+        break;
+    case OP_ASPA_SIMPLES_TO_ASPAS_DUPLAS:
+        document.selection.Replace("'", "''", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+        break;
+    case OP_CPF_ZEROS_A_ESQUERDA:
             //document.selection.Replace("\\b(\\d{12,})\\b","",eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
-            document.selection.Replace("\\b(\\d{10})\\b", "0\\1", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
-            document.selection.Replace("\\b(\\d{9})\\b", "00\\1", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
-            document.selection.Replace("\\b(\\d{8})\\b", "000\\1", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
-            document.selection.Replace("\\b(\\d{7})\\b", "0000\\1", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
-            document.selection.Replace("\\b(\\d{6})\\b", "00000\\1", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
-            document.selection.SelectAll();
-            document.selection.Replace("^\\s*$\\n", "", eeFindNext | eeReplaceAll | eeFindReplaceRegExp);
-            break;
-        case OP_LINK_PFC_FINANC:
-            document.selection.Replace(".*Seg=(\\d+)&Reg=(\\d+)&Und=(\\d+)&Pfc=(\\d+).*", "SELECT * FROM [tbPfcFinanciamento] WHERE [CodSegmento] = \\1 AND [CodReg] = \\2 AND [CodUnd] = \\3 AND [NroPfc] = \\4\x0aupdate [tbPfcFinanciamento] Set CodSituacao = 00 WHERE [CodSegmento] = \\1 AND [CodReg] = \\2 AND [CodUnd] = \\3 AND [NroPfc] = \\4\x0ahttp://localhost/MesaCreditoWeb/AnaliseFichaFinanciamento.aspx?Seg=\\1&Reg=\\2&Und=\\3&Pfc=\\4\x0ahttp://localhost/MesaCreditoWeb/AnaliseHistoricoFinanciamento.aspx?Seg=\\1&Reg=\\2&Und=\\3&Pfc=\\4&Vis=2", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
-            break;
-        case OP_EXTRAIR_STRING_SEGURA_CSHARP:
-            document.selection.Find("\x22", eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeFindReplaceQuiet | eeFindAround);
-            document.selection.Replace("\x22", "\\\\\x22", eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeReplaceAll);
-            document.selection.Find("\\", eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeFindReplaceQuiet | eeFindAround);
-            document.selection.Find("\\n", eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeFindReplaceQuiet | eeFindAround);
-            document.selection.Find("\\", eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeFindReplaceQuiet | eeFindAround);
-            document.selection.Find("\\s", eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeFindReplaceQuiet | eeFindAround);
-            document.selection.Find("\\s+", eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeFindReplaceQuiet | eeFindAround);
-            document.selection.Replace("\\s+", " ", eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeReplaceAll);
-            document.selection.Replace("\\s+", " ", eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
-            document.selection.Find("\\", eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeFindReplaceQuiet | eeFindAround | eeFindReplaceRegExp);
-            document.selection.Find("\\n", eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeFindReplaceQuiet | eeFindAround | eeFindReplaceRegExp);
-            document.selection.Replace("\\n", "", eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
-            document.selection.EndOfLine(true, eeLineView);
-            document.selection.Copy(eeCopyUnicode);
-            document.Undo();
-            document.Undo();
-            document.Undo();
-            break;
-        case OP_ITAU_TO_MONEYLOG:
-            document.selection.Replace(".*S A L D O.*", "", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
-            document.selection.Replace("^(\\d\\d)/(\\d\\d)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t", "2009-\\2-\\1\\t\\8\\7\\t\\5", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
-            document.selection.Replace("^$\\n", "", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+        document.selection.Replace("\\b(\\d{10})\\b", "0\\1", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+        document.selection.Replace("\\b(\\d{9})\\b", "00\\1", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+        document.selection.Replace("\\b(\\d{8})\\b", "000\\1", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+        document.selection.Replace("\\b(\\d{7})\\b", "0000\\1", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+        document.selection.Replace("\\b(\\d{6})\\b", "00000\\1", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+        document.selection.SelectAll();
+        document.selection.Replace("^\\s*$\\n", "", eeFindNext | eeReplaceAll | eeFindReplaceRegExp);
+        break;
+    case OP_LINK_PFC_FINANC:
+        document.selection.Replace(".*Seg=(\\d+)&Reg=(\\d+)&Und=(\\d+)&Pfc=(\\d+).*", "SELECT * FROM [tbPfcFinanciamento] WHERE [CodSegmento] = \\1 AND [CodReg] = \\2 AND [CodUnd] = \\3 AND [NroPfc] = \\4\x0aupdate [tbPfcFinanciamento] Set CodSituacao = 00 WHERE [CodSegmento] = \\1 AND [CodReg] = \\2 AND [CodUnd] = \\3 AND [NroPfc] = \\4\x0ahttp://localhost/MesaCreditoWeb/AnaliseFichaFinanciamento.aspx?Seg=\\1&Reg=\\2&Und=\\3&Pfc=\\4\x0ahttp://localhost/MesaCreditoWeb/AnaliseHistoricoFinanciamento.aspx?Seg=\\1&Reg=\\2&Und=\\3&Pfc=\\4&Vis=2", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+        break;
+    case OP_EXTRAIR_STRING_SEGURA_CSHARP:
+        document.selection.Find("\x22", eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeFindReplaceQuiet | eeFindAround);
+        document.selection.Replace("\x22", "\\\\\x22", eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeReplaceAll);
+        document.selection.Find("\\", eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeFindReplaceQuiet | eeFindAround);
+        document.selection.Find("\\n", eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeFindReplaceQuiet | eeFindAround);
+        document.selection.Find("\\", eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeFindReplaceQuiet | eeFindAround);
+        document.selection.Find("\\s", eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeFindReplaceQuiet | eeFindAround);
+        document.selection.Find("\\s+", eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeFindReplaceQuiet | eeFindAround);
+        document.selection.Replace("\\s+", " ", eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeReplaceAll);
+        document.selection.Replace("\\s+", " ", eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+        document.selection.Find("\\", eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeFindReplaceQuiet | eeFindAround | eeFindReplaceRegExp);
+        document.selection.Find("\\n", eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeFindReplaceQuiet | eeFindAround | eeFindReplaceRegExp);
+        document.selection.Replace("\\n", "", eeFindNext | eeFindSaveHistory | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+        document.selection.EndOfLine(true, eeLineView);
+        document.selection.Copy(eeCopyUnicode);
+        document.Undo();
+        document.Undo();
+        document.Undo();
+        break;
+    case OP_ITAU_TO_MONEYLOG:
+        document.selection.Replace(".*S A L D O.*", "", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+        document.selection.Replace("^(\\d\\d)/(\\d\\d)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t", "2009-\\2-\\1\\t\\8\\7\\t\\5", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
+        document.selection.Replace("^$\\n", "", eeFindNext | eeFindReplaceEscSeq | eeReplaceAll | eeFindReplaceRegExp);
             //SameWindow( MISC_Itau2MoneyLog( GetAllText() ) )
-            break;
-        case OP_TRANSPOSE:
-            newEditorWindow(Transpose(getAllText()));
-            break;
-        default:
-            break;
+        break;
+    case OP_TRANSPOSE:
+        newEditorWindow(Transpose(getAllText()));
+        break;
+    default:
+        break;
     }
 };
 
