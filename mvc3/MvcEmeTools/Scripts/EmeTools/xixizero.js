@@ -23,16 +23,20 @@ var Xixizero = function (escripte, comando, newLine) {
     };
 
     this.transformar = function (texto, roboXixi) {
+        // retira todos os comentários
+        var escripteSemComentarios = replaceTodos(this.Escripte, "^#.*" + newLine + "?", "");
+
+
         // (T)emplate: template do undescore
         if (this.Comando === "t") {
             this.DadoTransformado = aplicarTemplateUnderscore(texto, this, newLine, roboXixi);
         }
         // (R)EPLACE: substituição javascript genérica
-        if (this.Comando === "r") {
-            this.DadoTransformado = substituirCustomizado(this.Escripte, texto, newLine);
+        else if (this.Comando === "r") {
+            this.DadoTransformado = substituirCustomizado(escripteSemComentarios, texto, newLine);
         }
         // (S)ED: executa comando JSED
-        if (this.Comando === "s") {
+        else if (this.Comando === "s") {
             this.DadoTransformado = sedJsed(
                 texto,
                 this.Escripte,
@@ -41,14 +45,14 @@ var Xixizero = function (escripte, comando, newLine) {
                 10000);
         }
         // (C)OMANDOS: executa comando pre-determinado daqui mesmo
-        if (this.Comando === "c") {
-            this.DadoTransformado = executarComandos(texto, this.Escripte, newLine, roboXixi);
+        else if (this.Comando === "c") {
+            this.DadoTransformado = executarComandos(texto, escripteSemComentarios, newLine, roboXixi);
         }
         // (X)XX: template XXX. 
         //   xxx0 pega o resultado da primeira transformação em lista "splitada(\n)"
         //   e aplica no template passado.
-        if (this.Comando === "x") {
-            this.DadoTransformado = transformarXxx(texto, this.Escripte, newLine, roboXixi);
+        else if (this.Comando === "x") {
+            this.DadoTransformado = transformarXxx(texto, escripteSemComentarios, newLine, roboXixi);
         }
     };
 };
@@ -67,9 +71,20 @@ var obterResultadoXixizero = function (matches, roboXixi, newLine) {
 
 
 var aplicarTemplateUnderscore = function (texto, xixizero, newLine, roboXixi) {
+    var roboLocal;
+    var get;
+
+    if (!(_.isUndefined(roboXixi))) {
+        roboLocal = roboXixi;
+        get = function (indice) {
+            return roboLocal.get(indice);
+        };
+    }
+
     var objetoPassado = {
-        "linhas": texto.split(newLine),
-        "roboXixi": roboXixi
+        linhas: texto.split(newLine),
+        roboXixi: !(_.isUndefined(roboXixi)) && roboXixi,
+        get: !(_.isUndefined(roboXixi)) && get
     };
 
     //retira todos os comentários
@@ -82,9 +97,6 @@ var aplicarTemplateUnderscore = function (texto, xixizero, newLine, roboXixi) {
 };
 
 function obter_replacer_e_substitutor(escripte, newLine) {
-    //retira todos os comentários
-    escripte = replaceTodos(escripte, "^#.*" + newLine + "?", "");
-
     // verifica se o ultimo caractere é um newline
     // caso ocorra algum comentário após o substituitor
     var ultimoCaractere = escripte.substring(escripte.length - newLine.length, escripte.length);

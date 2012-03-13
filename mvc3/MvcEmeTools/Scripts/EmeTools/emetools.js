@@ -1,7 +1,7 @@
 var SHOW_ALERT_ON_ERRORS = false;
 
 // configura template do underscore
-//_.templateSettings.interpolate = /\{\{(.+?)\}\}/g;
+//ç_.templateSettings.interpolate = /\{\{(.+?)\}\}/g;
 
 function disparaErro(name, message) {
     var err = new Error();

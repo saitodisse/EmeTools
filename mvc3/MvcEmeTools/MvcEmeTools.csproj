@@ -86,6 +86,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\Escriptes\Sequencer.css" />
     <Content Include="Scripts\EmeTools\comandos.js" />
+    <Content Include="Scripts\EmeTools\jsed\jsed.js" />
+    <Content Include="Scripts\EmeTools\tests\transformadorXxxTest.js" />
+    <Content Include="Scripts\EmeTools\underscore\underscore-min.js" />
     <Content Include="Scripts\EmeTools\Z_Escripte_SAME.js" />
     <Content Include="Scripts\EmeTools\Z_Escripte_NEW.js" />
     <Content Include="Scripts\EmeTools\Z_qunit_local.html" />
@@ -103,13 +106,12 @@
     <Content Include="Scripts\kendo\kendo.default.min.css" />
     <Content Include="Scripts\kendo\textures\glass.png" />
     <Content Include="Scripts\kendo\textures\highlight.png" />
-    <Content Include="Scripts\underscore\underscore-min.js" />
     <Content Include="Scripts\EmeTools\xixizero.js" />
     <Content Include="Scripts\Escriptes\Sequencer.js" />
     <Content Include="Scripts\Escriptes\Edit.js" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\qunit.css" />
+    <Content Include="Scripts\EmeTools\qunit\qunit.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -177,9 +179,9 @@
     <Content Include="Scripts\oldEmeTools\eeTools_Include.js" />
     <Content Include="Scripts\EmeTools\tests\roboXixiTest.js" />
     <Content Include="Scripts\Escriptes\helpers.js" />
-    <Content Include="Scripts\jquery-1.7.1-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.7.1.js" />
-    <Content Include="Scripts\jquery-1.7.1.min.js" />
+    <Content Include="Scripts\EmeTools\jQuery\jquery-1.7.1-vsdoc.js" />
+    <Content Include="Scripts\EmeTools\jQuery\jquery-1.7.1.js" />
+    <Content Include="Scripts\EmeTools\jQuery\jquery-1.7.1.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.16.js" />
     <Content Include="Scripts\jquery-ui-1.8.16.min.js" />
     <Content Include="Scripts\jquery.animate-shadow-min.js" />
@@ -187,10 +189,9 @@
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jsed\jsed.js" />
     <Content Include="Scripts\modernizr-1.7.js" />
     <Content Include="Scripts\modernizr-1.7.min.js" />
-    <Content Include="Scripts\qunit.js" />
+    <Content Include="Scripts\EmeTools\qunit\qunit.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

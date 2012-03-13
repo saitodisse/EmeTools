@@ -1,5 +1,3 @@
-NEW_LINE = '\n';
-
 $(document).ready(function () {
     test("t[emplate] sem newline", function () {
         var xixizero = new Xixizero(" - <%= linhas %>", "t", "\n");
@@ -60,10 +58,8 @@ $(document).ready(function () {
 
     test("obter replacer e substitutors", function () {
         var escripte = "";
-        escripte += "# aqui vai a expressão regular casadora" + NEW_LINE;  //   #   : ignora comentário
         escripte += "b" + NEW_LINE;
         escripte += "/" + NEW_LINE;
-        escripte += "# aqui vai o que será substituido por x" + NEW_LINE;  //   #   : ignora comentário
         escripte += "x";
 
         var objReplcerSubstitutor = obter_replacer_e_substitutor(escripte, NEW_LINE);

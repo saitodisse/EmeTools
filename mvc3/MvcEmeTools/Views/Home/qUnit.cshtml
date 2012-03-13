@@ -3,9 +3,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section js{
-    <link href="@Url.Content("~/Content/qunit.css")" rel="stylesheet" type="text/css" />
-    <script src="@Url.Content("~/Scripts/qunit.js")" type="text/javascript"> </script>
-    <script src="@Url.Content("~/Scripts/jsed/jsed.js")" type="text/javascript"> </script>
+    <link href="@Url.Content("~/Scripts/EmeTools/qunit/qunit.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/EmeTools/qunit/qunit.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/Scripts/EmeTools/jsed/jsed.js")" type="text/javascript"> </script>
 
     <!--emeTools-->
     <script src="@Url.Content("~/Scripts/EmeTools/emetools.js")" type="text/javascript"> </script>
@@ -13,11 +13,13 @@
     <script src="@Url.Content("~/Scripts/EmeTools/xixizero.js")" type="text/javascript"> </script>
     <script src="@Url.Content("~/Scripts/EmeTools/transformarXxx.js")" type="text/javascript"> </script>
     <script src="@Url.Content("~/Scripts/EmeTools/comandos.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/Scripts/Escriptes/helpers.js")" type="text/javascript"> </script>
     
     <!--tests-->
     <script src="@Url.Content("~/Scripts/EmeTools/tests/jsedTest.js")" type="text/javascript"> </script>
     <script src="@Url.Content("~/Scripts/EmeTools/tests/xixizeroTest.js")" type="text/javascript"> </script>
     <script src="@Url.Content("~/Scripts/EmeTools/tests/roboXixiTest.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/Scripts/EmeTools/tests/transformadorXxxTest.js")" type="text/javascript"> </script>
 }
 <h1 id="qunit-header">
     EmeTools tests</h1>

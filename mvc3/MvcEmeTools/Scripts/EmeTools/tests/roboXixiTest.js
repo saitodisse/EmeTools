@@ -1,6 +1,4 @@
-﻿NEW_LINE = '\n';
-
-$(document).ready(function () {
+﻿$(document).ready(function () {
     test("RoboXixi cria Xixizeros", function () {
 
         var texto = "";
@@ -239,6 +237,20 @@ $(document).ready(function () {
         equal(roboXixi.Xixizeros[0].DadoTransformado, "xxx", "roboXixi.Xixizeros[0].DadoTransformado");
     });
 
+    test("get busca dado teransformado", function () {
+
+        var texto = "";
+        texto += "aaa" + NEW_LINE;
+        texto += "///t" + NEW_LINE;
+        texto += "bbb" + NEW_LINE;
+
+        var roboXixi = new RoboXixi(texto, NEW_LINE);
+        roboXixi.transformar();
+
+        equal(roboXixi.get(-1), "aaa");
+        equal(roboXixi.get(0), "bbb");
+    });
+
     test("[c]omando GET: busca resultados anteriores", function () {
 
         var texto = "";
@@ -308,56 +320,4 @@ $(document).ready(function () {
         esperado += "x";
         equal(dadoTransformado, esperado, "get(3)");
     });
-
-    test("[x]xx templates simples", function () {
-        equal(executarRoboComXxxNoFinal("xxx-1"), "a\na", "xxx-1 => a");
-        equal(executarRoboComXxxNoFinal("xxx0"), "b\nb", "xxx0   => b");
-        equal(executarRoboComXxxNoFinal("xxx1"), "c\nc", "xxx1   => c");
-        equal(executarRoboComXxxNoFinal("xxx0xxx0"), "bb\nbb", "xxx0xxx0  => bb");
-        equal(executarRoboComXxxNoFinal("xxx0xxx0xxx0"), "bbb\nbbb", "xxx0xxx0xxx0  => bbb");
-        equal(executarRoboComXxxNoFinal("xxx0xxx0xxx0xxx0"), "bbbb\nbbbb", "xxx0xxx0xxx0xxx0  => bbbb");
-    });
-
-    test("[x]xx = ababacado", function () {
-        var escripteXxx = "";
-        escripteXxx += "xxx-1";  //a
-        escripteXxx += "xxx0";   //b
-        escripteXxx += "xxx-1";  //a
-        escripteXxx += "xxx0";   //b
-        escripteXxx += "xxx-1";  //a
-        escripteXxx += "xxx1";   //c
-        escripteXxx += "xxx-1";  //a
-        escripteXxx += "xxx2";   //d
-        escripteXxx += "xxx3";   //o
-        equal(executarRoboComXxxNoFinal(escripteXxx), "ababacado\nababacado", "ababacado");
-    });
-
-
-    var executarRoboComXxxNoFinal = function (escripteXxx) {
-        var texto = "";
-        texto += "a" + NEW_LINE;
-        texto += "a" + NEW_LINE;
-        texto += "///r" + NEW_LINE;
-        texto += "a" + NEW_LINE;
-        texto += "/" + NEW_LINE;
-        texto += "b" + NEW_LINE;
-        texto += "///r" + NEW_LINE;
-        texto += "b" + NEW_LINE;
-        texto += "/" + NEW_LINE;
-        texto += "c" + NEW_LINE;
-        texto += "///r" + NEW_LINE;
-        texto += "c" + NEW_LINE;
-        texto += "/" + NEW_LINE;
-        texto += "d" + NEW_LINE;
-        texto += "///r" + NEW_LINE;
-        texto += "d" + NEW_LINE;
-        texto += "/" + NEW_LINE;
-        texto += "o" + NEW_LINE;
-        texto += "///x" + NEW_LINE;
-        texto += escripteXxx + NEW_LINE;
-
-        var roboXixi = new RoboXixi(texto, NEW_LINE);
-        roboXixi.transformar();
-        return roboXixi.ResultadoFinal;
-    };
 });

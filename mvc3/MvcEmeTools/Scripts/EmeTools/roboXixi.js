@@ -65,22 +65,24 @@ var RoboXixi = function (texto, newLine) {
         }
     };
 
-    this.transformar = function (indiceDeParada) {
-        var indiceUltimoXixizero = this.Xixizeros.length - 1;
-        if (indiceDeParada !== undefined) {
-            // Define indice final
-            indiceUltimoXixizero = indiceDeParada - 1;
-        }
-
+    this.transformar = function () {
         // realiza cada transformação
         var transformacaoAcumulada = this.DadosIniciais;
-        for (var j = 0; j <= indiceUltimoXixizero; j++) {
+        for (var j = 0; j < this.Xixizeros.length; j++) {
             var xixizero = this.Xixizeros[j];
             xixizero.transformar(transformacaoAcumulada, this);
             xixizero.Indice = j;
             transformacaoAcumulada = xixizero.DadoTransformado;
         }
         this.ResultadoFinal = transformacaoAcumulada;
+    };
+
+    this.get = function (indice) {
+        if (indice === -1) {
+            return this.DadosIniciais;
+        }
+        
+        return this.Xixizeros[indice].DadoTransformado;
     };
 
     //main

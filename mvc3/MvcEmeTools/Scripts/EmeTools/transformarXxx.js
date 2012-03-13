@@ -1,6 +1,6 @@
 var transformarXxx = function (texto, escripte, newLine, roboXixi) {
     var possuiXxxNumerado = escripte.replace(/(xxx-?\d)/gi, "$1").length > 0;
-    var regex = new RegExp("xxx(-?\\d)", "gi");
+    var regex = new RegExp("xxx(-?\\d+)", "gi");
     var resultadoParcial = "";
     var linhasTemplatesXxx;
 
@@ -24,7 +24,7 @@ var transformarXxx = function (texto, escripte, newLine, roboXixi) {
             break;
         }
 
-        regex = new RegExp("xxx(-?\\d)", "gi");
+        regex = new RegExp("xxx(-?\\d+)", "gi");
 
         var xxxRegex;
         var xxxCasado;

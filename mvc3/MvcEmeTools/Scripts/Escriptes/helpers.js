@@ -1,4 +1,6 @@
-﻿var exibirMensagemUi = function (titulo, mensagem, autoCloseAfterMsElapsed) {
+﻿var NEW_LINE = '\n';
+
+var exibirMensagemUi = function (titulo, mensagem, autoCloseAfterMsElapsed) {
     $("#div-dialog-message").attr("title", titulo);
     $("#mensagemDialog").text(mensagem);
 

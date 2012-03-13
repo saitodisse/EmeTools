@@ -81,7 +81,7 @@ var carregarRobo = function (texto, primeiraVez) {
                 return false;
             }
             // CTRL + C
-            if (evt.ctrlKey && evt.keyCode === 40) {
+            if (evt.ctrlKey && evt.keyCode === "C".charCodeAt(0)) {
                 prepararCopy();
             }
         };
