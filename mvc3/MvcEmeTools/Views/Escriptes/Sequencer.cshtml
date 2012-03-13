@@ -10,7 +10,6 @@
     <script>
         var idSha1 = '@Model.IdSha1';
     </script>
-    <script src="@Url.Content("~/Scripts/jquery.textchange.min.js")" type="text/javascript"> </script>
     <script src="@Url.Content("~/Scripts/EmeTools/jsed/jsed.js")" type="text/javascript"> </script>
 
     <script src="@Url.Content("~/Scripts/EmeTools/emetools.js")" type="text/javascript"> </script>
@@ -19,23 +18,22 @@
     <script src="@Url.Content("~/Scripts/EmeTools/transformarXxx.js")" type="text/javascript"> </script>
     <script src="@Url.Content("~/Scripts/EmeTools/comandos.js")" type="text/javascript"> </script>
 
-    <script src="@Url.Content("~/Scripts/Escriptes/Sequencer.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Escriptes/Sequencer.js")" type="text/javascript"> </script>
 }
 <link href="@Url.Content("~/Content/Escriptes/Sequencer.css")" rel="stylesheet" type="text/css" />
 <legend>@Model.Nome</legend>
-<div id="horizontalSplitter" style="height: 600px; width: 980px">
+<div id="horizontalSplitter" style="height: 700px; width: 980px">
     <div>
         <div id="divListaXixizeros">
             <input type="button" id="btnRefresh" value="REFRESH" />
-            <div class="subTitulo">
-                sequência</div>
+            <div class="subTitulo">sequência</div>
             <ul id="listaXixizeros">
                 <li>[-1]: ORIGINAL</li>
             </ul>
         </div>
     </div>
     <div>
-        <div id="verticalSplitter" style="height: 600px">
+        <div id="verticalSplitter" style="height: 700px">
             <div>
                 <div id="divEscripte">
                     <div class="subTitulo">
@@ -61,6 +59,3 @@
     </div>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.IdSha1 }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

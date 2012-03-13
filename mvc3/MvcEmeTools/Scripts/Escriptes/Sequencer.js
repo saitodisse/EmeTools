@@ -20,9 +20,9 @@ $("#btnRefresh").click(function () {
 var carregarRobo = function (texto, primeiraVez) {
     $("#listaXixizeros").html("");
 
-    /////////////////////////////
+    ////////////////////////
     // executa transformação
-    /////////////////////////////
+    ////////////////////////
     var roboXixi = new RoboXixi(texto, '\n');
     roboXixi.transformar();
 
@@ -42,8 +42,7 @@ var carregarRobo = function (texto, primeiraVez) {
     // Executa toda transformação
     /////////////////////////////
     $("#preResposta").html(encodeHtml(roboXixi.ResultadoFinal));
-
-
+    
     if (primeiraVez) {
         var prepararCopy = function () {
             $("#preEscripteCompleto").val(xixizeroParaCopia());
@@ -59,9 +58,9 @@ var carregarRobo = function (texto, primeiraVez) {
             }, 2000);
         };
 
-        //////////////////////////////////////////////////////////
+        /////////////
         // KEY-BINDS:
-        //////////////////////////////////////////////////////////
+        /////////////
         window.onkeydown = function (evt) {
             evt = evt || window.event;
             // CTRL + CIMA
@@ -143,6 +142,7 @@ $().ready(function () {
 });
 
 var replace_show_invisible = function (texto) {
+    texto = texto.replace(/(<)(%.*?%)(>)/gm, "$1<span class='template'>$2</span>$3");
     texto = texto.replace(/^(\/\/\/\w)$/gm, "<span class='comando'>$1</span>");
     texto = texto.replace(/^\/$/gm, "<span class='char_replacer_separator'>/</span>");
     texto = texto.replace(/$/gm, "<span class='char_n'>\\n</span>");

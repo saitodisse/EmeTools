@@ -103,6 +103,11 @@
     background-color: #efe;
     color: #262;
 }
+.template {
+    font-size: 100%;
+    background-color: #ffc;
+    color: #333;
+}
 .comando {
     font-size: 110%;
     padding: 2px;

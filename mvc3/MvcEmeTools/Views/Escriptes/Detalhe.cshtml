@@ -1,0 +1,31 @@
+﻿@model Dominio.Entidades.Escripte
+@{
+    ViewBag.Title = "Detalhe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section js{
+    <script>
+        $().ready(function() {
+            var replace_show_invisible = function (texto) {
+                texto = texto.replace(/(<)(%.*?%)(>)/gm, "$1<span class='template'>$2</span>$3");
+                texto = texto.replace(/^(\/\/\/\w)$/gm, "<span class='comando'>$1</span>");
+                texto = texto.replace(/^\/$/gm, "<span class='char_replacer_separator'>/</span>");
+                texto = texto.replace(/$/gm, "<span class='char_n'>\\n</span>");
+                texto = texto.replace(/\t/gm, "<span class='char_tab'>\\t</span>");
+                texto = texto.replace(/^(#.*)$/gm, "<span class='comentario'>$1</span>");
+                return texto;
+            };
+
+            var transformado = replace_show_invisible($("#preEscripte").text());
+            
+            $("#preEscripte").html(transformado);
+        })
+    </script>
+}
+
+<link href="@Url.Content("~/Content/Escriptes/Sequencer.css")" rel="stylesheet" type="text/css" />
+
+@Html.Partial("menu_edit_sequencer", Model.IdSha1)
+<div id="divEscripte">
+    <pre id="preEscripte">@Model.Texto</pre>
+</div>
