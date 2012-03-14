@@ -28,9 +28,15 @@ var executarRobo = function (texto) {
     return roboXixi.ResultadoFinal;
 };
 
+var substituirPorRespostaRoboXixi = function () {
+    var resultado = executarRobo($("#textAreaDados").val());
+    $("#textAreaDados").val(resultado);
+};
+
+
 $().ready(function () {
     $("#buttonTransformar").click(function () {
-        executarRobo($("#textAreaDados").val());
+        substituirPorRespostaRoboXixi();
     });
 
     $("#textAreaDados").val(buscarTextoViaAjax());
@@ -41,6 +47,6 @@ window.onkeydown = function (evt) {
     evt = evt || window.event;
     // CTRL + ENTER
     if (evt.ctrlKey && evt.keyCode === 13) {
-        executarRobo($("#textAreaDados").val());
+        substituirPorRespostaRoboXixi();
     }
 };
