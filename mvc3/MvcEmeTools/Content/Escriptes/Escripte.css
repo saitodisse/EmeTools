@@ -1,0 +1,87 @@
+﻿.nome
+{
+    padding: 3px;
+    background-color: #777;
+    color: #fff;
+    font-size: 120%;
+    font-family: Consolas;
+    font-weight: bold;
+}
+
+.descricao
+{
+    display: block;
+    padding: 3px;
+    background-color: #ddd;
+    font-size: 80%;
+    font-family: Consolas;
+}
+
+.menu
+{
+    height: 20px;
+
+    display: block;
+    padding: 3px;
+    background-color: #fafafa;
+    font-size: 90%;
+    font-family: Verdana;
+    font-weight: bold;
+}
+
+.subTitulo
+{
+    height: 20px;
+
+    display: block;
+    padding: 2px;
+    margin: 15px;
+    background-color: #fafafa;
+    font-size: 110%;
+    font-family: Verdana;
+    font-weight: bold;
+}
+
+
+.char_tab {
+    margin-left: 3px;
+    margin-right: 3px;
+    color: #333;
+    background-color: #ded;
+}
+.char_n {
+    font-size: 60%;
+    margin-left: 1px;
+    margin-right: 1px;
+    color: #aaa;
+    background-color: #fee;
+}
+.char_replacer_separator {
+    font-size: 100%;
+    font-weight: bold;
+    color: #222;
+    background-color: #ddf;
+}
+.comentario {
+    font-size: 100%;
+    background-color: #efe;
+    color: #262;
+}
+.template {
+    font-size: 100%;
+    background-color: #ffc;
+    color: #333;
+}
+.comando {
+    font-size: 90%;
+    padding: 4px;
+    line-height: 30px;
+    color: #333;
+    font-weight: bold;
+    background-color: #ddf;
+}
+
+pre {
+    font-size: 120%;
+    font-family: Consolas;
+}

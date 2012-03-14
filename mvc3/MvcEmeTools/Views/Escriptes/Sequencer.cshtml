@@ -3,9 +3,8 @@
     ViewBag.Title = "Sequencer";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@Html.Partial("menu_edit_sequencer", Model.IdSha1)
-<h2>
-    Sequencer</h2>
+@Html.Partial("menu_edit_sequencer", Model)
+<span class="subTitulo">Seqüencer</span>
 @section js{
     <script>
         var idSha1 = '@Model.IdSha1';
@@ -26,7 +25,7 @@
     <div>
         <div id="divListaXixizeros">
             <input type="button" id="btnRefresh" value="REFRESH" />
-            <div class="subTitulo">sequência</div>
+            <div class="subTituloInterno">sequência</div>
             <ul id="listaXixizeros">
                 <li>[-1]: ORIGINAL</li>
             </ul>
@@ -36,14 +35,14 @@
         <div id="verticalSplitter" style="height: 700px">
             <div>
                 <div id="divEscripte">
-                    <div class="subTitulo">
+                    <div class="subTituloInterno">
                         escripte</div>
                     <pre id="preXixizero"></pre>
                 </div>
             </div>
             <div>
                 <div id="divResultadoParcial">
-                    <div class="subTitulo">
+                    <div class="subTituloInterno">
                         resultado</div>
                     <pre id="preResposta"></pre>
                 </div>

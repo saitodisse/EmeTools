@@ -21,10 +21,9 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.ActionLink(@item.Nome, "Sequencer", new { id=item.IdSha1 })
+            @Html.ActionLink(@item.Nome, "Visualizar", new { id=item.IdSha1 })
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.IdSha1 }) |
             @Html.ActionLink("X", "Delete", new { id = item.IdSha1 })
         </td>
     </tr>

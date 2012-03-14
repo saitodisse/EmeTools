@@ -25,6 +25,30 @@ namespace MvcEmeTools.Controllers
             return View(escriptes);
         }
 
+        public ActionResult Visualizar(string id)
+        {
+            var escripte = _gerenciadorEscriptes.Pesquisar(id);
+
+            return View(escripte);
+        }
+
+        public ActionResult Edit(string id)
+        {
+            var escripte = _gerenciadorEscriptes.Pesquisar(id);
+            return View(escripte);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult Edit(string id, FormCollection collection)
+        {
+            var escripte = _gerenciadorEscriptes.Pesquisar(id);
+            AtualizarDadosViaResponse(collection, escripte);
+            _gerenciadorEscriptes.Atualizar(escripte);
+            Response.Write("salvo");
+            return null;
+        }
+
         public ActionResult Sequencer(string id)
         {
             var escripte = _gerenciadorEscriptes.Pesquisar(id);
@@ -39,12 +63,6 @@ namespace MvcEmeTools.Controllers
             return View(escripte);
         }
 
-        public ActionResult Detalhe(string id)
-        {
-            var escripte = _gerenciadorEscriptes.Pesquisar(id);
-
-            return View(escripte);
-        }
 
         public string PorId(string id)
         {
@@ -85,22 +103,7 @@ namespace MvcEmeTools.Controllers
         }
 
 
-        public ActionResult Edit(string id)
-        {
-            var escripte = _gerenciadorEscriptes.Pesquisar(id);
-            return View(escripte);
-        }
 
-        [HttpPost]
-        [ValidateInput(false)]
-        public ActionResult Edit(string id, FormCollection collection)
-        {
-            var escripte = _gerenciadorEscriptes.Pesquisar(id);
-            AtualizarDadosViaResponse(collection, escripte);
-            _gerenciadorEscriptes.Atualizar(escripte);
-            Response.Write("salvo");
-            return null;
-        }
 
         private static Escripte AtualizarDadosViaResponse(FormCollection collection, Escripte escripte)
         {

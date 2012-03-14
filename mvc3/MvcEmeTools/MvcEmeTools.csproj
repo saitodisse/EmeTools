@@ -84,6 +84,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Content\Escriptes\Escripte.css" />
     <Content Include="Content\Escriptes\Sequencer.css" />
     <Content Include="Scripts\EmeTools\comandos.js" />
     <Content Include="Scripts\EmeTools\jsed\jsed.js" />
@@ -260,7 +261,7 @@
     <Content Include="Views\Escriptes\Transformador.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Escriptes\Detalhe.cshtml" />
+    <Content Include="Views\Escriptes\Visualizar.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

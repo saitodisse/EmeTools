@@ -3,9 +3,8 @@
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@Html.Partial("menu_edit_sequencer", Model.IdSha1)
-<h2>
-    Editor</h2>
+@Html.Partial("menu_edit_sequencer", Model)
+<span class="subTitulo">Editar</span>
 <link href="@Url.Content("~/Content/themes/base/minified/jquery-ui.min.css")" rel="stylesheet" type="text/css" />
 <style>
     #editor

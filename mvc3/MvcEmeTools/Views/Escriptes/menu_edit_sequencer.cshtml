@@ -1,6 +1,8 @@
-﻿<div style="height: 20px">
-    <div style="display: block; float: left"><a href="../Edit/@Model">Editor</a> | </div>
-    <div style="display: block; float: left"><a href="../Sequencer/@Model">Sequencer</a> | </div>
-    <div style="display: block; float: left"><a href="../Transformador/@Model">Transformador</a></div>
-    <div style="display: block; float: left"><a href="../Detalhe/@Model">Transformador</a></div>
+﻿<link href="@Url.Content("~/Content/Escriptes/Escripte.css")" rel="stylesheet" type="text/css" />
+<span class="nome">Transformador: @Model.Nome</span><span class="descricao">@Model.Descricao</span>
+<div class="menu">
+    <div style="display: block; float: left"><a href="../Visualizar/@Model.IdSha1">Visualizar</a> | </div>
+    <div style="display: block; float: left"><a href="../Edit/@Model.IdSha1">Editar</a> | </div>
+    <div style="display: block; float: left"><a href="../Sequencer/@Model.IdSha1">Seqüencer</a> | </div>
+    <div style="display: block; float: left"><a href="../Transformador/@Model.IdSha1">Transformador</a></div>
 </div>

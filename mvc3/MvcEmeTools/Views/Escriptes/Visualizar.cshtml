@@ -1,8 +1,11 @@
 ﻿@model Dominio.Entidades.Escripte
 @{
-    ViewBag.Title = "Detalhe";
+    ViewBag.Title = "Visualizar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@Html.Partial("menu_edit_sequencer", Model)
+<span class="subTitulo">Visualizar</span>
 @section js{
     <script>
         $().ready(function() {
@@ -25,7 +28,6 @@
 
 <link href="@Url.Content("~/Content/Escriptes/Sequencer.css")" rel="stylesheet" type="text/css" />
 
-@Html.Partial("menu_edit_sequencer", Model.IdSha1)
 <div id="divEscripte">
     <pre id="preEscripte">@Model.Texto</pre>
 </div>
