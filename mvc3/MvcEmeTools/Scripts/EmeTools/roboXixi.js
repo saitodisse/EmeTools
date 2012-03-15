@@ -5,14 +5,13 @@ var RoboXixi = function (texto, newLine) {
     this.Xixizeros = [];
     var listaLinhas = this.Texto.split(newLine);
     var escripte = "";
-    var i;
 
     this.iniciar = function () {
         var comandoAnterior = "";
         var comandoUltimo = "";
 
         //ACHA SEPARADORES
-        for (i = 0; i < listaLinhas.length; i++) {
+        for (var i = 0; i < listaLinhas.length; i++) {
             var dadosPreenchidos = (this.DadosIniciais.length > 0);
             var linhaSeparador = (listaLinhas[i].substring(0, 3) === '///');
             var templatePossuiLinha = (escripte.length > 0);
@@ -81,8 +80,38 @@ var RoboXixi = function (texto, newLine) {
         if (indice === -1) {
             return this.DadosIniciais;
         }
-        
+
         return this.Xixizeros[indice].DadoTransformado;
+    };
+
+    // busca xixizero com comentário do tipo [["algum alias"]]
+    this.buscarXixizeroPorAlias = function (alias) {
+        var indice;
+        for (var i = 0; i < this.Xixizeros.length; i++) {
+            var xixizeroAtual = this.Xixizeros[i];
+            var comentarios = buscarTodasOcorrenciasRegex(/^#\s*\[\[(.+)\]\]/gm, xixizeroAtual.Escripte, 1);
+            var achado = _.find(comentarios, function (coment) {
+                return (coment === alias);
+            });
+            
+            if (!_.isUndefined(achado)) {
+                indice = i;
+                break;
+            }
+        }
+        return this.Xixizeros[indice];
+    };
+
+    var buscarTodasOcorrenciasRegex = function (regex, escText, grupo) {
+        var listaAchados = [];
+        var indiceGrupoRegex = 0;
+        if (!_.isUndefined(grupo)) {
+            indiceGrupoRegex = grupo;
+        }
+        for (var matches = regex.exec(escText); matches != null; matches = regex.exec(escText)) {
+            listaAchados.push(matches[indiceGrupoRegex]);
+        }
+        return listaAchados;
     };
 
     //main

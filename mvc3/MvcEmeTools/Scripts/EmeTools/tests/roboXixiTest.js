@@ -320,4 +320,35 @@
         esperado += "x";
         equal(dadoTransformado, esperado, "get(3)");
     });
+
+    test("[c]omando GET: busca resultados anteriores por alias", function () {
+
+        var texto = "";
+        texto += "a" + NEW_LINE;  // 0: x b c
+        texto += "///t" + NEW_LINE;
+        texto += "#[[primeiro]]" + NEW_LINE;
+        texto += "b" + NEW_LINE;
+        texto += "///t" + NEW_LINE;
+        texto += "#[[segundo]]" + NEW_LINE;
+        texto += "c" + NEW_LINE;
+        texto += "///c" + NEW_LINE;
+        texto += "get(NUMERO_A_SER_SUBSTITUIDO)" + NEW_LINE;
+
+        var roboXixi = new RoboXixi(texto, NEW_LINE);
+
+        roboXixi.Xixizeros[2].Escripte = "get(-1)" + NEW_LINE;
+        roboXixi.transformar();
+        var dadoTransformado = roboXixi.ResultadoFinal;
+        equal(dadoTransformado, "a", "get(-1)");
+
+        roboXixi.Xixizeros[2].Escripte = "get(primeiro)" + NEW_LINE;
+        roboXixi.transformar();
+        dadoTransformado = roboXixi.ResultadoFinal;
+        equal(dadoTransformado, "b", "get(primeiro)");
+
+        roboXixi.Xixizeros[2].Escripte = "get(segundo)" + NEW_LINE;
+        roboXixi.transformar();
+        dadoTransformado = roboXixi.ResultadoFinal;
+        equal(dadoTransformado, "c", "get(segundo)");
+    });
 });

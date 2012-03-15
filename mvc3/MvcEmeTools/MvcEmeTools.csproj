@@ -177,6 +177,15 @@
     <Content Include="Scripts\EmeTools\emetools.js" />
     <Content Include="Scripts\EmeTools\tests\jsedTest.js" />
     <Content Include="Scripts\EmeTools\tests\xixizeroTest.js" />
+    <Content Include="Scripts\noty\css\jquery.noty.css" />
+    <Content Include="Scripts\noty\img\alert-lines.png" />
+    <Content Include="Scripts\noty\img\closelabel.png" />
+    <Content Include="Scripts\noty\img\mitgux\alert.png" />
+    <Content Include="Scripts\noty\img\mitgux\bg.png" />
+    <Content Include="Scripts\noty\img\mitgux\close.png" />
+    <Content Include="Scripts\noty\img\mitgux\done.png" />
+    <Content Include="Scripts\noty\img\mitgux\error.png" />
+    <Content Include="Scripts\noty\js\jquery.noty.js" />
     <Content Include="Scripts\oldEmeTools\EmEditor_menu.js" />
     <Content Include="Scripts\oldEmeTools\eeTools_Include.js" />
     <Content Include="Scripts\EmeTools\tests\roboXixiTest.js" />

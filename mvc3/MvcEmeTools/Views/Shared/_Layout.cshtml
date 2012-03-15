@@ -6,6 +6,7 @@
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Scripts/kendo/kendo.common.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Scripts/kendo/kendo.default.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Scripts/noty/css/jquery.noty.css")" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <div class="menuTodo">
@@ -20,12 +21,6 @@
         </a>
     </div>
     <div class="corpo">
-        <div id="div-dialog-message" style="display: none">
-	        <p>
-		        <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
-		        <span id="mensagemDialog"></span>
-	        </p>
-        </div>        
         @RenderBody()
     </div>
 </body>
@@ -35,6 +30,7 @@
 <script src="@Url.Content("~/Scripts/modernizr-1.7.min.js")" type="text/javascript"> </script>
 <script src="@Url.Content("~/Scripts/jquery-ui-1.8.16.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.animate-shadow-min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/noty/js/jquery.noty.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/Escriptes/helpers.js")" type="text/javascript"></script>
 <script type="text/javascript">
     $().ready(function () {

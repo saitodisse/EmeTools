@@ -154,10 +154,21 @@ var sedJsed = function (texto, sedScript, nFlag, posixFlag, jumpMax) {
 };
 
 var getResultadoXixizero = function (par, roboXixi) {
-    var indiceXixizero = parseInt(par);
+    if (_.isNaN(parseInt(par))) {
+        return buscarPorAlias(par, roboXixi);
+    }
+    else {
+        return buscarPorIndice(par, roboXixi);
+    }
+};
+var buscarPorIndice = function (parInt, roboXixi) {
+    var indiceXixizero = parseInt(parInt);
     if (indiceXixizero === -1) {
         return roboXixi.DadosIniciais;
     } else {
         return roboXixi.Xixizeros[indiceXixizero].DadoTransformado;
     }
+};
+var buscarPorAlias = function (parString, roboXixi) {
+    return roboXixi.buscarXixizeroPorAlias(parString).DadoTransformado;
 };
