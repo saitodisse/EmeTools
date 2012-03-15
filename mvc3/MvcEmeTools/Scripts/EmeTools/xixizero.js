@@ -170,5 +170,7 @@ var buscarPorIndice = function (parInt, roboXixi) {
     }
 };
 var buscarPorAlias = function (parString, roboXixi) {
+    parString = parString.replace(/^'(.*?)'$/g, "$1");
+    parString = parString.replace(/^"(.*?)"$/g, "$1");
     return roboXixi.buscarXixizeroPorAlias(parString).DadoTransformado;
 };

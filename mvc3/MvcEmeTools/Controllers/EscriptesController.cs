@@ -32,6 +32,13 @@ namespace MvcEmeTools.Controllers
             return View(escripte);
         }
 
+        public ActionResult Resultado(string id)
+        {
+            var escripte = _gerenciadorEscriptes.Pesquisar(id);
+
+            return View(escripte);
+        }
+
         public ActionResult Edit(string id)
         {
             var escripte = _gerenciadorEscriptes.Pesquisar(id);

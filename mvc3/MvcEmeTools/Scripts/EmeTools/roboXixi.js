@@ -76,6 +76,7 @@ var RoboXixi = function (texto, newLine) {
         this.ResultadoFinal = transformacaoAcumulada;
     };
 
+    // Get busca por indice caso o receba, ou por [["alias aqui!!"]]
     this.get = function (par) {
         if (_.isNaN(parseInt(par))) {
             return this.buscarXixizeroPorAlias(par).DadoTransformado;

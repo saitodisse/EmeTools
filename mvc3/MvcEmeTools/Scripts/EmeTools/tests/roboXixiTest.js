@@ -346,6 +346,16 @@
         dadoTransformado = roboXixi.ResultadoFinal;
         equal(dadoTransformado, "b", "get(primeiro)");
 
+        roboXixi.Xixizeros[2].Escripte = "get('primeiro')" + NEW_LINE;
+        roboXixi.transformar();
+        dadoTransformado = roboXixi.ResultadoFinal;
+        equal(dadoTransformado, "b", "get(primeiro)");
+
+        roboXixi.Xixizeros[2].Escripte = 'get("primeiro")' + NEW_LINE;
+        roboXixi.transformar();
+        dadoTransformado = roboXixi.ResultadoFinal;
+        equal(dadoTransformado, "b", "get(primeiro)");
+
         roboXixi.Xixizeros[2].Escripte = "get(segundo)" + NEW_LINE;
         roboXixi.transformar();
         dadoTransformado = roboXixi.ResultadoFinal;
