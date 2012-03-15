@@ -237,7 +237,7 @@
         equal(roboXixi.Xixizeros[0].DadoTransformado, "xxx", "roboXixi.Xixizeros[0].DadoTransformado");
     });
 
-    test("get busca dado teransformado", function () {
+    test("get busca dado transformado", function () {
 
         var texto = "";
         texto += "aaa" + NEW_LINE;
@@ -351,4 +351,25 @@
         dadoTransformado = roboXixi.ResultadoFinal;
         equal(dadoTransformado, "c", "get(segundo)");
     });
+
+    test("get busca dado transformado por alias também", function () {
+
+        var texto = "";
+        texto += "aaa" + NEW_LINE;
+        texto += "///t" + NEW_LINE;
+        texto += "#[[índice 0]]" + NEW_LINE;
+        texto += "bbb" + NEW_LINE;
+        texto += "///t" + NEW_LINE;
+        texto += "#[[índice 1]]" + NEW_LINE;
+        texto += "ccc" + NEW_LINE;
+
+        var roboXixi = new RoboXixi(texto, NEW_LINE);
+        roboXixi.transformar();
+
+        equal(roboXixi.get(-1), "aaa");
+        equal(roboXixi.get("índice 0"), "bbb");
+        equal(roboXixi.get("índice 1"), "ccc");
+    });
+
+
 });

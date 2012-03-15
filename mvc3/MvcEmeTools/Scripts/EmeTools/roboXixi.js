@@ -76,12 +76,17 @@ var RoboXixi = function (texto, newLine) {
         this.ResultadoFinal = transformacaoAcumulada;
     };
 
-    this.get = function (indice) {
-        if (indice === -1) {
-            return this.DadosIniciais;
+    this.get = function (par) {
+        if (_.isNaN(parseInt(par))) {
+            return this.buscarXixizeroPorAlias(par).DadoTransformado;
         }
-
-        return this.Xixizeros[indice].DadoTransformado;
+        else {
+            var indice = parseInt(par);
+            if (indice === -1) {
+                return this.DadosIniciais;
+            }
+            return this.Xixizeros[indice].DadoTransformado;
+        }
     };
 
     // busca xixizero com comentário do tipo [["algum alias"]]
@@ -93,7 +98,7 @@ var RoboXixi = function (texto, newLine) {
             var achado = _.find(comentarios, function (coment) {
                 return (coment === alias);
             });
-            
+
             if (!_.isUndefined(achado)) {
                 indice = i;
                 break;
