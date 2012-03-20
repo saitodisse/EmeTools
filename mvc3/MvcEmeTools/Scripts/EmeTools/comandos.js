@@ -69,7 +69,7 @@ var firstToUpper = function (texto, newLine) {
 };
 
 var trim = function (texto) {
-    return texto.replace(/^\s*([^\s]*)\s*$/gm, "$1");
+    return texto.replace(/^\s\s*/gm, '').replace(/\s\s*$/gm, ''); ;
 };
 
 var trimLines = function (texto, newLine) {

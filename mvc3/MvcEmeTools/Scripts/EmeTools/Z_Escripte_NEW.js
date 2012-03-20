@@ -1,11 +1,11 @@
-#include "../jsed/jsed.js"
+#include "jsed/jsed.js"
 #include "emetools.js"
 #include "comandos.js"
 #include "roboXixi.js"
 #include "transformarXxx.js"
 #include "xixizero.js"
 
-var NEW_LINE = "\n";
+var NEW_LINE = "\r\n";
 
 SHOW_ALERT_ON_ERRORS = true;
 
