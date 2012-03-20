@@ -8,6 +8,10 @@
         equal(executarRoboComXxxNoFinal("xxx0xxx0xxx0xxx0"), "bbbb\nbbbb", "xxx0xxx0xxx0xxx0  => bbbb");
     });
 
+    test("[x]xx templates multilines", function () {
+        equal(executarRoboComXxxNoFinalMenor("xxx-1\nxxx0"), "a1\nb1\na2\nb2", "xxx-1\nxxx0");
+    });
+
     test("[x]xx = ababacado", function () {
         var escripteXxx = "";
         escripteXxx += "xxx-1";  //a
@@ -43,6 +47,22 @@
         texto += "d" + NEW_LINE;
         texto += "/" + NEW_LINE;
         texto += "o" + NEW_LINE;
+        texto += "///x" + NEW_LINE;
+        texto += escripteXxx + NEW_LINE;
+
+        var roboXixi = new RoboXixi(texto, NEW_LINE);
+        roboXixi.transformar();
+        return roboXixi.ResultadoFinal;
+    };
+
+    var executarRoboComXxxNoFinalMenor = function (escripteXxx) {
+        var texto = "";
+        texto += "a1" + NEW_LINE;
+        texto += "a2" + NEW_LINE;
+        texto += "///r" + NEW_LINE;
+        texto += "a" + NEW_LINE;
+        texto += "/" + NEW_LINE;
+        texto += "b" + NEW_LINE;
         texto += "///x" + NEW_LINE;
         texto += escripteXxx + NEW_LINE;
 

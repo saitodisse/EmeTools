@@ -1,51 +1,62 @@
 var transformarXxx = function (texto, escripte, newLine, roboXixi) {
     var possuiXxxNumerado = escripte.replace(/(xxx-?\d)/gi, "$1").length > 0;
-    var regex = new RegExp("xxx(-?\\d+)", "gi");
-    var resultadoParcial = "";
+    var regexSeparaXxx = new RegExp("xxx(-?\\d+)", "gi");
+    var escriptesTemplates = [];
     var linhasTemplatesXxx;
 
     //Caso seja Xxx com NUMERO
     if (possuiXxxNumerado) {
-        //Primeira Vez monta o escripte para cada linha do primeiro dado
-
-
+        // Primeira Vez monta o escripte para cada linha do primeiro dado
         // A primeira vez só cria as linhas de templates a partir da repetição do escripte
-        for (var matches = regex.exec(escripte); matches != null; matches = regex.exec(escripte)) {
+        for (var matches = regexSeparaXxx.exec(escripte);
+             matches != null;) {
             // Pega o dado transformado
-            var linhasDados = obterResultadoXixizero(matches, roboXixi, newLine);
+            var linhasDados = obterResultadoXixizero(parseInt(matches[1]), roboXixi, newLine);
 
             for (var a = 0; a < linhasDados.length; a++) {
-                resultadoParcial += escripte;
-                // se não for a última linha, coloca newLine
-                if (a != linhasDados.length - 1) {
-                    resultadoParcial += newLine;
-                }
+                escriptesTemplates.push(escripte);
             }
             break;
         }
 
-        regex = new RegExp("xxx(-?\\d+)", "gi");
+        regexSeparaXxx = new RegExp("xxx(-?\\d+)", "gi");
+        var listaXxx = [];
+
+        // Busca todos os Xxxs que existem
+        for (matches = regexSeparaXxx.exec(escriptesTemplates[0]);
+             matches != null;
+             matches = regexSeparaXxx.exec(escriptesTemplates[0])) {
+            listaXxx.push(matches[0]);
+        }
+        listaXxx = _.uniq(listaXxx);
 
         var xxxRegex;
         var xxxCasado;
 
-        linhasTemplatesXxx = resultadoParcial.split(newLine);
-
         // Agora ocorre a substituição
-        for (matches = regex.exec(resultadoParcial); matches != null; matches = regex.exec(resultadoParcial)) {
-            // quebras as linhas do template
-
+        for (var j = 0; j < listaXxx.length; j++) {
             // Pega o dado transformado
-            xxxCasado = matches[0];
+            xxxCasado = listaXxx[j];
+            //obtem o indice do xixizero
+            var indiceXxx = obterIndiceXxx(xxxCasado);
             // Faz nova regexp para substituir tudo
-            xxxRegex = new RegExp(xxxCasado, "gi");
+            xxxRegex = new RegExp(xxxCasado, "gm");
             // Dado Atual da Linha Atual
-            linhasDados = obterResultadoXixizero(matches, roboXixi, newLine);
-            for (var i = 0; i < linhasDados.length; i++) {
-                linhasTemplatesXxx[i] = linhasTemplatesXxx[i].replace(xxxRegex, linhasDados[i]);
+            linhasDados = obterResultadoXixizero(indiceXxx, roboXixi, newLine);
+            for (var k = 0; k < linhasDados.length; k++) {
+                escriptesTemplates[k] = escriptesTemplates[k].replace(xxxRegex, linhasDados[k]);
             }
         }
     }
-    resultadoParcial = linhasTemplatesXxx.join(newLine);
-    return resultadoParcial;
+    return escriptesTemplates.join(newLine);
 };
+
+var obterIndiceXxx = function (xxxCasado) {
+    var indiceXxx = -99;
+    var matchesXxx = /xxx(-?\d+)/gi.exec(xxxCasado);
+    if (matchesXxx != null) {
+        indiceXxx = matchesXxx[1].toString();
+    }
+    return parseInt(indiceXxx);
+};
+

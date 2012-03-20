@@ -57,9 +57,8 @@ var Xixizero = function (escripte, comando, newLine) {
     };
 };
 
-var obterResultadoXixizero = function (matches, roboXixi, newLine) {
+var obterResultadoXixizero = function (indiceXxx, roboXixi, newLine) {
     var resultadoXixizero;
-    var indiceXxx = parseInt(matches[1]);
 
     if (indiceXxx === -1) {
         resultadoXixizero = roboXixi.DadosIniciais;
@@ -170,6 +169,7 @@ var buscarPorIndice = function (parInt, roboXixi) {
     }
 };
 var buscarPorAlias = function (parString, roboXixi) {
+    //tira aspas simples e duplas antes de enviar a string
     parString = parString.replace(/^'(.*?)'$/g, "$1");
     parString = parString.replace(/^"(.*?)"$/g, "$1");
     return roboXixi.buscarXixizeroPorAlias(parString).DadoTransformado;
