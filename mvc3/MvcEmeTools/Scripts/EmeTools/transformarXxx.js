@@ -2,7 +2,6 @@ var transformarXxx = function (texto, escripte, newLine, roboXixi) {
     var possuiXxxNumerado = escripte.replace(/(xxx-?\d)/gi, "$1").length > 0;
     var regexSeparaXxx = new RegExp("xxx(-?\\d+)", "gi");
     var escriptesTemplates = [];
-    var linhasTemplatesXxx;
 
     //Caso seja Xxx com NUMERO
     if (possuiXxxNumerado) {
@@ -11,7 +10,7 @@ var transformarXxx = function (texto, escripte, newLine, roboXixi) {
         for (var matches = regexSeparaXxx.exec(escripte);
              matches != null;) {
             // Pega o dado transformado
-            var linhasDados = obterResultadoXixizero(parseInt(matches[1]), roboXixi, newLine);
+            var linhasDados = obterDadosXixizerosEmLista(parseInt(matches[1]), roboXixi, newLine);
 
             for (var a = 0; a < linhasDados.length; a++) {
                 escriptesTemplates.push(escripte);
@@ -42,7 +41,7 @@ var transformarXxx = function (texto, escripte, newLine, roboXixi) {
             // Faz nova regexp para substituir tudo
             xxxRegex = new RegExp(xxxCasado, "gm");
             // Dado Atual da Linha Atual
-            linhasDados = obterResultadoXixizero(indiceXxx, roboXixi, newLine);
+            linhasDados = obterDadosXixizerosEmLista(indiceXxx, roboXixi, newLine);
             for (var k = 0; k < linhasDados.length; k++) {
                 escriptesTemplates[k] = escriptesTemplates[k].replace(xxxRegex, linhasDados[k]);
             }

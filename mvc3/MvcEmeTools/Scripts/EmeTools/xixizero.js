@@ -57,7 +57,7 @@ var Xixizero = function (escripte, comando, newLine) {
     };
 };
 
-var obterResultadoXixizero = function (indiceXxx, roboXixi, newLine) {
+var obterDadosXixizerosEmLista = function (indiceXxx, roboXixi, newLine) {
     var resultadoXixizero;
 
     if (indiceXxx === -1) {
@@ -65,7 +65,15 @@ var obterResultadoXixizero = function (indiceXxx, roboXixi, newLine) {
     } else {
         resultadoXixizero = roboXixi.Xixizeros[indiceXxx].DadoTransformado;
     }
-    return resultadoXixizero.split(newLine);
+
+    // possui separador multi-line? "----"
+    if (resultadoXixizero.indexOf("----") !== -1) {
+        return resultadoXixizero.split(newLine + "----" + newLine);
+    }
+    else {
+        return resultadoXixizero.split(newLine);
+    }
+
 };
 
 

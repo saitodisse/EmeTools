@@ -12,6 +12,25 @@
         equal(executarRoboComXxxNoFinalMenor("xxx-1\nxxx0"), "a1\nb1\na2\nb2", "xxx-1\nxxx0");
     });
 
+    test("[x]xx templates multilines nos dados", function () {
+        var texto = "";
+        texto += "a1.1" + NEW_LINE;
+        texto += "a1.2" + NEW_LINE;
+        texto += "----" + NEW_LINE;
+        texto += "a2.1" + NEW_LINE;
+        texto += "a2.2" + NEW_LINE;
+        texto += "///t" + NEW_LINE;
+        texto += "b1" + NEW_LINE;
+        texto += "b2" + NEW_LINE;
+        texto += "///x" + NEW_LINE;
+        texto += "xxx-1\nxxx0" + NEW_LINE;
+
+        var roboXixi = new RoboXixi(texto, NEW_LINE);
+        roboXixi.transformar();
+
+        equal(roboXixi.ResultadoFinal, "a1.1\na1.2\nb1\na2.1\na2.2\nb2", "a1.1,a1.2,----,a2.1,a2.2");
+    });
+
     test("[x]xx = ababacado", function () {
         var escripteXxx = "";
         escripteXxx += "xxx-1";  //a
