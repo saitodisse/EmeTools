@@ -29,6 +29,15 @@ var executarComandos = function (texto, escripte, newLine, roboXixi) {
             case "firsttoupper":
                 resultado = firstToUpper(resultado, newLine);
                 break;
+            case "tolower":
+                resultado = toLower(resultado);
+                break;
+            case "toupper":
+                resultado = toUpper(resultado);
+                break;
+            case "retiraracentos":
+                resultado = retirarAcentos(resultado);
+                break;
             default:
                 break;
         }
@@ -67,6 +76,47 @@ var firstToUpper = function (texto, newLine) {
     }
     return linhasResultado.join(newLine);
 };
+
+var toLower = function (texto) {
+    return texto.toLowerCase();
+};
+var toUpper = function (texto) {
+    return texto.toUpperCase();
+};
+
+var retirarAcentos = function (texto) {
+    var com_acento = 'áàãâäéèêëíìîïóòõôöúùûüçÁÀÃÂÄÉÈÊËÍÌÎÏÓÒÕÖÔÚÙÛÜÇ';
+    var sem_acento = 'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC';
+    var resultado = '';
+    for (var i = 0; i < texto.length; i++) {
+        var indice = com_acento.indexOf(texto.substr(i, 1));
+        if (indice >= 0) {
+            resultado += sem_acento.substr(indice, 1);
+        }
+        else {
+            resultado += texto.substr(i, 1);
+        }
+    }
+    return resultado;
+}
+
+//var retirarAcentos = function (texto) {
+//    var i, j, cString, varRes = "";
+
+//    var stringAcentos = 'àâêôûãõáéíóúçüÀÂÊÔÛÃÕÁÉÍÓÚÇÜ';
+//    var stringSemAcento = 'aaeouaoaeioucuAAEOUAOAEIOUCU';
+
+//    for (i = 0; i < texto.length; i++) {
+//        cString = texto.substring(i, i + 1);
+//        for (j = 0; j < stringAcentos.length; j++) {
+//            if (stringAcentos.substring(j, j + 1) == cString) {
+//                cString = stringSemAcento.substring(j, j + 1);
+//            }
+//        }
+//        varRes += cString;
+//    }
+//    return varRes;
+//}  
 
 var trim = function (texto) {
     return texto.replace(/^\s\s*/gm, '').replace(/\s\s*$/gm, ''); ;

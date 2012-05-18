@@ -211,6 +211,38 @@ $(document).ready(function () {
         equal(atual, esperado);
     });
 
+    test("c[omando] toLower", function () {
+        var xixizero = new Xixizero("toLower", "c", "\n");
+
+        var dados = "";
+        dados += "ABC\n";
+        dados += "Abc";
+
+        var esperado = "";
+        esperado += "abc\n";
+        esperado += "abc";
+
+        xixizero.transformar(dados);
+        var atual = xixizero.DadoTransformado;
+        equal(atual, esperado);
+    });
+
+    test("c[omando] toUpper", function () {
+        var xixizero = new Xixizero("toUpper", "c", "\n");
+
+        var dados = "";
+        dados += "abc\n";
+        dados += "aBC";
+
+        var esperado = "";
+        esperado += "ABC\n";
+        esperado += "ABC";
+
+        xixizero.transformar(dados);
+        var atual = xixizero.DadoTransformado;
+        equal(atual, esperado);
+    });
+    
     test("c[omando] firstToLower", function () {
         var xixizero = new Xixizero("firstToLower", "c", "\n");
 
@@ -242,4 +274,21 @@ $(document).ready(function () {
         var atual = xixizero.DadoTransformado;
         equal(atual, esperado);
     });
+
+    test("c[omando] retirarAcentos", function () {
+        var xixizero = new Xixizero("retirarAcentos", "c", "\n");
+
+        var dados = "";
+        dados += "àâêôûãõáéíóúçüÀÂÊÔÛÃÕÁÉÍÓÚÇÜ\n";
+        dados += "àâêôûãõáéíóúçüÀÂÊÔÛÃÕÁÉÍÓÚÇÜ";
+
+        var esperado = "";
+        esperado += "aaeouaoaeioucuAAEOUAOAEIOUCU\n";
+        esperado += "aaeouaoaeioucuAAEOUAOAEIOUCU";
+
+        xixizero.transformar(dados);
+        var atual = xixizero.DadoTransformado;
+        equal(atual, esperado);
+    });
+
 });
