@@ -9,6 +9,5 @@ bin
 obj
 *.suo
 *.csproj.user
-TemplatesJson
 .idea
 .DS_Store

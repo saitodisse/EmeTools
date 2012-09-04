@@ -1,0 +1,1 @@
+{"IdSha1":"2A2B0BECAB3B15FD61970D2DB8053D8ADCA30272","Nome":"01-tutorial","Descricao":"replace e depois recolocação","Texto":"a\nb\nc\n///r\n# a.sub(\"x\")\na\n/\nx\n///r\n# b.sub(\"x\")\nb\n/\nx\n///r\n# c.sub(\"x\")\nc\n/\nx\n///x\nxxx-1, xxx0, xxx1, xxx2\n"}
